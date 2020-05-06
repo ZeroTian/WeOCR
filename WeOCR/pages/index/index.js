@@ -1,4 +1,4 @@
-// pages/deployFunctions/deployFunctions.js
+// WeOCR/pages/index/index.js
 Page({
 
   /**
