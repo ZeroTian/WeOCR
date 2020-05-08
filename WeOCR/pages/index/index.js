@@ -1,25 +1,31 @@
-// WeOCR/pages/index/index.js
+//获取应用实例
+const app = getApp()
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
   },
+
+  // 装载在需要使用的事件里可以提供授权服务
+  // // 获取id为authorization的组件
+  // this.authorize = this.selectComponent("#authorization");
+  // // 在isAuthorize的第一个参数中加入希望获取的权限
+  // this.authorize.isAuthorize('camera', () => {
+  // })
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
   },
 
   /**

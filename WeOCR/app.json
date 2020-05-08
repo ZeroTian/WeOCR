@@ -3,11 +3,15 @@
     "pages/index/index"
   ],
   "window": {
-    "backgroundColor": "#F6F6F6F6",
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#F6F6F6F6",
+    "backgroundColor": "#F4F4F4",
+    "navigationBarBackgroundColor": "#5395E9",
     "navigationBarTitleText": "WeOCR",
     "navigationBarTextStyle": "black"
   },
-  "cloud": true
+  "cloud": true,
+  "sitemapLocation": "sitemap.json",
+  "usingComponents": {
+    "auth": "../WeOCR/components/authonrization/authonrization"
+  }
 }

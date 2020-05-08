@@ -1,1 +1,58 @@
-/* WeOCR/pages/index/index.wxss */
+page{
+    background: #f4f4f4;
+}
+
+.navbar{
+    background: #ffffff;
+    font-size: 30rpx;
+    color: #adadad;
+  }
+
+  .slider{
+      /* 用iphone6来进行开发 rpx = px * 2 */
+      /* slider宽度: 手机宽度(px)*2/需要显示的功能模块*6 */
+      width: 2250rpx;
+      display: flex;
+      justify-content: space-around;
+  }
+  
+  .slider .item{
+    text-align: center;
+    line-height: 90rpx;
+    /* 手机宽度(px)*2/显示的功能模块 */
+    width: 375rpx;
+  }
+
+  .slider .item.active{
+    color: #5395E9;
+    border-bottom: solid 3rpx #5395E9;
+  }
+
+  .slider .item.active:after{
+      content: "";
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 5rpx;
+      background: #5395E9;
+    }
+
+.img image{
+    width: 40rpx;
+    height: 40rpx;
+    margin-right: 10rpx;
+    margin-top: 25rpx;
+}
+
+
+.photo-choose-group button{
+    width: 500rpx;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 30rpx;
+    font: bolder;
+    background: #FFFFFF;
+}
