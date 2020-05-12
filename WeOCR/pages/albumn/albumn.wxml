@@ -1,0 +1,11 @@
+<view class="img">
+    <view class="thumb-img" wx:for="{{pictures}}" wx:key="*this">
+        <image class="thumb" src="{{item}}" data-id="{{index}}" mode="aspectFill" bindtap="onTapImg"/>
+    </view>
+</view>
+
+<view class="funBar">
+    <view class="scan">
+        <image src="../../images/scan.png" />
+    </view>
+</view>

@@ -1,4 +1,11 @@
-// components/authonriztion/authonrization.js
+
+  // 装载在需要使用的事件里可以提供授权服务
+  // // 获取id为authorization的组件
+  // this.authorize = this.selectComponent("#authorization");
+  // // 在isAuthorize的第一个参数中加入希望获取的权限
+  // this.authorize.isAuthorize('camera', () => {
+  // })
+
 Component({
   /**
    * 组件的属性列表

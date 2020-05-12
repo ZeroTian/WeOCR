@@ -1,51 +1,61 @@
 page{
     background: #f4f4f4;
+    padding: 0rpx;
 }
 
 .navbar{
     background: #ffffff;
     font-size: 30rpx;
-    color: #adadad;
+    color: #a0a0a0;
   }
 
   .slider{
       /* 用iphone6来进行开发 rpx = px * 2 */
       /* slider宽度: 手机宽度(px)*2/需要显示的功能模块*6 */
-      width: 2250rpx;
-      display: flex;
-      justify-content: space-around;
+      height: 90rpx;
   }
   
   .slider .item{
-    text-align: center;
-    line-height: 90rpx;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  .slider .item .text{
     /* 手机宽度(px)*2/显示的功能模块 */
-    width: 375rpx;
+    font-size: 35rpx;
   }
 
-  .slider .item.active{
+  .slider .item .text.active{
     color: #5395E9;
-    border-bottom: solid 3rpx #5395E9;
   }
 
-  .slider .item.active:after{
-      content: "";
-      display: block;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 5rpx;
-      background: #5395E9;
-    }
+  .slider .item .text.active:after{
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 5rpx;
+    background: #5395E9;
+  }
+  
+  .display{
+    width: 100%;
+  }
 
+  .display image{
+    width: 100%;
+  }
+  
 .img image{
     width: 40rpx;
     height: 40rpx;
     margin-right: 10rpx;
     margin-top: 25rpx;
 }
-
 
 .photo-choose-group button{
     width: 500rpx;
@@ -55,4 +65,21 @@ page{
     margin-top: 30rpx;
     font: bolder;
     background: #FFFFFF;
+}
+
+.other{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.other .tip{
+  margin-top: 10rpx;
+  color: #000000;
+}
+
+.other .share{
+  margin-top: 50rpx;
+  color: rgb(73, 100, 170); 
 }

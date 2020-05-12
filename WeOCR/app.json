@@ -1,17 +1,39 @@
 {
   "pages": [
-    "pages/index/index"
+    "pages/index/index",
+    "pages/test/test",
+    "pages/albumn/albumn",
+    "pages/preview_img/preview_img",
+    "pages/shear/shear"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "backgroundColor": "#F4F4F4",
     "navigationBarBackgroundColor": "#5395E9",
     "navigationBarTitleText": "WeOCR",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "white"
   },
   "cloud": true,
   "sitemapLocation": "sitemap.json",
   "usingComponents": {
     "auth": "../WeOCR/components/authonrization/authonrization"
+  },
+  "tabBar": {
+    "backgroundColor": "#FFFFFF",
+    "selectedColor": "#5395E9",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "./images/home.png",
+        "selectedIconPath": "./images/home-selected.png"
+      },
+      {
+        "pagePath": "pages/test/test",
+        "text": "测试",
+        "iconPath": "./images/mine.png",
+        "selectedIconPath": "./images/mine-selected.png"
+      }
+    ]
   }
 }

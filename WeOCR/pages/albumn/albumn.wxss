@@ -1,0 +1,40 @@
+.img{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.img .thumb-img{
+    width: 246rpx;
+    height: 246rpx;
+    margin-bottom: 6rpx;
+}
+
+.thumb-img .thumb{
+    border-radius: 10rpx;
+    width: 246rpx;
+    height: 246rpx;
+}
+
+/* 容纳扫描图标 */
+.funBar{
+    height: 110rpx;
+    width: 110rpx;
+    border-radius: 100%;
+    background: #5395E9;
+    position: fixed;
+    bottom: 180rpx;
+    right: 60rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.scan image{
+    width: 60rpx;
+    height: 60rpx;
+}
+

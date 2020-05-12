@@ -1,0 +1,9 @@
+<MKM version="2.0" imageFileUrl="file:///V:/Code/HTML/WeChat/WeOCR/WeOCR/images/Sample.png">
+  <Marks>
+    <ColorMark defaultDirection="9" colorSystem="hex" direction="9" color="16711680" targetColor="16777215" offsetX="102" offsetY="61" x="56" y="662"/>
+    <ColorMark defaultDirection="5" colorSystem="hex" direction="5" color="16711680" targetColor="16053492" offsetX="162" offsetY="138" x="74" y="1242"/>
+    <ColorMark defaultDirection="5" colorSystem="hex" direction="5" color="16711680" targetColor="5477865" offsetX="345" offsetY="54" x="256" y="987"/>
+    <ColorMark defaultDirection="9" colorSystem="hex" direction="9" color="16711680" targetColor="5477865" offsetX="169" offsetY="90" x="314" y="375"/>
+    <ColorMark defaultDirection="5" colorSystem="hex" direction="5" color="16711680" targetColor="5991057" offsetX="561" offsetY="151" x="513" y="1551"/>
+  </Marks>
+</MKM>
