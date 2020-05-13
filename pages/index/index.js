@@ -95,7 +95,8 @@ Page({
         // tempFilePath可以作为img标签的src属性显示图片
         let self = this,
           tempFiles = res.tempFiles,
-          tempFilePaths = [];
+          tempFilePaths = [],
+          pictures = [];
 
         tempFiles.forEach(element => {
           tempFilePaths.push(element.path);
@@ -117,7 +118,7 @@ Page({
               pictures.push({ images: element })
             });
             // 通过eventChannel向被打开页面传送图片
-            res.eventChannel.emit('indexToAlbumn', { pictures: tempFilePaths, active: self.data.active })
+            res.eventChannel.emit('indexToAlbumn', { pictures: pictures, active: self.data.active })
           },
         })
       },
