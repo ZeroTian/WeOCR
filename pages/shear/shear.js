@@ -17,15 +17,15 @@ Page({
       eventChannel = self.getOpenerEventChannel();
 
     // 持续监听事件 可以获取来自albumn的图片地址
-    eventChannel.on('albumnToPre', function (data) {
+    eventChannel.on('albumnToShear', function (data) {
       pictures = data.pictures;
       id = data.id;
-      cur_pic = pictures[id];
+      cur_pic = pictures[id].images;
 
       self.setData({
         pictures: pictures,
         id: id,
-        cur_pic: pictures,
+        cur_pic: cur_pic,
       })
     })
 
@@ -69,12 +69,11 @@ Page({
 
       //剪裁成功的回调
       success: function (res) {
-        console.log(res)
-        console.log(res.tempFilePath);
         wx.previewImage({
           urls: [res.tempFilePath],
         })
       },
+      
       //剪裁失败的回调
       fail: function (res) {
         console.log(res);

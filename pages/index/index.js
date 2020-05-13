@@ -8,7 +8,7 @@ Page({
    */
   data: {
     fun: [
-        {
+      {
         id: 0,
         name: "扫描",
         tab: "扫描",
@@ -56,7 +56,8 @@ Page({
 
       success: res => {
         // tempFilePath可以作为img标签的src属性显示图片
-        const tempFilePaths = res.tempFilePaths;
+        let tempFilePaths = res.tempFilePaths,
+          pictures = [];
 
         // 导向照片集合页面
         wx.navigateTo({
@@ -67,11 +68,14 @@ Page({
             albumnToIndex: function (data) {
               console.log(data.feedback);
             },
-            
+
           },
           success: function (res) {
+            tempFilePaths.forEach(element => {
+              pictures.push({ images: element })
+            });
             // 通过eventChannel向被打开页面传送图片
-            res.eventChannel.emit('indexToAlbumn', { pictures: tempFilePaths, active: self.data.active})
+            res.eventChannel.emit('indexToAlbumn', { pictures: pictures, active: self.data.active })
           },
         })
       },
@@ -80,7 +84,7 @@ Page({
   },
 
 
-  onChooseWeChatAlbumn: function(e){
+  onChooseWeChatAlbumn: function (e) {
     let self = this;
 
     wx.chooseMessageFile({
@@ -92,7 +96,7 @@ Page({
         let self = this,
           tempFiles = res.tempFiles,
           tempFilePaths = [];
-          
+
         tempFiles.forEach(element => {
           tempFilePaths.push(element.path);
         });
@@ -106,11 +110,14 @@ Page({
             albumnToIndex: function (data) {
               console.log(data.feedback);
             },
-            
+
           },
           success: function (res) {
+            tempFilePaths.forEach(element => {
+              pictures.push({ images: element })
+            });
             // 通过eventChannel向被打开页面传送图片
-            res.eventChannel.emit('indexToAlbumn', { pictures: tempFilePaths, active: self.data.active})
+            res.eventChannel.emit('indexToAlbumn', { pictures: tempFilePaths, active: self.data.active })
           },
         })
       },

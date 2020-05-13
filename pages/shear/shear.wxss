@@ -43,8 +43,8 @@ page{
   
   .tool_bar{
       position: absolute;
-      bottom: 100rpx;
-      right: 55rpx;
+      bottom: 180rpx;
+      right: 60rpx;
       display: flex;
       flex-direction: row;
       align-items: center;

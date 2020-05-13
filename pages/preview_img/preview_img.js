@@ -45,7 +45,7 @@ Page({
 
   onReady: function () {
     let self = this,
-      cur_pic = self.data.pictures[self.data.id];
+      cur_pic = self.data.pictures[self.data.id].images;
 
     self.setData({
       cur_pic: cur_pic,
