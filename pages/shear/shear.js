@@ -12,6 +12,10 @@ Page({
 
 
   onLoad: function (options) {
+    wx.showShareMenu({
+      withShareTicket: true
+    })
+    
     let self = this,
       pictures, id, cur_pic,
       eventChannel = self.getOpenerEventChannel();

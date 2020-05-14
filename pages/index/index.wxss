@@ -79,7 +79,13 @@ page{
   color: #000000;
 }
 
+
+
 .other .share{
-  margin-top: 50rpx;
+  margin-top: 40rpx;
+}
+
+.other .share button{
+  border: #f4f4f4 0rpx solid;
   color: rgb(73, 100, 170); 
 }

@@ -3,6 +3,7 @@ const app = getApp()
 
 Page({
 
+
   /**
    * 页面的初始数据
    */
@@ -12,31 +13,39 @@ Page({
         id: 0,
         name: "扫描",
         tab: "扫描",
-        img_src: "../../images/ocr.png",
+        img_src: "https://6f63-ocr-qaq-1302036835.tcb.qcloud.la/icon/ocr.png?sign=c4fd717403677313aa4dc69e5d3fcca2&t=1589383819",
       },
       {
         id: 1,
         name: "翻译",
         tab: "翻译",
-        img_src: "../../images/translate.png",
+        img_src: "https://6f63-ocr-qaq-1302036835.tcb.qcloud.la/icon/translate.png?sign=620b8a537954fdd2272d82e0cee10b6f&t=1589383847",
       },
       {
         id: 2,
         name: "银行卡识别",
         tab: "识别",
-        img_src: "../../images/bank-card.png",
+        img_src: "https://6f63-ocr-qaq-1302036835.tcb.qcloud.la/icon/bank-card.png?sign=ec4a7a98b4f1daeaa84f4775061e9a4d&t=1589383869",
       },
       {
         id: 3,
         name: "PDF导出",
         tab: "导出",
-        img_src: "../../images/pdf-merger.png",
+        img_src: "https://6f63-ocr-qaq-1302036835.tcb.qcloud.la/icon/pdf-merger.png?sign=24761ac6d4d97bed058cc7b621606853&t=1589383896",
       },
     ],
 
     active: 0,
 
   },
+
+
+  onLoad: function (e) {
+    wx.showShareMenu({
+      withShareTicket: true
+    })
+  },
+
 
   // 上方功能选择框的滑动
   onNavbarTap: function (e) {
@@ -51,8 +60,8 @@ Page({
     let self = this;
 
     wx.chooseImage({
-      count: 9,
-      sourceType: ['albumn'],
+      count: 100,
+      sourceType: ['album'],
 
       success: res => {
         // tempFilePath可以作为img标签的src属性显示图片
@@ -126,57 +135,42 @@ Page({
     })
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-  },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  },
+  onChooseCameraAlbumn: function (e) {
+    let self = this;
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
+    wx.chooseImage({
+      count: 100,
+      sourceType: ['camera'],
 
-  },
+      success: res => {
+        // tempFilePath可以作为img标签的src属性显示图片
+        let tempFilePaths = res.tempFilePaths,
+          pictures = [];
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
+        // 导向照片集合页面
+        wx.navigateTo({
+          url: "../albumn/albumn",
+          // 一个事件的监听器可以随时接听事件是否被调用
+          event: {
+            // 接收来自Albumn的数据
+            albumnToIndex: function (data) {
+              console.log(data.feedback);
+            },
 
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
+          },
+          success: function (res) {
+            tempFilePaths.forEach(element => {
+              pictures.push({ images: element })
+            });
+            // 通过eventChannel向被打开页面传送图片
+            res.eventChannel.emit('indexToAlbumn', { pictures: pictures, active: self.data.active })
+          },
+        })
+      },
+    })
 
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
 
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })
