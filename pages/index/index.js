@@ -13,27 +13,36 @@ Page({
         id: 0,
         name: "扫描",
         tab: "扫描",
-        img_src: "https://6f63-ocr-qaq-1302036835.tcb.qcloud.la/icon/ocr.png?sign=c4fd717403677313aa4dc69e5d3fcca2&t=1589383819",
+        en_name: 'scan',
+        fileID: 'cloud://ocr-qaq.6f63-ocr-qaq-1302036835/icon/ocr.png',
+        img_src: '',
       },
       {
         id: 1,
         name: "翻译",
         tab: "翻译",
-        img_src: "https://6f63-ocr-qaq-1302036835.tcb.qcloud.la/icon/translate.png?sign=620b8a537954fdd2272d82e0cee10b6f&t=1589383847",
+        en_name: 'translate',
+        fileID: 'cloud://ocr-qaq.6f63-ocr-qaq-1302036835/icon/translate.png',
+        img_src: '',
       },
       {
         id: 2,
         name: "银行卡识别",
         tab: "识别",
-        img_src: "https://6f63-ocr-qaq-1302036835.tcb.qcloud.la/icon/bank-card.png?sign=ec4a7a98b4f1daeaa84f4775061e9a4d&t=1589383869",
+        en_name: 'identify',
+        fileID: 'cloud://ocr-qaq.6f63-ocr-qaq-1302036835/icon/bank-card.png',
+        img_src: '',
       },
       {
         id: 3,
         name: "PDF导出",
         tab: "导出",
-        img_src: "https://6f63-ocr-qaq-1302036835.tcb.qcloud.la/icon/pdf-merger.png?sign=24761ac6d4d97bed058cc7b621606853&t=1589383896",
+        en_name: 'exportPDF',
+        fileID: 'cloud://ocr-qaq.6f63-ocr-qaq-1302036835/icon/pdf-merger.png',
+        img_src: '',
       },
     ],
+
 
     active: 0,
 
@@ -41,8 +50,35 @@ Page({
 
 
   onLoad: function (e) {
+    let self = this,
+      fun = self.data.fun,
+      fileList = [],
+      tempFileURL = [];
+
     wx.showShareMenu({
       withShareTicket: true
+    })
+
+    fun.forEach(element => {
+      fileList.push(element.fileID);
+    });
+
+    wx.cloud.getTempFileURL({
+      fileList: fileList,
+      success: function (res) {
+        fileList = res.fileList;
+        fileList.forEach(element => {
+          tempFileURL.push(element.tempFileURL)
+        });
+
+        for(var i = 0; i<tempFileURL.length; i++){
+          fun[i].img_src = tempFileURL[i];
+        }
+        
+        self.setData({
+          fun: fun,
+        })
+      }
     })
   },
 

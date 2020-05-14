@@ -1,5 +1,9 @@
 <page-meta scroll-top="{{pageMetaScrollTop}}"></page-meta>
 
+<view class="tip">
+	<text>长按可拖拽</text>
+</view>
+
 <drag id="drag"
 			bind:click="itemClick"
 			bind:change="change"

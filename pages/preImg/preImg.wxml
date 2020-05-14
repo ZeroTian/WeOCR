@@ -1,0 +1,11 @@
+<view class="container">
+  <scroll-view class="img" 
+    bindtouchstart="touchstartCallback"  
+    bindtouchmove="touchmoveCallback" 
+    bindtouchend="touchendCallback" 
+    enable-flex="{{true}}"
+    scroll-x="true"  scroll-y="true" 
+    style="height: {{windowH}}rpx">
+      <image style="zoom:{{stv.scale}}; "src="{{src}}"/>
+  </scroll-view>
+</view>

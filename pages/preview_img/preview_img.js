@@ -18,6 +18,10 @@ Page({
 
 
   onLoad: function (options) {
+    wx.showShareMenu({
+      withShareTicket: true
+    })
+    
     let self = this,
       eventChannel = self.getOpenerEventChannel();
 
@@ -109,7 +113,7 @@ Page({
         old_width = self.data.old_width,
         distance = self.data.distance,
         end_distance = newdistance - distance,
-        move_size = 1 + end_distance * 0.001,
+        move_size = 1 + end_distance * 0.00025,
         size = img_w / old_width;
 
       if (size <= 4 && size >= 0.5) {

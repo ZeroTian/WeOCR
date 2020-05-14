@@ -1,6 +1,10 @@
 page {
     padding-top: 110rpx; }
   
+  .tip text{
+    color: rgb(255, 0, 0);
+  }
+    
   .empty-bottom {
     padding-bottom: 300rpx; }
     .empty-bottom.isX {

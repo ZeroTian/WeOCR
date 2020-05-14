@@ -87,20 +87,28 @@ Page({
         },
       })
     } else if(active > 2 && id !== '') {
-      wx.navigateTo({
-        url: "../preview_img/preview_img",
-        // 一个事件的监听器可以随时接听事件是否被调用
-        event: {
-          // 接收来自preview_img的数据
-          preToAlbumn: function (data) {
-            console.log(data.feedback);
-          },
+      // wx.navigateTo({
+      //   url: "../preImg/preImg",
+      //   // 一个事件的监听器可以随时接听事件是否被调用
+      //   event: {
+      //     // 接收来自preview_img的数据
+      //     preToAlbumn: function (data) {
+      //       console.log(data.feedback);
+      //     },
 
-        },
-        success: function (res) {
-          // 通过eventChannel向被打开页面传送图片
-          res.eventChannel.emit('albumnToPre', { pictures: self.data.pictures, id: id, active: self.data.active, })
-        },
+      //   },
+      //   success: function (res) {
+      //     // 通过eventChannel向被打开页面传送图片
+      //     res.eventChannel.emit('albumnToPre', { pictures: self.data.pictures, id: id, active: self.data.active, })
+      //   },
+      // })
+      let pictures = [];
+      self.data.pictures.forEach(element => {
+        pictures.push(element.images);
+      });
+
+      wx.previewImage({
+        urls: pictures,
       })
     }
 

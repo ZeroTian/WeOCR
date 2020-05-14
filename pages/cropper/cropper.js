@@ -33,14 +33,12 @@ Page({
 
 
     cropperload(e) {
-        console.log("cropper初始化完成");
     },
 
 
     loadimage(e) {
         let self = this;
 
-        console.log("图片加载完成", e.detail);
         wx.hideLoading();
         //重置图片角度、缩放、位置
         self.cropper.imgReset();
@@ -48,7 +46,6 @@ Page({
 
 
     clickcut(e) {
-        console.log(e.detail);
         //点击裁剪框阅览图片
         wx.previewImage({
             current: e.detail.url, // 当前显示图片的http链接
