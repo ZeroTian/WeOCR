@@ -7,7 +7,7 @@ Page({
     pictures: [],
     isIphoneX: app.globalData.isIphoneX,
     // 共有多少列
-		size: 4,
+		size: 3,
 		listData: [],
 		extraNodes: [
 			// {
@@ -39,6 +39,10 @@ Page({
 
 
   onLoad(options) {
+    wx.showShareMenu({
+      withShareTicket: true
+    })
+
     let self = this,
       eventChannel = self.getOpenerEventChannel();
 
@@ -68,7 +72,7 @@ Page({
     // 实现图片的剪切或预览
     if (active <= 2 && id !== '') {
       wx.navigateTo({
-        url: "../shear/shear",
+        url: "../cropper/cropper",
         // 一个事件的监听器可以随时接听事件是否被调用
         event: {
           // 接收来自preview_img的数据
@@ -79,7 +83,7 @@ Page({
         },
         success: function (res) {
           // 通过eventChannel向被打开页面传送图片
-          res.eventChannel.emit('albumnToShear', { pictures: self.data.pictures, id: id, active: active, })
+          res.eventChannel.emit('albumnToCropper', { pictures: self.data.pictures, id: id, active: active, })
         },
       })
     } else if(active > 2 && id !== '') {

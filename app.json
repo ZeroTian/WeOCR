@@ -4,7 +4,8 @@
     "pages/test/test",
     "pages/albumn/albumn",
     "pages/preview_img/preview_img",
-    "pages/shear/shear"
+    "pages/shear/shear",
+    "pages/cropper/cropper"
   ],
   "window": {
     "backgroundTextStyle": "light",
