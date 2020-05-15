@@ -6,5 +6,6 @@
 	imgSrc="{{src}}" 
 	bindload="cropperload" 
 	bindimageload="loadimage" 
-	bindtapcut="clickcut">
+	bindtapcut="tapCutPre"
+	bindtapcuticon="tapCutIcon">
 </image-cropper>

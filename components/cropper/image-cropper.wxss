@@ -121,3 +121,23 @@
   left:-2.5px;
   bottom:-1px;
 }
+
+.cut{
+  width: 110rpx;
+  height: 110rpx;
+  position: absolute;
+  bottom: 180rpx;
+  right: 60rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background: #5395E9;
+  border-radius: 100%;
+  z-index: 9999;
+}
+
+.cut image{
+  width: 60rpx; 
+  height: 60rpx;
+}

@@ -1,6 +1,7 @@
 Page({
     data: {
         src: '',
+        id: '',
         width: 250,//裁剪框宽度
         height: 250,//裁剪框高度
     },
@@ -23,6 +24,7 @@ Page({
 
             self.setData({
                 src: src,
+                id: id,
             })
         })
 
@@ -45,13 +47,22 @@ Page({
     },
 
 
-    clickcut(e) {
+    tapCutPre(e) {
+
         //点击裁剪框阅览图片
         wx.previewImage({
             current: e.detail.url, // 当前显示图片的http链接
-            urls: [e.detail.url] // 需要预览的图片http链接列表
+            urls: [e.detail.url], // 需要预览的图片http链接列表
         })
     },
 
+
+    tapCutIcon(e) {
+        let self = this,
+            eventChannel = self.getOpenerEventChannel();
+
+        eventChannel.emit('cropperToAlbumn', {id: self.data.id, src: e.detail.url})
+        wx.navigateBack({})
+    },
 
 })

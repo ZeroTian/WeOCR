@@ -7,31 +7,31 @@ Page({
     pictures: [],
     isIphoneX: app.globalData.isIphoneX,
     // 共有多少列
-		size: 3,
-		listData: [],
-		extraNodes: [
-			// {
-			// 	type: "destBefore",
-			// 	dragId: "destBefore0",
-			// 	destKey: 0,
-			// 	slot: "before",
-			// 	fixed: true
-			// },
-			// {
-			// 	type: "destAfter",
-			// 	dragId: "destAfter0",
-			// 	destKey: 0,
-			// 	slot: "after",
-			// 	fixed: true
-			// },
-			// {
-			// 	type: "after",
-			// 	dragId: "plus",
-			// 	slot: "plus",
-			// 	fixed: true
-			// }
-		],
-		pageMetaScrollTop: 0,
+    size: 3,
+    listData: [],
+    extraNodes: [
+      // {
+      // 	type: "destBefore",
+      // 	dragId: "destBefore0",
+      // 	destKey: 0,
+      // 	slot: "before",
+      // 	fixed: true
+      // },
+      // {
+      // 	type: "destAfter",
+      // 	dragId: "destAfter0",
+      // 	destKey: 0,
+      // 	slot: "after",
+      // 	fixed: true
+      // },
+      // {
+      // 	type: "after",
+      // 	dragId: "plus",
+      // 	slot: "plus",
+      // 	fixed: true
+      // }
+    ],
+    pageMetaScrollTop: 0,
     scrollTop: 0,
     // 处于那一个功能
     active: '',
@@ -39,12 +39,16 @@ Page({
 
 
   onLoad(options) {
+    let self = this,
+      eventChannel = self.getOpenerEventChannel();
+
+    self.drag = self.selectComponent('#drag');
+    self.drag.init();
+
     wx.showShareMenu({
       withShareTicket: true
     })
 
-    let self = this,
-      eventChannel = self.getOpenerEventChannel();
 
     // 持续监听事件 可以获取来自Index的图片地址
     eventChannel.on('indexToAlbumn', function (data) {
@@ -55,10 +59,10 @@ Page({
     })
   },
 
+  onShow() {
+    let self = this;
 
-  onShow(){
-    this.drag = this.selectComponent('#drag');
-    this.drag.init();
+    self.drag.init();
   },
 
 
@@ -66,35 +70,37 @@ Page({
   onTapImg(e) {
 
     let self = this,
-      id = this.drag.getIndex(),
+      id = self.drag.getIndex(),
       active = self.data.active;
 
     // 实现图片的剪切或预览
     if (active <= 2 && id !== '') {
+      let pictures = self.data.pictures;
       wx.navigateTo({
         url: "../cropper/cropper",
-        // 一个事件的监听器可以随时接听事件是否被调用
-        event: {
-          // 接收来自preview_img的数据
-          preToAlbumn: function (data) {
-            console.log(data.feedback);
-          },
+        events: {
+          cropperToAlbumn: function (data) {
+            pictures[data.id].images = data.src;
 
+            self.setData({
+              pictures: pictures,
+            })
+          }
         },
         success: function (res) {
           // 通过eventChannel向被打开页面传送图片
           res.eventChannel.emit('albumnToCropper', { pictures: self.data.pictures, id: id, active: active, })
         },
       })
-    } else if(active > 2 && id !== '') {
+    } else if (active > 2 && id !== '') {
       // wx.navigateTo({
       //   url: "../preImg/preImg",
-      //   // 一个事件的监听器可以随时接听事件是否被调用
-      //   event: {
-      //     // 接收来自preview_img的数据
-      //     preToAlbumn: function (data) {
-      //       console.log(data.feedback);
-      //     },
+      // // 一个事件的监听器可以随时接听事件是否被调用
+      // event: {
+      //   // 接收来自preview_img的数据
+      //   preToAlbumn: function (data) {
+      //     console.log(data.feedback);
+      //   },
 
       //   },
       //   success: function (res) {
@@ -111,7 +117,6 @@ Page({
         urls: pictures,
       })
     }
-
   },
 
 
@@ -129,7 +134,7 @@ Page({
     this.setData({
       pictures: e.detail.listData
     });
-    this.drag = this.selectComponent('#drag');
+
     this.drag.init();
   },
 
@@ -156,7 +161,6 @@ Page({
       });
       this.drag.init();
     }, 300)
-
   },
 
 
