@@ -57,9 +57,9 @@ Page({
 
     wx.getImageInfo({
       src: cur_pic,
-      success: function (msg) {
-        let img_w = msg.width,
-          img_h = msg.height,
+      success: function (res) {
+        let img_w = res.width,
+          img_h = res.height,
           windowW = self.data.windowW,
           windowH = self.data.windowH,
           scale = img_w / img_h,

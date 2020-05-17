@@ -122,7 +122,7 @@
   bottom:-1px;
 }
 
-.cut{
+/* .cut{
   width: 110rpx;
   height: 110rpx;
   position: absolute;
@@ -135,9 +135,23 @@
   background: #5395E9;
   border-radius: 100%;
   z-index: 9999;
-}
+} */
 
-.cut image{
-  width: 60rpx; 
-  height: 60rpx;
-}
+.img-switch-style {
+  height: 80rpx;
+  width: 80rpx;
+  position: absolute;
+  bottom: 150rpx;
+  right: 80rpx;
+  z-index: 100;
+ }
+  
+ .img-style {
+  height: 80rpx;
+  width: 80rpx;
+  position: absolute;
+  bottom: 150rpx;
+  right: 80rpx;
+  opacity: 0;
+  z-index: 99;
+ }

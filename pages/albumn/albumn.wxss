@@ -122,22 +122,27 @@ page {
     height: 246rpx;
 } */
 
-/* 容纳扫描图标 */
-.funBar{
-    height: 110rpx;
-    width: 110rpx;
-    border-radius: 100%;
-    background: #5395E9;
-    position: fixed;
-    bottom: 180rpx;
-    right: 60rpx;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+.img-switch-style {
+  height: 80rpx;
+  width: 80rpx;
+  position: absolute;
+  bottom: 180rpx;
+  right: 80rpx;
+  z-index: 100;
+ }
+  
+ .img-style {
+  height: 80rpx;
+  width: 80rpx;
+  position: absolute;
+  bottom: 180rpx;
+  right: 80rpx;
+  opacity: 0;
+  z-index: 99;
+ }
 
-.scan image{
-    width: 60rpx;
-    height: 60rpx;
+.gray{
+  z-index: -1;
 }
+ 
 

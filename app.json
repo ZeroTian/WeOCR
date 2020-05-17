@@ -6,7 +6,8 @@
     "pages/preview_img/preview_img",
     "pages/shear/shear",
     "pages/cropper/cropper",
-    "pages/preImg/preImg"
+    "pages/preImg/preImg",
+    "pages/tool/tool"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -29,6 +30,12 @@
         "text": "首页",
         "iconPath": "./images/home.png",
         "selectedIconPath": "./images/home-selected.png"
+      },
+      {
+        "pagePath": "pages/tool/tool",
+        "text": "小工具",
+        "iconPath": "./images/tool.png",
+        "selectedIconPath": "./images/tool-selected.png"
       },
       {
         "pagePath": "pages/test/test",

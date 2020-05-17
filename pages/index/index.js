@@ -8,8 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    fun: [
-      {
+    fun: [{
         id: 0,
         name: "扫描",
         tab: "扫描",
@@ -55,6 +54,7 @@ Page({
       fileList = [],
       tempFileURL = [];
 
+
     wx.showShareMenu({
       withShareTicket: true
     })
@@ -71,10 +71,10 @@ Page({
           tempFileURL.push(element.tempFileURL)
         });
 
-        for(var i = 0; i<tempFileURL.length; i++){
+        for (var i = 0; i < tempFileURL.length; i++) {
           fun[i].img_src = tempFileURL[i];
         }
-        
+
         self.setData({
           fun: fun,
         })
@@ -117,10 +117,16 @@ Page({
           },
           success: function (res) {
             tempFilePaths.forEach(element => {
-              pictures.push({ images: element })
+              pictures.push({
+                images: element,
+                isChoose: '',
+              })
             });
             // 通过eventChannel向被打开页面传送图片
-            res.eventChannel.emit('indexToAlbumn', { pictures: pictures, active: self.data.active })
+            res.eventChannel.emit('indexToAlbumn', {
+              pictures: pictures,
+              active: self.data.active
+            })
           },
         })
       },
@@ -160,10 +166,15 @@ Page({
           },
           success: function (res) {
             tempFilePaths.forEach(element => {
-              pictures.push({ images: element })
+              pictures.push({
+                images: element
+              })
             });
             // 通过eventChannel向被打开页面传送图片
-            res.eventChannel.emit('indexToAlbumn', { pictures: pictures, active: self.data.active })
+            res.eventChannel.emit('indexToAlbumn', {
+              pictures: pictures,
+              active: self.data.active
+            })
           },
         })
       },
@@ -197,10 +208,15 @@ Page({
           },
           success: function (res) {
             tempFilePaths.forEach(element => {
-              pictures.push({ images: element })
+              pictures.push({
+                images: element
+              })
             });
             // 通过eventChannel向被打开页面传送图片
-            res.eventChannel.emit('indexToAlbumn', { pictures: pictures, active: self.data.active })
+            res.eventChannel.emit('indexToAlbumn', {
+              pictures: pictures,
+              active: self.data.active
+            })
           },
         })
       },

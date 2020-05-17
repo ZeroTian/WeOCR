@@ -179,6 +179,13 @@ Component({
     _img_top: wx.getSystemInfoSync().windowHeight / 2, //图片上边距
     _img_left: wx.getSystemInfoSync().windowWidth / 2, //图片左边距
     tempFilePath: '',
+    isPopping: true,
+    animPlus: '',
+    animCut: '',
+    animGray: '',
+    img_w: '',
+    img_h: '',
+
     watch: {
       //监听截取框宽高变化
       width(value, that) {
@@ -525,11 +532,232 @@ Component({
           success: (res) => {
             this.triggerEvent('tapcuticon', {
               url: res.tempFilePath,
-              width: this.data.width * this.data.export_scale,
-              height: this.data.height * this.data.export_scale
             });
           }
         }, this)
+      });
+    },
+
+
+    //点击弹出
+    plus: function () {
+      if (this.data.isPopping) {
+        //缩回动画
+        this.popp();
+        this.setData({
+          isPopping: false
+        })
+      } else if (!this.data.isPopping) {
+        //弹出动画
+        this.takeback();
+        this.setData({
+          isPopping: true
+        })
+      }
+    },
+
+
+    //弹出动画
+    popp: function () {
+      //plus顺时针旋转
+      var animationPlus = wx.createAnimation({
+        duration: 400,
+        timingFunction: 'ease-out'
+      })
+      var animationCut = wx.createAnimation({
+        duration: 400,
+        timingFunction: 'ease-out'
+      })
+      var animationGray = wx.createAnimation({
+        duration: 400,
+        timingFunction: 'ease-out'
+      })
+      animationPlus.rotateZ(180).step();
+      animationCut.translate(-45, 0).rotateZ(180).opacity(1).step();
+      animationGray.translate(-100, 0).rotateZ(180).opacity(1).step();
+      this.setData({
+        animPlus: animationPlus.export(),
+        animCut: animationCut.export(),
+        animGray: animationGray.export(),
+      })
+    },
+
+
+    //收回动画
+    takeback: function () {
+      //plus逆时针旋转
+      var animationPlus = wx.createAnimation({
+        duration: 400,
+        timingFunction: 'ease-out'
+      })
+      var animationCut = wx.createAnimation({
+        duration: 400,
+        timingFunction: 'ease-out'
+      })
+      var animationGray = wx.createAnimation({
+        duration: 400,
+        timingFunction: 'ease-out'
+      })
+      animationPlus.rotateZ(0).step();
+      animationCut.translate(0, 0).rotateZ(0).opacity(0).step();
+      animationGray.translate(0, 0).rotateZ(0).opacity(0).step();
+      this.setData({
+        animPlus: animationPlus.export(),
+        animCut: animationCut.export(),
+        animGray: animationGray.export(),
+      })
+    },
+
+
+    gray(e) {
+      if (!this.data.imgSrc) {
+        //调起上传
+        this.upload();
+        return;
+      }
+      this._draw(() => {
+
+        wx.showToast({
+          title: '处理中',
+          icon: 'loading',
+          duration: 2000
+        })
+
+        this.setData({
+          img_w: this.data.width * this.data.export_scale,
+          img_h: this.data.height * this.data.export_scale,
+        })
+
+        wx.canvasGetImageData({
+          canvasId: 'image-cropper',
+          width: this.data.width * this.data.export_scale,
+          height: Math.round(this.data.height * this.data.export_scale),
+          success: (res) => {
+
+            // console.log(res.data)
+
+            const data = convertToGrayscale(res.data)
+            wx.canvasPutImageData({
+              canvasId: 'gray',
+              data: data,
+              width: this.data.width * this.data.export_scale,
+              height: Math.round(this.data.height * this.data.export_scale),
+              success: (res) => {
+
+                // 将画布上的图转为图片
+                wx.canvasToTempFilePath({
+                  width: this.data.width * this.data.export_scale,
+                  height: Math.round(this.data.height * this.data.export_scale),
+                  destWidth: this.data.width * this.data.export_scale,
+                  destHeight: Math.round(this.data.height) * this.data.export_scale,
+                  fileType: 'png',
+                  quality: this.data.quality,
+                  canvasId: 'gray',
+                  success: (res) => {
+
+                    // console.log(res.tempFilePath)
+
+                    // wx.previewImage({
+                    //   urls:[res.tempFilePath],
+                    // })
+
+                    this.triggerEvent('tapgrayicon', {
+                      url: res.tempFilePath,
+                    });
+
+                  }
+                }, this)
+
+              },
+              fail: (err) => {
+                console.error(err)
+              }
+            }, this)
+          },
+          fail: (err) => {
+            console.error(err)
+          }
+        }, this)
+
+
+
+        // // 生成图片并回调
+        // wx.canvasToTempFilePath({
+        //   width: this.data.width * this.data.export_scale,
+        //   height: Math.round(this.data.height * this.data.export_scale),
+        //   destWidth: this.data.width * this.data.export_scale,
+        //   destHeight: Math.round(this.data.height) * this.data.export_scale,
+        //   fileType: 'png',
+        //   quality: this.data.quality,
+        //   canvasId: this.data.el,
+        //   success: (res) => {
+        //     // this.triggerEvent('tapgrayicon', {
+        //     //   url: res.tempFilePath,
+        //     //   width: this.data.width * this.data.export_scale,
+        //     //   height: this.data.height * this.data.export_scale
+        //     // });
+
+        //     this.setData({
+        //       img_w: this.data.width * this.data.export_scale,
+        //       img_h: this.data.height * this.data.export_scale,
+        //     })
+
+
+        //     let cvs = wx.createCanvasContext("gray", this),
+        //       self = this;
+        //     cvs.drawImage(res.tempFilePath, 0, 0, self.data.width * self.data.export_scale, self.data.height * self.data.export_scale);
+        //     console.log(res.tempFilePath)
+        //     console.log(self.data.width * self.data.export_scale)
+        //     console.log(self.data.height * self.data.export_scale)
+        //     cvs.draw(false, function () {
+        //       wx.canvasGetImageData({
+        //         canvasId: 'gray',
+        //         width: self.data.width * self.data.export_scale,
+        //         height: Math.round(self.data.height * self.data.export_scale),
+        //         success: (res) => {
+
+        //           console.log(res.data)
+
+        //           const data = convertToGrayscale(res.data)
+        //           wx.canvasPutImageData({
+        //             canvasId: 'grayOut',
+        //             data: data,
+        //             width: self.data.width * self.data.export_scale,
+        //             height: Math.round(self.data.height * self.data.export_scale),
+        //             success: (res) => {
+
+        //               // 将画布上的图转为图片
+        //               wx.canvasToTempFilePath({
+        //                 width: self.data.width * self.data.export_scale,
+        //                 height: Math.round(self.data.height * self.data.export_scale),
+        //                 destWidth: self.data.width * self.data.export_scale,
+        //                 destHeight: Math.round(self.data.height) * self.data.export_scale,
+        //                 fileType: 'png',
+        //                 quality: self.data.quality,
+        //                 canvasId: "grayOut",
+        //                 success: (res) => {
+
+        //                   console.log(res.tempFilePath)
+
+        //                   self.triggerEvent('tapgrayicon', {
+        //                     url: res.tempFilePath,
+        //                   });
+        //                 }
+        //               }, self)
+        //             },
+        //             fail: (err) => {
+        //               console.error(err)
+        //             }
+        //           })
+        //         },
+        //         fail: (err) => {
+        //           console.error("failed!")
+        //           console.error(err)
+        //         }
+        //       })
+        //     })
+        //   }
+        // }, this)
       });
     },
 
@@ -1149,3 +1377,17 @@ Component({
     }
   }
 })
+
+
+
+// 转为灰度图片
+function convertToGrayscale(data) {
+  let g = 0
+  for (let i = 0; i < data.length; i += 4) {
+    g = (data[i] * 0.3 + data[i + 1] * 0.59 + data[i + 2] * 0.11)
+    data[i] = g
+    data[i + 1] = g
+    data[i + 2] = g
+  }
+  return data
+}

@@ -40,12 +40,13 @@ Component({
 		multipleSlots: true
 	},
 	properties: {
-		extraNodes: {type: Array, value: []},                  // 额外节点
-		listData: {type: Array, value: []},                    // 数据源
-		columns: {type: Number, value: 1},                     // 列数
-		topSize: {type: Number, value: 0},                     // 顶部高度
-		bottomSize: {type: Number, value: 0},                  // 底部高度
-		scrollTop: {type: Number, value: 0}                    // 页面滚动高度
+		extraNodes: { type: Array, value: null },                  // 额外节点
+		listData: { type: Array, value: [] },                    // 数据源
+		columns: { type: Number, value: 1 },                     // 列数
+		topSize: { type: Number, value: 0 },                     // 顶部高度
+		bottomSize: { type: Number, value: 0 },                  // 底部高度
+		scrollTop: { type: Number, value: 0 },                   // 页面滚动高度
+		chooseB: { type: Boolean, value: false },
 	},
 	data: {
 		/* 未渲染数据 */
@@ -55,8 +56,8 @@ Component({
 		realTopSize: 0,                                         // 计算后顶部固定高度实际值
 		realBottomSize: 0,                                      // 计算后底部固定高度实际值
 		rows: 0,                                                // 行数
-		itemDom: {width: 0, height: 0, left: 0, top: 0},        // 每一项 item 的 dom 信息, 由于大小一样所以只存储一个
-		itemWrapDom: {width: 0, height: 0, left: 0, top: 0},    // 整个拖拽区域的 dom 信息
+		itemDom: { width: 0, height: 0, left: 0, top: 0 },        // 每一项 item 的 dom 信息, 由于大小一样所以只存储一个
+		itemWrapDom: { width: 0, height: 0, left: 0, top: 0 },    // 整个拖拽区域的 dom 信息
 		startId: 0,                                             // 初始触摸点 identifier
 		preStartKey: -1,                                        // 前一次排序时候的起始 sortKey 值
 
@@ -86,10 +87,10 @@ Component({
 
 			// 防止多指触发 drag 动作, 如果已经在 drag 中则返回, touchstart 事件中有效果
 			if (this.data.dragging) return;
-			this.setData({dragging: true});
+			this.setData({ dragging: true });
 
-			let {platform, itemDom, itemWrapDom} = this.data,
-				{pageX: startPageX, pageY: startPageY, identifier: startId} = startTouch;
+			let { platform, itemDom, itemWrapDom } = this.data,
+				{ pageX: startPageX, pageY: startPageY, identifier: startId } = startTouch;
 
 			// 计算X,Y轴初始位移, 使 item 中心移动到点击处
 			let tranX = startPageX - itemDom.width / 2 - itemWrapDom.left,
@@ -98,7 +99,7 @@ Component({
 			if (this.data.columns === 1) tranX = 0;
 
 			this.data.startId = startId;
-			this.setData({cur: index, curZ: index, tranX, tranY});
+			this.setData({ cur: index, curZ: index, tranX, tranY });
 
 			if (platform !== "devtools") wx.vibrateShort();
 		},
@@ -109,8 +110,8 @@ Component({
 
 			if (!this.data.dragging) return;
 
-			let {pageMetaSupport, windowHeight, realTopSize, realBottomSize, itemDom, itemWrapDom, preStartKey, columns, rows} = this.data,
-				{pageX: currentPageX, pageY: currentPageY, identifier: currentId, clientY: currentClientY} = currentTouch;
+			let { pageMetaSupport, windowHeight, realTopSize, realBottomSize, itemDom, itemWrapDom, preStartKey, columns, rows } = this.data,
+				{ pageX: currentPageX, pageY: currentPageY, identifier: currentId, clientY: currentClientY } = currentTouch;
 
 			// 如果不是同一个触发点则返回
 			if (this.data.startId !== currentId) return;
@@ -151,7 +152,7 @@ Component({
 			}
 
 			// 设置当前激活元素偏移量
-			this.setData({tranX: tranX, tranY: tranY});
+			this.setData({ tranX: tranX, tranY: tranY });
 
 			// 获取 startKey 和 endKey
 			let startKey = parseInt(e.currentTarget.dataset.key);
@@ -177,7 +178,7 @@ Component({
 		 * 根据 startKey 和 endKey 去重新计算每一项 sortKey
 		 */
 		sort(startKey, endKey) {
-			this.setData({itemTransition: true});
+			this.setData({ itemTransition: true });
 			let list = this.data.list.map((item) => {
 				if (item.fixed) return item;
 				if (startKey < endKey) { // 正序拖动
@@ -214,14 +215,14 @@ Component({
 		 * 根据排序后 list 数据进行位移计算
 		 */
 		updateList(data, vibrate = true) {
-			let {platform} = this.data;
+			let { platform } = this.data;
 
 			let list = data.map((item, index) => {
 				item.tranX = `${(item.sortKey % this.data.columns) * 100}%`;
 				item.tranY = `${Math.floor(item.sortKey / this.data.columns) * 100}%`;
 				return item;
 			});
-			this.setData({list: list});
+			this.setData({ list: list });
 
 			if (!vibrate) return;
 			if (platform !== "devtools") wx.vibrateShort();
@@ -258,7 +259,7 @@ Component({
 		 * 点击每一项后触发事件
 		 */
 		itemClick(e) {
-			let {index, key} = e.currentTarget.dataset;
+			let { index, key } = e.currentTarget.dataset;
 			let list = this.data.list;
 			let currentItem = list[index];
 
@@ -286,6 +287,30 @@ Component({
 					data: currentItem.data
 				});
 			}
+
+			let self = this;
+
+			list = [];
+			index = e.currentTarget.dataset.index;
+
+			self.setData({
+				img_id: index,
+			})
+
+			if (self.data.chooseB) {
+				self.data.list[index].data.isChoose = !self.data.list[index].data.isChoose;
+				list = self.data.list;
+				self.setData({
+					list: list,
+				})
+
+				self.triggerEvent('tapdragimg', {
+					pictures: list,
+				})
+			}
+
+			// self.init();
+
 		},
 		/**
 		 * 封装自定义事件
@@ -305,13 +330,13 @@ Component({
 				}
 			});
 
-			this.triggerEvent(type, {listData: listData});
+			this.triggerEvent(type, { listData: listData });
 		},
 		/**
 		 *  初始化获取 dom 信息
 		 */
 		initDom() {
-			let {windowWidth, windowHeight, platform, SDKVersion} = wx.getSystemInfoSync();
+			let { windowWidth, windowHeight, platform, SDKVersion } = wx.getSystemInfoSync();
 
 			this.data.pageMetaSupport = compareVersion(SDKVersion, '2.9.0') >= 0;
 
@@ -345,7 +370,7 @@ Component({
 		 */
 		init() {
 			this.clearData();
-			this.setData({itemTransition: false});
+			this.setData({ itemTransition: false });
 
 			let delItem = (item, extraNode) => ({
 				id: item.dragId,
@@ -357,17 +382,17 @@ Component({
 				data: item
 			});
 
-			let {listData, extraNodes} = this.data;
-			let _list = [], _before=[], _after=[], destBefore = [], destAfter = [];
+			let { listData, extraNodes } = this.data;
+			let _list = [], _before = [], _after = [], destBefore = [], destAfter = [];
 
 			extraNodes.forEach((item, index) => {
-				if(item.type === "before") {
+				if (item.type === "before") {
 					_before.push(delItem(item, true));
-				} else if(item.type === "after") {
+				} else if (item.type === "after") {
 					_after.push(delItem(item, true));
-				} else if(item.type === "destBefore") {
+				} else if (item.type === "destBefore") {
 					destBefore.push(delItem(item, true));
-				} else if(item.type === "destAfter") {
+				} else if (item.type === "destAfter") {
 					destAfter.push(delItem(item, true));
 				}
 			});
@@ -391,7 +416,7 @@ Component({
 			});
 
 			if (list.length === 0) {
-				this.setData({itemWrapHeight: 0});
+				this.setData({ itemWrapHeight: 0 });
 				return;
 			}
 
@@ -399,19 +424,16 @@ Component({
 			// 异步加载数据时候, 延迟执行 initDom 方法, 防止基础库 2.7.1 版本及以下无法正确获取 dom 信息
 			setTimeout(() => this.initDom(), 0);
 		},
-		onImageTap(e){
-			let index = e.currentTarget.dataset.index;
-				this.setData({
-					img_id: index,
-				})
+		onImageTap(e) {
+
 		},
-		getIndex(){
+		getIndex() {
 			let index = this.data.img_id
 
 			this.setData({
 				img_id: ''
 			})
-			
+
 			return index;
 		},
 	},

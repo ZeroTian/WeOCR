@@ -56,13 +56,13 @@ Page({
         })
     },
 
-
-    tapCutIcon(e) {
+    
+    tapIcon(e){
         let self = this,
             eventChannel = self.getOpenerEventChannel();
 
         eventChannel.emit('cropperToAlbumn', {id: self.data.id, src: e.detail.url})
         wx.navigateBack({})
-    },
+    }
 
 })

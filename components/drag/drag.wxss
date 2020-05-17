@@ -61,3 +61,11 @@
       word-break: break-all;
       color: #666666;
       font-size: 24rpx; }
+
+    .choose{
+      position: absolute;
+      right: 15rpx;
+      top: 15rpx;
+      width: 40rpx;
+      height: 40rpx;
+    }

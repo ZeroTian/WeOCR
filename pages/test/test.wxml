@@ -1,9 +1,8 @@
-<view class="container">
-  <scroll-view class="img" 
-    bindtouchstart="touchstartCallback"  
-    bindtouchmove="touchmoveCallback" 
-    bindtouchend="touchendCallback" 
-    scroll-x="true"  scroll-y="true" >
-      <image style="zoom:{{stv.scale}};" src="../../images/album_b.png"></image>
-  </scroll-view>
+<view>
+ <image src="../../images/album_b.png" class="img-style" animation="{{animWrite}}" bindtap="write"></image>
+ <image src="../../images/album_b.png" class="img-style" animation="{{animCollect}}" bindtap="collect"></image>
+ <image src="../../images/album_b.png" class="img-style" animation="{{animTranspond}}" bindtap="transpond"></image>
+ <image src="../../images/album_b.png" class="img-style" animation="{{animInput}}" bindtap="input"></image>
+ <image src="../../images/album_b.png" class="img-style" animation="{{animCloud}}" bindtap="cloud"></image>
+ <image src="../../images/album_w.png" class="img-switch-style" animation="{{animPlus}}" bindtap="plus"></image>
 </view>

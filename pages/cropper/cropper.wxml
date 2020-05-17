@@ -1,4 +1,4 @@
-<image-cropper 
+<image-cropper
 	id="image-cropper" 
 	limit_move="{{true}}" 
 	disable_rotate="{{true}}" 
@@ -7,5 +7,6 @@
 	bindload="cropperload" 
 	bindimageload="loadimage" 
 	bindtapcut="tapCutPre"
-	bindtapcuticon="tapCutIcon">
+	bindtapcuticon="tapIcon"
+	bindtapgrayicon="tapIcon">
 </image-cropper>

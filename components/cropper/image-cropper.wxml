@@ -24,8 +24,16 @@
 </view>
 
 
-<view class="cut" bindtap="tapCut">
+<view class="cut">
   <view class="icon">
-    <image src="../../images/cut_w.png" />
+    <image src="../../images/tool_C.png" class="img-switch-style" animation="{{animPlus}}" bindtap="plus"></image>
+    <image src="../../images/cut_w.png" class="img-style" animation="{{animCut}}"  bindtap="tapCut"></image>
+    <image src="../../images/gray_C.png" class="img-style" animation="{{animGray}}" bindtap="gray"></image>
   </view>
+</view>
+
+
+<view style='position: fixed; top: 9999rpx;'>
+	<canvas class="gray" canvas-id="gray" style="height: {{img_h}}px; width: {{img_w}}px;"/>
+	<!-- <canvas class="gray" canvas-id="grayOut" style="height: {{img_h}}px; width: {{img_w}}px;"/> -->
 </view>
