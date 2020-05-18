@@ -37,7 +37,7 @@ Page({
     active: '',
     isPopping: true,
     animPlus: {},
-    animScan: {},
+    animDownload: {},
     animChoose: {},
     animDelete: {},
     animInput: {},
@@ -47,6 +47,8 @@ Page({
     img_h: '',
     img_w: '',
     chooseB: '',
+    quality: 80,
+    isQuality: false,
   },
 
 
@@ -73,11 +75,29 @@ Page({
     })
 
     // 持续监听事件 可以获取来自Index的图片地址
-    eventChannel.on('indexToAlbumn', function (data) {
+    eventChannel.on('chooseImgToMore', function (data) {
+
+      if (data.active == -4) {
+        let pictures = [];
+
+        data.pictures.forEach(element => {
+          // picture是引用类型所以一个更改所有的值都被更改了
+          // 将picture的定义放在循环内部
+          let picture = { images: '', isChoose: '', quality: 80, };
+          picture.images = element.images;
+          picture.isChoose = element.isChoose;
+          pictures.push(picture);
+        });
+
+        data.pictures = pictures;
+
+      }
+
       self.setData({
         pictures: data.pictures,
         active: data.active,
       })
+
     })
   },
 
@@ -97,8 +117,7 @@ Page({
 
     if (!self.data.chooseB) {
       // 实现图片的剪切或预览
-      // if (active <= 2 && id !== '') {
-        if (id !== '') {
+      if (id !== '') {
         let pictures = self.data.pictures;
         wx.navigateTo({
           url: "../cropper/cropper",
@@ -116,32 +135,7 @@ Page({
             res.eventChannel.emit('albumnToCropper', { pictures: self.data.pictures, id: id, active: active, })
           },
         })
-      } 
-      // else if (active > 2 && id !== '') {
-      //   wx.navigateTo({
-      //     url: "../preImg/preImg",
-      //   // 一个事件的监听器可以随时接听事件是否被调用
-      //   event: {
-      //     // 接收来自preview_img的数据
-      //     preToAlbumn: function (data) {
-      //       console.log(data.feedback);
-      //     },
-
-      //     },
-      //     success: function (res) {
-      //       // 通过eventChannel向被打开页面传送图片
-      //       res.eventChannel.emit('albumnToPre', { pictures: self.data.pictures, id: id, active: self.data.active, })
-      //     },
-      //   })
-      //   let pictures = [];
-      //   self.data.pictures.forEach(element => {
-      //     pictures.push(element.images);
-      //   });
-
-      //   wx.previewImage({
-      //     urls: pictures,
-      //   })
-      // }
+      }
     }
   },
 
@@ -169,7 +163,7 @@ Page({
       eventChannel = self.getOpenerEventChannel();
 
     // 调用事件fromAlbumn
-    eventChannel.emit('albumnToIndex', { data: "要反馈的信息" })
+    eventChannel.emit('moreToChooseImg', { data: "要反馈的信息" })
   },
 
 
@@ -183,12 +177,10 @@ Page({
 
 
   change(e) {
-    // console.log("change", e.detail.pictures)
   },
 
 
   itemClick(e) {
-    // console.log(e);
   },
 
 
@@ -247,7 +239,7 @@ Page({
       duration: 400,
       timingFunction: 'ease-out'
     })
-    var animationScan = wx.createAnimation({
+    var animationDownload = wx.createAnimation({
       duration: 400,
       timingFunction: 'ease-out'
     })
@@ -269,14 +261,14 @@ Page({
     })
 
     animationPlus.rotateZ(180).step();
-    animationScan.translate(15, -60).rotateZ(180).opacity(1).step();
+    animationDownload.translate(15, -60).rotateZ(180).opacity(1).step();
     animationChoose.translate(-37.5, -45).rotateZ(180).opacity(1).step();
     animationDelete.translate(-63, 0).rotateZ(180).opacity(1).step();
     animationInput.translate(-37.5, 45).rotateZ(180).opacity(1).step();
     animationCloud.translate(15, 60).rotateZ(180).opacity(1).step();
     this.setData({
       animPlus: animationPlus.export(),
-      animScan: animationScan.export(),
+      animDownload: animationDownload.export(),
       animChoose: animationChoose.export(),
       animDelete: animationDelete.export(),
       animInput: animationInput.export(),
@@ -292,7 +284,7 @@ Page({
       duration: 400,
       timingFunction: 'ease-out'
     })
-    var animationScan = wx.createAnimation({
+    var animationDownload = wx.createAnimation({
       duration: 400,
       timingFunction: 'ease-out'
     })
@@ -314,134 +306,193 @@ Page({
     })
 
     animationPlus.rotateZ(0).step();
-    animationScan.translate(0, 0).rotateZ(0).opacity(0).step();
+    animationDownload.translate(0, 0).rotateZ(0).opacity(0).step();
     animationChoose.translate(0, 0).rotateZ(0).opacity(0).step();
     animationDelete.translate(0, 0).rotateZ(0).opacity(0).step();
     animationInput.translate(0, 0).rotateZ(0).opacity(0).step();
     animationCloud.translate(0, 0).rotateZ(0).opacity(0).step();
     this.setData({
       animPlus: animationPlus.export(),
-      animScan: animationScan.export(),
+      animDownload: animationDownload.export(),
       animChoose: animationChoose.export(),
       animDelete: animationDelete.export(),
       animInput: animationInput.export(),
       animCloud: animationCloud.export(),
       chooseB: false,
+      isQuality: false,
     })
   },
 
+  download: function (e) {
+    let self = this,
+      active = self.data.active;
 
-  scan(e) {
-    let self = this;
+    // 当功能为发现素材时
+    if (active == -1) {
+      self.data.pictures.forEach(element => {
+        wx.getFileSystemManager().readFile({
+          filePath: element.images,
+          encoding: 'base64',
+          success: res => {
+            console.log(res.data)
+          }
+        })
+      });
+    }
+    // 当功能为裁剪图片时不做任何处理直接保存图片到相册
+    else if (active == -2) {
+      let pictures = self.data.pictures;
 
-    self.data.pictures.forEach(element => {
-      wx.getFileSystemManager().readFile({
-        filePath: element.images, //选择图片返回的相对路径
-        encoding: 'base64', //编码格式
-        success: res => { //成功的回调
-          console.log(res.data)
+      if (self.data.chooseB) {
+        let chooseNum = [];
+
+        for (let i = 0; i < self.data.pictures.length; i++) {
+          if (self.data.pictures[i].isChoose && self.data.chooseB) {
+            chooseNum.push(i);
+          }
         }
-      })
-    });
+
+        // 获取id为authorization的组件
+        self.authorize = self.selectComponent("#authorization");
+        // 在isAuthorize的第一个参数中加入希望获取的权限
+        self.authorize.isAuthorize('writePhotosAlbum', () => {
+          // 存放到相册
+
+          chooseNum.forEach(element => {
+            // 存放到相册
+            wx.saveImageToPhotosAlbum({
+              filePath: element.images,
+            })
+
+          });
+
+          wx.showToast({
+            title: '成功',
+            icon: 'success',
+            duration: 2000
+          })
+
+        })
+      } else {
+
+        // 获取id为authorization的组件
+        self.authorize = self.selectComponent("#authorization");
+        // 在isAuthorize的第一个参数中加入希望获取的权限
+        self.authorize.isAuthorize('writePhotosAlbum', () => {
+
+          pictures.forEach(element => {
+            // 存放到相册
+            wx.saveImageToPhotosAlbum({
+              filePath: element.images,
+            })
+
+          });
+
+          wx.showToast({
+            title: '成功',
+            icon: 'success',
+            duration: 2000
+          })
+
+        })
+
+      }
+
+    }
+    // 当功能为pdf导出时
+    else if (active == -3) {
+      self.data.pictures.forEach(element => {
+        wx.getFileSystemManager().readFile({
+          filePath: element.images,
+          encoding: 'base64',
+          success: res => {
+            console.log(res.data)
+          }
+        })
+      });
+    }
+    // 当功能为图片压缩时
+    else if (active == -4) {
+      let pictures = self.data.pictures;
+
+      if (self.data.chooseB) {
+        let compressNum = [];
+
+        for (let i = 0; i < self.data.pictures.length; i++) {
+          if (self.data.pictures[i].isChoose && self.data.chooseB) {
+            compressNum.push(i);
+          }
+        }
+
+        // 获取id为authorization的组件
+        self.authorize = self.selectComponent("#authorization");
+        // 在isAuthorize的第一个参数中加入希望获取的权限
+        self.authorize.isAuthorize('writePhotosAlbum', () => {
+          // 存放到相册
+
+          compressNum.forEach(element => {
+            wx.compressImage({
+              src: pictures[element].images,
+              quality: pictures[element].quality,
+              success: (res) => {
+
+                // 存放到相册
+                wx.saveImageToPhotosAlbum({
+                  filePath: res.tempFilePath,
+                })
+
+              },
+            })
+          });
+
+          wx.showToast({
+            title: '成功',
+            icon: 'success',
+            duration: 2000
+          })
+
+        })
+      } else {
+
+        // 获取id为authorization的组件
+        self.authorize = self.selectComponent("#authorization");
+        // 在isAuthorize的第一个参数中加入希望获取的权限
+        self.authorize.isAuthorize('writePhotosAlbum', () => {
+
+          pictures.forEach(element => {
+            wx.compressImage({
+              src: element.images,
+              quality: element.quality,
+              success: (res) => {
+
+                // 存放到相册
+                wx.saveImageToPhotosAlbum({
+                  filePath: res.tempFilePath,
+                })
+
+              },
+            })
+          });
+
+          wx.showToast({
+            title: '成功',
+            icon: 'success',
+            duration: 2000
+          })
+
+        })
+
+      }
+
+    }
   },
-
-
-  // gray: function (e) {
-  //   let self = this;
-
-
-  //   // 图像处理
-
-  //   for (let i = 0; i < self.data.pictures.length; i++) {
-
-  //     if (self.data.pictures[i].isChoose && self.data.chooseB) {
-
-  //       wx.getImageInfo({
-  //         src: self.data.pictures[i].images,
-  //         success: function (res) {
-
-  //           setTimeout(() => {
-
-  //           }, 10000);
-
-  //           // 在canvas上使用px
-  //           self.setData({
-  //             img_w: res.width,
-  //             img_h: res.height,
-  //           })
-
-  //           let img_w = res.width,
-  //             img_h = res.height,
-  //             cvs = wx.createCanvasContext("gray", self);
-
-  //           cvs.drawImage(self.data.pictures[i].images, 0, 0, img_w, img_h);
-  //           cvs.draw(false, function () {
-  //             // 获得像素点
-  //             wx.canvasGetImageData({
-  //               canvasId: 'gray',
-  //               x: 0,
-  //               y: 0,
-  //               width: img_w,
-  //               height: img_h,
-  //               success: (res) => {
-  //                 const data = convertToGrayscale(res.data)
-  //                 wx.canvasPutImageData({
-  //                   canvasId: 'grayOut',
-  //                   data: data,
-  //                   x: 0,
-  //                   y: 0,
-  //                   width: img_w,
-  //                   height: img_h,
-  //                   success: (res) => {
-  //                     // 将画布上的图转为图片
-  //                     wx.canvasToTempFilePath({
-  //                       canvasId: "grayOut",
-  //                       success: (res) => {
-  //                         // wx.previewImage({
-  //                         //   urls: [res.tempFilePath],
-  //                         // })
-  //                         self.data.pictures[i].images = res.tempFilePath;
-  //                         self.data.pictures[i].isChoose = false;
-  //                       }
-  //                     })
-  //                   },
-  //                   fail: (err) => {
-  //                     console.error(err)
-  //                   }
-  //                 })
-  //               },
-  //               fail: (err) => {
-  //                 console.error(err)
-  //               }
-  //             })
-  //           });
-  //         },
-  //       })
-  //     }
-  //   }
-  //   self.setData({
-  //     pictures: self.data.pictures,
-  //   })
-
-  //   if (self.data.chooseB) {
-  //     wx.showToast({
-  //       title: '处理中...',
-  //       icon: 'loading',
-  //       duration: 1000,
-  //       mask: true
-  //     })
-  //     self.drag.init();
-  //   }
-
-  // },
-
 
   choose: function (e) {
     let self = this,
       chooseB = !self.data.chooseB,
       pictures = self.data.pictures;
 
-    if(chooseB){
+    if (chooseB) {
       pictures.forEach(element => {
         element.isChoose = false;
       });
@@ -481,16 +532,45 @@ Page({
   },
 
 
-})
+  quality: function (e) {
+    let self = this;
 
-// 转为灰度图片
-// function convertToGrayscale(data) {
-//   let g = 0
-//   for (let i = 0; i < data.length; i += 4) {
-//     g = (data[i] * 0.3 + data[i + 1] * 0.59 + data[i + 2] * 0.11)
-//     data[i] = g
-//     data[i + 1] = g
-//     data[i + 2] = g
-//   }
-//   return data
-// }
+    self.setData({
+      isQuality: !self.data.isQuality,
+    })
+
+  },
+
+  changeQuality: function (e) {
+    let self = this,
+      pictures = self.data.pictures;
+
+    if (self.data.chooseB) {
+      let qualityNum = [];
+
+      for (let i = 0; i < pictures.length; i++) {
+        if (pictures[i].isChoose && self.data.chooseB) {
+          qualityNum.push(i);
+        }
+      }
+
+      qualityNum.forEach(element => {
+        pictures[element].quality = e.detail.value;
+      });
+
+    } else {
+
+      pictures.forEach(element => {
+        element.quality = e.detail.value;
+      });
+
+    }
+
+  },
+
+
+  none: function (e) {
+  },
+
+
+})

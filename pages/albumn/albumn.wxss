@@ -1,6 +1,3 @@
-page {
-    padding-top: 110rpx; }
-  
   .tip text{
     color: rgb(255, 0, 0);
   }

@@ -1,21 +1,7 @@
-<cu-custom bgColor="bg-gradual-blue" isBack="{{false}}">
-	<view slot="content">WeOCR</view>
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+    <view slot="content">选择图片</view>
 </cu-custom>
 
-<!-- <auth id="authorization"></auth> -->
-
-<view class="navbar">
-    <swiper class="slider" display-multiple-items="2" current="{{active}}" circular="{{true}}">
-        <swiper-item class="item" wx:for="{{fun}}" wx:key="id" bindtap="onNavbarTap" data-id="{{item.id}}">
-            <text class="text {{active==index? 'active': ''}}" >{{item.name}}</text>
-        </swiper-item>
-    </swiper>
-</view>
-
-<!-- 功能模块的展示图片的显示 -->
-<view class="display">
-    <image src="{{fun[active].img_src}}" mode="scaleToFill" />
-</view>
 
 <view class="photo-choose-group">
     <view class="album">
@@ -35,20 +21,11 @@
         </button>
     </view>
     <view class="camera">
-        <button bindtap="onChooseCameraAlbumn" >
+        <button bindtap="onChooseCameraAlbumn">
             <view class="img">
                 <image style="width: 35rpx; height: 28rpx;" src="../../images/camera_b.png" />
             </view>
             <view class="text" style="color: #666666">相机</view>
         </button>
-    </view>
-</view>
-
-<view class="other">
-    <view class="tip">
-        <text class="text-gray">使用相册和微信中选图可以批量{{fun[active].tab}}</text>
-    </view>
-    <view class="share">
-        <button size="mini" open-type='share' plain="{{true}}" style="font-size: 26rpx;">分享给好友</button>
     </view>
 </view>

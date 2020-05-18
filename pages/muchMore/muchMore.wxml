@@ -2,6 +2,7 @@
 	<view slot="content">图册</view>
 </cu-custom>
 
+<auth id="authorization"></auth>
 
 <drag id="drag"
 			bind:tapdragimg="tapDragImg"
@@ -37,10 +38,15 @@
 </view> -->
 <view>
  <image src="../../images/tool_T.png" class="img-switch-style" animation="{{animPlus}}" bindtap="plus"></image>
- <image src="../../images/scan_T.png" class="img-style" animation="{{animScan}}" style="height: 70rpx; width: 70rpx" bindtap="scan"></image>
+ <image src="../../images/download_T.png" class="img-style" animation="{{animDownload}}" style="height: 70rpx; width: 70rpx" bindtap="download"></image>
  <image src="../../images/choose_T.png" class="img-style" animation="{{animChoose}}" bindtap="choose"></image>
  <image src="../../images/delete_T.png" class="img-style" animation="{{animDelete}}" bindtap="delete"></image>
- <image src="../../images/ban_T.png" class="img-style" animation="{{animInput}}" bindtap="none"></image>
+ <block wx:if="{{active == -4}}">
+ 	<image src="../../images/quality_T.png" class="img-style" animation="{{animInput}}" bindtap="quality"></image>
+ </block>
+ <block wx:else>
+ 	<image src="../../images/ban_T.png" class="img-style" animation="{{animInput}}" bindtap="none"></image>
+ </block>
  <image src="../../images/ban_T.png" class="img-style" animation="{{animCloud}}" bindtap="none"></image>
 </view>
 
@@ -50,3 +56,13 @@
 	<canvas class="gray" canvas-id="gray" style="height: {{img_h}}px; width: {{img_w}}px;"/>
 	<canvas class="gray" canvas-id="grayOut" style="height: {{img_h}}px; width: {{img_w}}px;"/>
 </view> -->
+
+
+<block wx:if="{{isQuality}}">
+	<view class="tui-content">
+		<view class="tui-slider-head text-gray">图片质量</view>
+		<view class="tui-slider-box">
+			<slider bindchange="changeQuality" min="1" max="100" value="{{quality}}" show-value/>
+		</view>
+	</view>
+</block>

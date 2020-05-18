@@ -1,0 +1,35 @@
+/* pages/chooseImg/chooseImg.wxss */
+
+.photo-choose-group{
+    margin-top: 250rpx;
+}
+
+.img image{
+    width: 40rpx;
+    height: 40rpx;
+    margin-right: 10rpx;
+    margin-top: 25rpx;
+}
+
+
+.photo-choose-group button{
+    width: 500rpx;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 30rpx;
+    font: bolder;
+    background: #FFFFFF;
+}
+
+.other{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+image[class*="gif-"] {
+    border-radius: 6rpx;
+    display: block;
+  }

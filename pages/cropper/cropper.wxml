@@ -1,12 +1,7 @@
-<image-cropper
-	id="image-cropper" 
-	limit_move="{{true}}" 
-	disable_rotate="{{true}}" 
-	width="{{width}}" height="{{height}}" 
-	imgSrc="{{src}}" 
-	bindload="cropperload" 
-	bindimageload="loadimage" 
-	bindtapcut="tapCutPre"
-	bindtapcuticon="tapIcon"
-	bindtapgrayicon="tapIcon">
-</image-cropper>
+  <cu-custom isBack="{{true}}">
+  	<view slot="content" style="color: #ffffff;">图片剪裁</view>
+  </cu-custom>
+
+
+  <image-cropper id="image-cropper" limit_move="{{true}}" disable_rotate="{{true}}" width="{{width}}" height="{{height}}" imgSrc="{{src}}" bindload="cropperload" bindimageload="loadimage" bindtapcut="tapCutPre" bindtapcuticon="tapIcon" bindtapgrayicon="tapIcon">
+  </image-cropper>

@@ -7,19 +7,23 @@
     "pages/shear/shear",
     "pages/cropper/cropper",
     "pages/preImg/preImg",
-    "pages/tool/tool"
+    "pages/tool/tool",
+    "pages/chooseImg/chooseImg",
+    "pages/muchMore/muchMore"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "backgroundColor": "#F4F4F4",
+    "backgroundColor": "231,235,237",
     "navigationBarBackgroundColor": "#5395E9",
     "navigationBarTitleText": "WeOCR",
-    "navigationBarTextStyle": "white"
+    "navigationBarTextStyle": "white",
+    "navigationStyle": "custom"
   },
   "cloud": true,
   "sitemapLocation": "sitemap.json",
   "usingComponents": {
-    "auth": "../WeOCR/components/authonrization/authonrization"
+    "auth": "../WeOCR/components/authorization/authorization",
+    "cu-custom": "/colorui/components/cu-custom"
   },
   "tabBar": {
     "backgroundColor": "#FFFFFF",

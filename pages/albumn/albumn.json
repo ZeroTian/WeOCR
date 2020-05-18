@@ -1,5 +1,6 @@
 {
   "usingComponents": {
     "drag": "../../components/drag/drag"
-  }
+  },
+  "navigationBarTitleText": "图册"
 }
