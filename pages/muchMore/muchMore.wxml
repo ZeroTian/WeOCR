@@ -5,7 +5,7 @@
 <auth id="authorization"></auth>
 
 <view class="tip">
-	<block wx:if="{{active==-2}}">
+	<block wx:if="{{active==-3}}">
 		<text class="text-gray">图片长按可拖拽, 可为导出为pdf的图片排序</text>
 	</block>
 	<block wx:if="{{active==-4}}">
