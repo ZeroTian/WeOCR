@@ -352,14 +352,10 @@ Page({
           }
         }
 
-        // 获取id为authorization的组件
         self.authorize = self.selectComponent("#authorization");
-        // 在isAuthorize的第一个参数中加入希望获取的权限
         self.authorize.isAuthorize('writePhotosAlbum', () => {
-          // 存放到相册
 
           chooseNum.forEach(element => {
-            // 存放到相册
             wx.saveImageToPhotosAlbum({
               filePath: element.images,
             })
@@ -371,17 +367,18 @@ Page({
             icon: 'success',
             duration: 2000
           })
+          
+          setTimeout(() => {
+            wx.navigateBack();
+          }, 2000);
 
         })
       } else {
 
-        // 获取id为authorization的组件
         self.authorize = self.selectComponent("#authorization");
-        // 在isAuthorize的第一个参数中加入希望获取的权限
         self.authorize.isAuthorize('writePhotosAlbum', () => {
 
           pictures.forEach(element => {
-            // 存放到相册
             wx.saveImageToPhotosAlbum({
               filePath: element.images,
             })
@@ -393,6 +390,10 @@ Page({
             icon: 'success',
             duration: 2000
           })
+
+          setTimeout(() => {
+            wx.navigateBack();
+          }, 2000);
 
         })
 
@@ -424,11 +425,8 @@ Page({
           }
         }
 
-        // 获取id为authorization的组件
         self.authorize = self.selectComponent("#authorization");
-        // 在isAuthorize的第一个参数中加入希望获取的权限
         self.authorize.isAuthorize('writePhotosAlbum', () => {
-          // 存放到相册
 
           compressNum.forEach(element => {
             wx.compressImage({
@@ -436,7 +434,6 @@ Page({
               quality: pictures[element].quality,
               success: (res) => {
 
-                // 存放到相册
                 wx.saveImageToPhotosAlbum({
                   filePath: res.tempFilePath,
                 })
@@ -451,12 +448,14 @@ Page({
             duration: 2000
           })
 
+          setTimeout(() => {
+            wx.navigateBack();
+          }, 2000);
+
         })
       } else {
 
-        // 获取id为authorization的组件
         self.authorize = self.selectComponent("#authorization");
-        // 在isAuthorize的第一个参数中加入希望获取的权限
         self.authorize.isAuthorize('writePhotosAlbum', () => {
 
           pictures.forEach(element => {
@@ -465,7 +464,6 @@ Page({
               quality: element.quality,
               success: (res) => {
 
-                // 存放到相册
                 wx.saveImageToPhotosAlbum({
                   filePath: res.tempFilePath,
                 })
@@ -480,11 +478,16 @@ Page({
             duration: 2000
           })
 
+          setTimeout(() => {
+            wx.navigateBack();
+          }, 2000);
+
         })
 
       }
 
     }
+
   },
 
   choose: function (e) {

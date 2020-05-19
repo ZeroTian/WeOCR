@@ -10,8 +10,6 @@ page{
   }
 
   .slider{
-      /* 用iphone6来进行开发 rpx = px * 2 */
-      /* slider宽度: 手机宽度(px)*2/需要显示的功能模块*6 */
       height: 90rpx;
   }
   
@@ -23,7 +21,6 @@ page{
   }
   
   .slider .item .text{
-    /* 手机宽度(px)*2/显示的功能模块 */
     font-size: 35rpx;
   }
 
@@ -58,7 +55,7 @@ page{
 }
 
 .photo-choose-group button{
-    width: 500rpx;
+    width: 600rpx;
     display: flex;
     flex-direction: row;
     justify-content: center;

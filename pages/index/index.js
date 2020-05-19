@@ -29,7 +29,7 @@ Page({
       name: "表格识别",
       tab: "识别",
       en_name: 'exportExcle',
-      fileID: 'cloud://ocr-qaq.6f63-ocr-qaq-1302036835/icon/pdf-merger.png',
+      fileID: 'cloud://ocr-qaq.6f63-ocr-qaq-1302036835/icon/excel.jpg',
       img_src: '',
     },
     {
@@ -59,27 +59,27 @@ Page({
       withShareTicket: true
     })
 
-    fun.forEach(element => {
-      fileList.push(element.fileID);
-    });
+    // fun.forEach(element => {
+    //   fileList.push(element.fileID);
+    // });
 
-    wx.cloud.getTempFileURL({
-      fileList: fileList,
-      success: function (res) {
-        fileList = res.fileList;
-        fileList.forEach(element => {
-          tempFileURL.push(element.tempFileURL)
-        });
+    // wx.cloud.getTempFileURL({
+    //   fileList: fileList,
+    //   success: function (res) {
+    //     fileList = res.fileList;
+    //     fileList.forEach(element => {
+    //       tempFileURL.push(element.tempFileURL)
+    //     });
 
-        for (var i = 0; i < tempFileURL.length; i++) {
-          fun[i].img_src = tempFileURL[i];
-        }
+    //     for (var i = 0; i < tempFileURL.length; i++) {
+    //       fun[i].img_src = tempFileURL[i];
+    //     }
 
-        self.setData({
-          fun: fun,
-        })
-      }
-    })
+    //     self.setData({
+    //       fun: fun,
+    //     })
+    //   }
+    // })
 
   },
 

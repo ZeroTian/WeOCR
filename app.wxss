@@ -1,2 +1,7 @@
 @import "colorui/main.wxss";
 @import "colorui/icon.wxss";
+/* 
+page{
+    background: 231,235,237;
+    padding: 0rpx;
+} */

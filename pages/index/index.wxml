@@ -14,7 +14,7 @@
 
 <!-- 功能模块的展示图片的显示 -->
 <view class="display">
-    <image src="{{fun[active].img_src}}" mode="scaleToFill" />
+    <image src="{{fun[active].fileID}}" mode="scaleToFill" />
 </view>
 
 <view class="photo-choose-group">

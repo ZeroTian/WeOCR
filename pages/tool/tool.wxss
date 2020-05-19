@@ -1,5 +1,6 @@
-page {
-  padding-bottom: 1rpx;
+page{
+  background: #f4f4f4;
+  padding: 0rpx;
 }
 
 .blue {

@@ -3,6 +3,7 @@ Page({
   data: {
 
     active: '',
+    windowW: '',
 
   },
 
@@ -13,6 +14,15 @@ Page({
     self.setData({
       active: options.active,
     })
+    
+    wx.getSystemInfo({
+      success: res => {
+        self.setData({
+          windowW: res.windowWidth,
+        })
+      },
+    })
+
 
     
   },

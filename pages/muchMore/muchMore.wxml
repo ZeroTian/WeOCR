@@ -4,6 +4,25 @@
 
 <auth id="authorization"></auth>
 
+<view class="tip">
+	<block wx:if="{{active==-2}}">
+		<text class="text-gray">图片长按可拖拽, 可为导出为pdf的图片排序</text>
+	</block>
+	<block wx:if="{{active==-4}}">
+		<text class="text-gray">工具栏中可设置压缩的质量</text>
+	</block>
+</view>
+
+<block wx:if="{{isQuality}}">
+	<view class="tui-content">
+		<view class="tui-slider-head text-gray">图片质量</view>
+		<view class="tui-slider-box">
+			<slider bindchange="changeQuality" min="1" max="99" value="{{quality}}" show-value/>
+		</view>
+	</view>
+</block>
+
+
 <drag id="drag"
 			bind:tapdragimg="tapDragImg"
 			bind:click="itemClick"
@@ -58,11 +77,11 @@
 </view> -->
 
 
-<block wx:if="{{isQuality}}">
+<!-- <block wx:if="{{isQuality}}">
 	<view class="tui-content">
 		<view class="tui-slider-head text-gray">图片质量</view>
 		<view class="tui-slider-box">
 			<slider bindchange="changeQuality" min="1" max="100" value="{{quality}}" show-value/>
 		</view>
 	</view>
-</block>
+</block> -->

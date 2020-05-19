@@ -1,24 +1,12 @@
-.tip text{
-  color: rgb(255, 0, 0);
+page{
+  background: #f4f4f4;
+  padding: 0rpx;
 }
   
 .empty-bottom {
   padding-bottom: 300rpx; }
   .empty-bottom.isX {
     padding-bottom: 380rpx; }
-
-.tip {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  padding: 20rpx;
-  font-size: 24rpx;
-  color: #999999;
-  z-index: 999;
-  background: #FFFFFF;
-  box-sizing: border-box;
-  border-bottom: 1rpx solid #ebedf0; }
 
 .control-panel {
   border-top: 1rpx solid #ebedf0;

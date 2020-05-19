@@ -29,3 +29,7 @@
         </button>
     </view>
 </view>
+
+<view class="gif" >
+    <image src="cloud://ocr-qaq.6f63-ocr-qaq-1302036835/icon/bg.gif" mode="aspectFit" style="width: {{windowW}}px"/>
+</view>

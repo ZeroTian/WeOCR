@@ -1,4 +1,7 @@
-/* pages/chooseImg/chooseImg.wxss */
+page{
+    background: #f4f4f4;
+    padding: 0rpx;
+  }
 
 .photo-choose-group{
     margin-top: 250rpx;
@@ -13,7 +16,7 @@
 
 
 .photo-choose-group button{
-    width: 500rpx;
+    width: 600rpx;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -33,3 +36,9 @@ image[class*="gif-"] {
     border-radius: 6rpx;
     display: block;
   }
+
+.gif{
+  z-index: -1;
+  position: fixed;
+  bottom: 40rpx;
+}

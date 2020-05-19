@@ -21,43 +21,43 @@ App({
       }
     })
 
-    // 获取用户授权信息
-    wx.getSetting({
-      success: res => {
-        // 查看是否授权
-        if (res.authSetting['scope.userInfo']) {
-          wx.getUserInfo({
-            success: res => {
-              console.log(res)
+    // // 获取用户授权信息
+    // wx.getSetting({
+    //   success: res => {
+    //     // 查看是否授权
+    //     if (res.authSetting['scope.userInfo']) {
+    //       wx.getUserInfo({
+    //         success: res => {
+    //           console.log(res)
 
-              // 当获取用户信息后执行的函数
-              if (this.userInfoReadyCallback) {
-                this.userInfoReadyCallback(res)
-              }
-            }
-          })
-        } else {
-          wx.authorize({
-            scope: 'scope.userInfo',
-            success() {
-              wx.getUserInfo({
-                success: res => {
-                  console.log(res)
+    //           // 当获取用户信息后执行的函数
+    //           if (this.userInfoReadyCallback) {
+    //             this.userInfoReadyCallback(res)
+    //           }
+    //         }
+    //       })
+    //     } else {
+    //       wx.authorize({
+    //         scope: 'scope.userInfo',
+    //         success() {
+    //           wx.getUserInfo({
+    //             success: res => {
+    //               console.log(res)
 
-                  // 当获取用户信息后执行的函数
-                  if (this.userInfoReadyCallback) {
-                    this.userInfoReadyCallback(res)
-                  }
-                }
-              })
-              return typeof cb == "function" && cb();
-            },
-          })
+    //               // 当获取用户信息后执行的函数
+    //               if (this.userInfoReadyCallback) {
+    //                 this.userInfoReadyCallback(res)
+    //               }
+    //             }
+    //           })
+    //           return typeof cb == "function" && cb();
+    //         },
+    //       })
 
-        }
+    //     }
 
-      }
-    })
+    //   }
+    // })
 
     // 用来存储一些全局数据
     this.globalData = {
