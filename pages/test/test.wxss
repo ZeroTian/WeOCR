@@ -1,18 +1,12 @@
-.img-switch-style {
-  height: 120rpx;
-  width: 120rpx;
+.cu-bar.tabbar.bg-white{
   position: absolute;
-  bottom: 250rpx;
-  right: 100rpx;
-  z-index: 100;
- }
-  
- .img-style {
-  height: 120rpx;
-  width: 120rpx;
-  position: absolute;
-  bottom: 250rpx;
-  right: 100rpx;
-  opacity: 0;
- }
- 
+  bottom: 0rpx;
+}
+
+.img{
+  background: rgb(231,235,237);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  
+  align-items: center;
+}

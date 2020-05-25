@@ -1,0 +1,12 @@
+.cu-bar.tabbar.bg-white{
+    position: absolute;
+    bottom: 0rpx;
+  }
+  
+  .img{
+    background: rgb(231,235,237);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  
+    align-items: center;
+  }

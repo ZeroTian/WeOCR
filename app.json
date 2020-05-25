@@ -9,11 +9,12 @@
     "pages/preImg/preImg",
     "pages/tool/tool",
     "pages/chooseImg/chooseImg",
-    "pages/muchMore/muchMore"
+    "pages/muchMore/muchMore",
+    "pages/result_scan/result_scan"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "backgroundColor": "231,235,237",
+    "backgroundColor": "rgb(231,235,237)",
     "navigationBarBackgroundColor": "#5395E9",
     "navigationBarTitleText": "WeOCR",
     "navigationBarTextStyle": "white",

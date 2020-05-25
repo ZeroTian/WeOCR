@@ -332,20 +332,71 @@ Page({
 
 
   scan(e) {
-    let self = this;
+    let self = this,
+      pictures = [],
+      // 扫描得到的结果
+      results = [];
 
+    // self.data.pictures.forEach(element => {
+    //   wx.getFileSystemManager().readFile({
+    //     filePath: element.images, //选择图片返回的相对路径
+    //     encoding: 'base64', //编码格式
+    //     success: res => { //成功的回调
+    //       // 图片的base64数据
+    //       console.log(res.data)
+
+    //       // results.push();
+
+    //     }
+    //   })
+    // });
+
+
+    // 上传文件
     self.data.pictures.forEach(element => {
-      wx.getFileSystemManager().readFile({
-        filePath: element.images, //选择图片返回的相对路径
-        encoding: 'base64', //编码格式
-        success: res => { //成功的回调
-          console.log(res.data)
+      wx.chooseImage({
+        success (res) {
+          wx.uploadFile({
+            url: 'http://101.37.87.153:8888/',
+            filePath: element.images,
+            name: 'test',
+            success (res){
+              console.log(res.data);
+              // do something
+            }
+          })
         }
       })
-    });
+    })
+
+    // 将 result 加入到 pictures 中
+    for(let i = 0; i<self.data.pictures.length; i++){
+      pictures.push({
+        images: self.data.pictures[i].images,
+        result: results[i],
+      })
+    }
+
+    // 根据功能的不同导向不同的页面
+    if(self.data.active == 0){
+      wx.navigateTo({
+        url: '../result_scan/result_scan',
+        success: res => {
+          res.eventChannel.emit('albumnToResult_scan', {pictures: pictures})
+        }
+      })
+    }else if(self.data.active == 1){
+
+    }else if(self.data.active == 2){
+      
+    }else if(self.data.active == 3){
+      
+    }
+
   },
 
 
+  // 图片转为灰度图片 (已废弃)
   // gray: function (e) {
   //   let self = this;
 
@@ -483,7 +534,7 @@ Page({
 
 })
 
-// 转为灰度图片
+// 转为灰度图片 
 // function convertToGrayscale(data) {
 //   let g = 0
 //   for (let i = 0; i < data.length; i += 4) {

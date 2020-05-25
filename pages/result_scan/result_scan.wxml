@@ -1,0 +1,55 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+    <view slot="content">识别结果</view>
+</cu-custom>
+
+
+<!-- <view class="result" style="height: {{windowH}}px; width: {{windowW}}px;"> -->
+
+<scroll-view scroll-x class="bg-white nav" scroll-with-animation scroll-left="{{scrollLeft}}" style="height: 90rpx;">
+    <view class="cu-item {{index==TabCur?'text-green cur':''}}" wx:for="{{pictures}}" wx:key="*this" bindtap="tabSelect" data-id="{{index}}">
+        Item{{index}}
+    </view>
+</scroll-view>
+
+
+<scroll-view scroll-x scroll-y scroll-with-animation style="height: {{check ? (windowH - ((100 + 90) * windowW / 750) - CustomBar) /2 : (windowH - ((100 + 90) * windowW / 750) - CustomBar)}}px">
+    <block wx:for="{{pictures[TabCur].result}}" wx:key="*this">
+        <view >
+            <text class="text-gray"> {{item}} </text>
+        </view>
+    </block>
+</scroll-view>
+
+<scroll-view class="img" wx:if="{{check}}" 
+    bindtouchstart="touchstartCallback"  
+    bindtouchmove="touchmoveCallback" 
+    bindtouchend="touchendCallback"  
+    scroll-x scroll-y scroll-with-animation 
+    style="height: {{(windowH - ((100 + 90) * windowW / 750) - CustomBar) /2}}px;">
+    <!--  -->
+    <image style="zoom:{{stv.scale}}; width: {{img_width}}px; height: {{img_height}}px" mode="aspectFit" src="{{pictures[TabCur].images}}"></image>
+</scroll-view>
+
+
+<view class="cu-bar tabbar bg-white" style="width: {{windowW}}px; height: 100rpx;">
+    <view class="action">
+        <view class="cuIcon-cu-image">
+            <image src="../../images/copy.png"></image>
+        </view>
+        <view class="text-gray">复制</view>
+    </view>
+    <view class="action">
+        <view class="cuIcon-cu-image">
+            <image src="../../images/export.png"></image>
+        </view>
+        <view class="text-gray">导出</view>
+    </view>
+    <view class="action" bindtap="checkTap">
+        <view class="cuIcon-cu-image">
+            <image src="../../images/check{{check ? '_selected' : ''}}.png"></image>
+        </view>
+        <view class="text-{{check ? 'blue' : 'gray'}}">检查</view>
+    </view>
+</view>
+    
+<!-- </view> -->

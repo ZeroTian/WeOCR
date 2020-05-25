@@ -23,32 +23,32 @@
 		<!-- <view class="cell__bd text-grey">发现素材</view> -->
 
 		<view class="action sub-title">
-			<text class="text-xl text-bold text-black" style="font-size: 30rpx">发现素材</text>
-			<text class="text-ABC text-black" style="font-size: 30rpx">find</text>
+			<text class="text-xl text-bold" style="font-size: 30rpx">发现素材</text>
+			<text class="bg-grey" style="width 2rem;"></text>
 		</view>
 	</navigator>
 	<navigator url="/pages/chooseImg/chooseImg?active=-2" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
 		<!-- <view class="cell__bd text-grey">裁剪图片</view> -->
 
 		<view class="action sub-title">
-			<text class="text-xl text-bold text-black" style="font-size: 30rpx">裁剪图片</text>
-			<text class="text-ABC text-black" style="font-size: 30rpx">crop</text>
+			<text class="text-xl text-bold" style="font-size: 30rpx">裁剪图片</text>
+			<text class="bg-grey" style="width 2rem;"></text>
 		</view>
 	</navigator>
 	<navigator url="/pages/chooseImg/chooseImg?active=-3" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
 		<!-- <view class="cell__bd text-grey">PDF导出</view> -->
 
 		<view class="action sub-title">
-			<text class="text-xl text-bold text-black" style="font-size: 30rpx">PDF导出</text>
-			<text class="text-ABC text-black" style="font-size: 30rpx">export</text>
+			<text class="text-xl text-bold" style="font-size: 30rpx">PDF导出</text>
+			<text class="bg-grey" style="width 2rem;"></text>
 		</view>
 	</navigator>
 	<navigator url="/pages/chooseImg/chooseImg?active=-4" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
 		<!-- <view class="cell__bd text-grey">图片压缩</view> -->
 
 		<view class="action sub-title">
-			<text class="text-xl text-bold text-black" style="font-size: 30rpx">图片压缩</text>
-			<text class="text-ABC text-black" style="font-size: 30rpx">compress</text>
+			<text class="text-xl text-bold" style="font-size: 30rpx">图片压缩</text>
+			<text class="bg-grey" style="width 2rem;"></text>
 		</view>
 	</navigator>
 </view>
@@ -64,8 +64,8 @@
 		<!-- <view class=" text-grey">关于我们</view> -->
 
 		<view class="action sub-title">
-			<text class="text-xl text-bold text-black" style="font-size: 30rpx">关于我们</text>
-			<text class="text-ABC text-black" style="font-size: 30rpx">about</text>
+			<text class="text-xl text-bold" style="font-size: 30rpx">关于我们</text>
+			<text class="bg-grey" style="width 2rem;"></text>
 		</view>
 	</navigator>
 </view>

@@ -46,22 +46,23 @@ page{
   .display image{
     width: 100%;
   }
-  
-.img image{
-    width: 40rpx;
-    height: 40rpx;
-    margin-right: 10rpx;
-    margin-top: 25rpx;
-}
 
 .photo-choose-group button{
     width: 600rpx;
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
     margin-top: 30rpx;
     font: bolder;
     background: #FFFFFF;
+}
+  
+.img image{
+    width: 40rpx;
+    height: 40rpx;
+    margin-right: 15rpx;
+    margin-top: 28rpx;
 }
 
 .other{
