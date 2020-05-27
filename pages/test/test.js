@@ -4,12 +4,10 @@ Page({
 
 
   data: {
-    pictures: [{
-      images: '../../images/02.jpg',
-    }, 2, 3, 4, 5, ],
+    pictures: '',
     TabCur: 0,
-    scrollLeft:0,
-    check: false,
+    scrollLeft: 0,
+    isTranslate: false,
     windowH: '',
     windowW: '',
     CustomBar: app.globalData.CustomBar,
@@ -22,11 +20,39 @@ Page({
     },
     img_width: '',
     img_height: '',
+    proportion: '',
+    translate: {
+      language: [
+        '自动检测', '中文', '英文', '粤语', '文言文', '日语', '韩语', '法语', '西班牙语', '泰语', '阿拉伯语', '俄语', '葡萄牙语', '德语', '意大利语', '希腊语', '荷兰语', '波兰语', '保加利亚语', '爱沙尼亚语', '丹麦语', '芬兰语', '捷克语', '罗马尼亚语', '斯洛文尼亚语', '瑞典语', '匈牙利语', '繁体中文', '越南语'
+      ],
+      slanguage: [
+        'auto', 'zh', 'en', 'yue', 'wyw', 'jp', 'kor', 'fra', 'spa', 'th', 'ara', 'ru', 'pt', 'de', 'it', 'el', 'nl', 'pl', 'bul', 'est', 'dan', 'fin', 'cs', 'rom', 'slo', 'swe', 'hu', 'cht', 'vie'
+      ],
+      from: 0,
+      to: 2,
+    },
+    translate_from: '',
+    translate_to: '',
+    chooseStack: [],
   },
 
 
   onLoad: function (options) {
-    let self = this;
+    let self = this,
+      eventChannel = self.getOpenerEventChannel(),
+      pictures = [];
+
+    wx.showLoading({
+      title: '请稍候...',
+    })
+
+
+    eventChannel.on("albumnToResult_scan", data => {
+      pictures = data.pictures
+      self.setData({
+        pictures: data.pictures,
+      })
+    })
 
     wx.showShareMenu({
       withShareTicket: true
@@ -41,13 +67,49 @@ Page({
       },
     })
 
+    setTimeout(() => {
+
+      wx.getImageInfo({
+        src: pictures[self.data.TabCur].images,
+        success: res => {
+          let scale = res.width / res.height,
+            proportion = res.width / self.data.windowW;
+          this.setData({
+            img_height: self.data.windowW / scale,
+            img_width: self.data.windowW,
+            proportion: proportion,
+          })
+
+          wx.hideLoading();
+
+        },
+      })
+
+    }, 1000);
+
+  },
+
+
+  tabSelect: function (e) {
+    let self = this;
+
+    // scrollLeft: 向左移动的距离
+    this.setData({
+      TabCur: e.currentTarget.dataset.id,
+      scrollLeft: (e.currentTarget.dataset.id - 1) * 60,
+      isTranslate: false,
+    })
+
+
     wx.getImageInfo({
-      src: self.data.pictures[0].images,
+      src: self.data.pictures[e.currentTarget.dataset.id].images,
       success: res => {
-        let scale = res.width / res.height
+        let scale = res.width / res.height,
+          proportion = res.width / self.data.windowW;
         this.setData({
-          img_height: self.data.windowW/scale,
+          img_height: self.data.windowW / scale,
           img_width: self.data.windowW,
+          proportion: proportion,
         })
       },
     })
@@ -55,32 +117,31 @@ Page({
   },
 
 
-  tabSelect: function(e){
-    let self = this;
+  tapBox: function (e) {
+    let self = this,
+      pictures = [],
+      chooseStack = self.data.chooseStack;
 
-    wx.getImageInfo({
-      src: self.data.pictures[e.currentTarget.dataset.id].images,
-      success: res => {
-        res.width
-        res.height
-        // scrollLeft: 向左移动的距离
-        this.setData({
-          TabCur: e.currentTarget.dataset.id,
-          scrollLeft: (e.currentTarget.dataset.id-1)*60,
-          img_height: res.height,
-          img_width: res.width,
-        })
-      }
+    pictures = self.data.pictures;
+    pictures[self.data.TabCur].result.words_result[e.currentTarget.dataset.id].boxChoosed = !pictures[self.data.TabCur].result.words_result[e.currentTarget.dataset.id].boxChoosed;
+    if(pictures[self.data.TabCur].result.words_result[e.currentTarget.dataset.id].boxChoosed){
+      chooseStack.push(e.currentTarget.dataset.id)
+    }else{
+      chooseStack.pop()
+    }
+    self.setData({
+      pictures: pictures,
+      chooseStack: chooseStack,
     })
 
   },
 
-  
-  touchstartCallback: function(e) {
+
+  touchstartCallback: function (e) {
     //触摸开始
 
     if (e.touches.length === 1) {
-      let {clientX, clientY} = e.touches[0];
+      let { clientX, clientY } = e.touches[0];
       this.startX = clientX;
       this.startY = clientY;
       this.touchStartEvent = e.touches;
@@ -97,21 +158,21 @@ Page({
   },
 
 
-  touchmoveCallback: function(e) {
+  touchmoveCallback: function (e) {
     //触摸移动中
 
     if (e.touches.length === 1) {
       //单指移动
       if (this.data.stv.zoom) {
         //缩放状态，不处理单指
-        return ;
+        return;
       }
-      let {clientX, clientY} = e.touches[0];
+      let { clientX, clientY } = e.touches[0];
       let offsetX = clientX - this.startX;
-      let offsetY = clientY- this.startY;
+      let offsetY = clientY - this.startY;
       this.startX = clientX;
       this.startY = clientY;
-      let {stv} = this.data;
+      let { stv } = this.data;
       stv.offsetX += offsetX;
       stv.offsetY += offsetY;
       stv.offsetLeftX = -stv.offsetX;
@@ -138,7 +199,7 @@ Page({
   },
 
 
-  touchendCallback: function(e) {
+  touchendCallback: function (e) {
     //触摸结束
 
     if (e.touches.length === 0) {
@@ -149,16 +210,160 @@ Page({
   },
 
 
-  checkTap: function(e){
+  indexTap: function (e) {
+    let self = this,
+      pictures = self.data.pictures;
+
+    pictures[self.data.TabCur].result.words_result.forEach(element => {
+      element.boxChoosed = false;
+    })
+
+    self.setData({
+      pictures: pictures,
+    })
+
+    wx.navigateBack({
+      delta: 99,
+    })
+  },
+
+
+  backTap: function (e) {
+    let self = this,
+      chooseStack = self.data.chooseStack;
+
+    if (!self.data.isTranslate && chooseStack.length != 0) {
+      let pictures = self.data.pictures;
+
+      pictures[self.data.TabCur].result.words_result[chooseStack.pop()].boxChoosed = false;
+
+      self.setData({
+        pictures: pictures,
+        chooseStack: chooseStack,
+      })
+
+    }
+
+  },
+
+
+  clearTap: function (e) {
+    let self = this;
+
+    if (!self.data.isTranslate && self.data.chooseStack.length != 0) {
+      let pictures = self.data.pictures;
+
+      pictures[self.data.TabCur].result.words_result.forEach(element => {
+        element.boxChoosed = false;
+      });
+
+      self.setData({
+        pictures: pictures,
+      })
+
+    }
+  },
+
+
+  translateTap: function (e) {
+    let self = this,
+      translate_from = '',
+      chNum = 0;
+
+    self.setData({
+      isTranslate: !self.data.isTranslate,
+    })
+
+    if (self.data.isTranslate) {
+      self.data.pictures[self.data.TabCur].result.words_result.forEach(element => {
+        if (element.boxChoosed) {
+          translate_from += element.words + "\n";
+          chNum++;
+        }
+      });
+
+      if (chNum == 0) {
+        self.data.pictures[self.data.TabCur].result.words_result.forEach(element => {
+          translate_from += element.words + "\n";
+        });
+      }
+
+      self.setData({
+        translate_from: translate_from,
+      })
+
+    }
+  },
+
+
+  bindFromChange: function (e) {
+    let self = this,
+      translate = self.data.translate;
+
+    translate.from = e.detail.value;
+    this.setData({
+      translate: translate
+    })
+  },
+
+
+  bindToChange: function (e) {
+    let self = this,
+      translate = self.data.translate;
+
+    translate.to = e.detail.value;
+    this.setData({
+      translate: translate,
+    })
+  },
+
+
+  fromBlur: function (e) {
     let self = this;
 
     self.setData({
-      check: !self.data.check,
+      translate_from: e.detail.value,
     })
 
-    if(self.data.check){
+  },
 
-    }
+
+  copyFrom: function (e) {
+    let self = this;
+
+    wx.setClipboardData({
+      data: self.data.translate_from,
+    })
+
+  },
+
+
+  toBlur: function (e) {
+    let self = this;
+
+    self.setData({
+      translate_to: e.detail.value,
+    })
+
+  },
+
+
+  copyTo: function (e) {
+    let self = this;
+
+    wx.setClipboardData({
+      data: self.data.translate_to,
+    })
+
+  },
+
+
+  // 将翻译的数据提交给api
+  translateSubmit: function (e) {
+    let self = this;
+
+
   }
+
 
 })

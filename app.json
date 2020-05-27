@@ -10,7 +10,9 @@
     "pages/tool/tool",
     "pages/chooseImg/chooseImg",
     "pages/muchMore/muchMore",
-    "pages/result_scan/result_scan"
+    "pages/result_scan/result_scan",
+    "pages/result_translate/result_translate",
+    "pages/mine/mine"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -43,8 +45,8 @@
         "selectedIconPath": "./images/tool-selected.png"
       },
       {
-        "pagePath": "pages/test/test",
-        "text": "测试",
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
         "iconPath": "./images/mine.png",
         "selectedIconPath": "./images/mine-selected.png"
       }

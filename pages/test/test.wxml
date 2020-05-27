@@ -12,43 +12,76 @@
 </scroll-view>
 
 
-<scroll-view scroll-x scroll-y scroll-with-animation style="height: {{check ? (windowH - ((100 + 90) * windowW / 750) - CustomBar) /2 : (windowH - ((100 + 90) * windowW / 750) - CustomBar)}}px">
-    <block wx:for="{{pictures[TabCur].results}}" wx:key="*this">
-        <view >
-            <text class="text-gray"> {{item}} </text>
-        </view>
-    </block>
-</scroll-view>
-
-<scroll-view class="img" wx:if="{{check}}" 
+<scroll-view class="img" wx:if="{{!isTranslate}}"
     bindtouchstart="touchstartCallback"  
     bindtouchmove="touchmoveCallback" 
     bindtouchend="touchendCallback"  
     scroll-x scroll-y scroll-with-animation 
-    style="height: {{(windowH - ((100 + 90) * windowW / 750) - CustomBar) /2}}px;">
-    <!--  -->
-    <image style="zoom:{{stv.scale}}; width: {{img_width}}px; height: {{img_height}}px" mode="aspectFit" src="{{pictures[0].images}}"></image>
+    style="height: {{(windowH - ((100 + 90) * windowW / 750) - 1.3 * CustomBar)}}px">
+    <image style="zoom:{{stv.scale}}; width: {{img_width}}px; height: {{img_height}}px" mode="aspectFit" src="{{pictures[TabCur].images}}">
+        <view class="box {{item.boxChoosed ? 'boxChoosed' : ''}}" wx:for="{{pictures[TabCur].result.words_result}}" wx:key="*this" data-id="{{index}}" 
+            style="top: {{item.location.top / proportion}}px; left: {{item.location.left / proportion}}px; width: {{item.location.width / proportion}}px; height: {{item.location.height / proportion}}px;"
+            bindtap="tapBox"/>
+    </image>
+</scroll-view>
+
+<scroll-view scroll-y style="height: {{(windowH - ((100 + 90) * windowW / 750) - 1.3 * CustomBar)}}px">
+    <view class="body" wx:if="{{isTranslate}}" scroll-x scroll-y scroll-with-animation style="height: {{(windowH - ((100 + 90) * windowW / 750) - 1.3 * CustomBar)}}px;" >
+        <view class="section radius shadow-warp bg-white margin-top">
+            <picker bindchange="bindFromChange" value="{{translate.from}}" range="{{translate.language}}">
+                <view class="picker left">
+                    {{translate.language[translate.from]}}
+                </view>
+            </picker>
+            <view class="icon"><image src="../../images/tran.png" /></view>
+            <picker bindchange="bindToChange" value="{{translate.to == 0 ? 2 : translate.to}}" range="{{translate.language}}">
+                <view class="picker right">
+                    {{translate.language[translate.to == 0 ? 2 : translate.to]}}
+                </view>
+            </picker>
+        </view>
+        
+        <view class="output">
+            <view class="radius shadow-warp bg-white margin-top">
+                <textarea id="from" class="from" maxlength= "-1" bindblur="fromBlur" value="{{translate_from}}" ></textarea>
+                <image bindtap="copyFrom" src="../../images/copy_T.png" />
+            </view>
+            <image class="icon" src="../../images/down.png" />
+            <view class="radius shadow-warp bg-white margin-top">
+                <textarea id="to" class="to" maxlength= "-1"  bindblur="toBlur" ></textarea>
+                <image bindtap="copyTo" src="../../images/copy_T.png" />
+            </view>
+        </view>
+
+        <button bindtap="translateSubmit" style="background-image: linear-gradient(45deg, #39b54a, #8dc63f);">翻译</button>
+    </view>
 </scroll-view>
 
 
-<view class="cu-bar tabbar bg-white" style="width: {{windowW}}px; height: 100rpx;">
+<view class="cu-bar tabbar bg-white" style="width: {{windowW}}px; height: {{(100 *  windowW / 750) + CustomBar * 0.3}}px;">
     <view class="action">
-        <view class="cuIcon-cu-image">
-            <image src="../../images/copy.png"></image>
+        <view class="cuIcon-cu-image"  bindtap="indexTap">
+            <image src="../../images/home.png"></image>
         </view>
-        <view class="text-gray">复制</view>
+        <view style="color: '#303030'">首页</view>
     </view>
-    <view class="action">
+    <view class="action" bindtap="backTap">
         <view class="cuIcon-cu-image">
-            <image src="../../images/export.png"></image>
+            <image src="../../images/{{!chooseStack.length != 0 || isTranslate ? 'dis' : ''}}back_T.png"></image>
         </view>
-        <view class="text-gray">导出</view>
+        <view style="color: {{!chooseStack.length != 0 || isTranslate ? '#ababab':'#303030'}}">撤销</view>
     </view>
-    <view class="action" bindtap="checkTap">
+    <view class="action" bindtap="clearTap">
         <view class="cuIcon-cu-image">
-            <image src="../../images/check{{check ? '_selected' : ''}}.png"></image>
+            <image src="../../images/{{!chooseStack.length != 0 || isTranslate ? 'dis' : ''}}clear_T.png"></image>
         </view>
-        <view class="text-{{check ? 'blue' : 'gray'}}">检查</view>
+        <view style="color: {{!chooseStack.length != 0 || isTranslate ? '#ababab':'#303030'}}">全部撤销</view>
+    </view>
+    <view class="action" bindtap="translateTap">
+        <view class="cuIcon-cu-image">
+            <image src="../../images/translate{{isTranslate ? '_selected' : ''}}.png"></image>
+        </view>
+        <view class="text-{{isTranslate ? 'blue' : 'gray'}}">翻译</view>
     </view>
 </view>
     
