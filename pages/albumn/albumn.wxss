@@ -127,8 +127,8 @@ page{
   height: 80rpx;
   width: 80rpx;
   position: absolute;
-  bottom: 180rpx;
-  right: 80rpx;
+  bottom: 250rpx;
+  right: 100rpx;
   z-index: 100;
  }
   
@@ -136,8 +136,8 @@ page{
   height: 80rpx;
   width: 80rpx;
   position: absolute;
-  bottom: 180rpx;
-  right: 80rpx;
+  bottom: 250rpx;
+  right: 100rpx;
   opacity: 0;
   z-index: 99;
  }

@@ -7,7 +7,7 @@ Page({
     pictures: '',
     TabCur: 0,
     scrollLeft: 0,
-    isTranslate: false,
+    isCheck: false,
     windowH: '',
     windowW: '',
     CustomBar: app.globalData.CustomBar,
@@ -21,19 +21,7 @@ Page({
     img_width: '',
     img_height: '',
     proportion: '',
-    translate: {
-      language: [
-        '自动检测', '中文', '英文', '粤语', '文言文', '日语', '韩语', '法语', '西班牙语', '泰语', '阿拉伯语', '俄语', '葡萄牙语', '德语', '意大利语', '希腊语', '荷兰语', '波兰语', '保加利亚语', '爱沙尼亚语', '丹麦语', '芬兰语', '捷克语', '罗马尼亚语', '斯洛文尼亚语', '瑞典语', '匈牙利语', '繁体中文', '越南语'
-      ],
-      slanguage: [
-        'auto', 'zh', 'en', 'yue', 'wyw', 'jp', 'kor', 'fra', 'spa', 'th', 'ara', 'ru', 'pt', 'de', 'it', 'el', 'nl', 'pl', 'bul', 'est', 'dan', 'fin', 'cs', 'rom', 'slo', 'swe', 'hu', 'cht', 'vie'
-      ],
-      from: 0,
-      to: 2,
-    },
-    translate_from: '',
-    translate_to: '',
-    chooseStack: [],
+    bank_info: '',
   },
 
 
@@ -47,7 +35,7 @@ Page({
     })
 
 
-    eventChannel.on("albumnToResult_scan", data => {
+    eventChannel.on("albumnToResult_translate", data => {
       pictures = data.pictures
       self.setData({
         pictures: data.pictures,
@@ -87,19 +75,37 @@ Page({
 
     }, 1000);
 
+    let bank_info = "银行卡号: " + self.data.pictures[self.data.TabCur].result.result.bank_card_number + '\n' 
+                    + '\n' 
+                    +  "有效期: " + self.data.pictures[self.data.TabCur].result.result.valid_date + '\n'
+                    + '\n'
+                    +  "所属银行: " + self.data.pictures[self.data.TabCur].result.result.bank_name + '\n' 
+    
+    self.setData({
+      bank_info: bank_info,
+    })
+    
+
   },
 
 
   tabSelect: function (e) {
-    let self = this;
+    let self = this,
+      bank_info = '';
 
     // scrollLeft: 向左移动的距离
     this.setData({
       TabCur: e.currentTarget.dataset.id,
       scrollLeft: (e.currentTarget.dataset.id - 1) * 60,
-      isTranslate: false,
+      isCheck: false,
+      stv: {
+        offsetX: 0,
+        offsetY: 0,
+        zoom: false,
+        distance: 0,
+        scale: 1,
+      },
     })
-
 
     wx.getImageInfo({
       src: self.data.pictures[e.currentTarget.dataset.id].images,
@@ -114,26 +120,16 @@ Page({
       },
     })
 
-  },
-
-
-  tapBox: function (e) {
-    let self = this,
-      pictures = [],
-      chooseStack = self.data.chooseStack;
-
-    pictures = self.data.pictures;
-    pictures[self.data.TabCur].result.words_result[e.currentTarget.dataset.id].boxChoosed = !pictures[self.data.TabCur].result.words_result[e.currentTarget.dataset.id].boxChoosed;
-    if(pictures[self.data.TabCur].result.words_result[e.currentTarget.dataset.id].boxChoosed){
-      chooseStack.push(e.currentTarget.dataset.id)
-    }else{
-      chooseStack.pop()
-    }
+    bank_info = "银行卡号: " + self.data.pictures[e.currentTarget.dataset.id].result.result.bank_card_number + '\n' 
+                + '\n'
+                +  "有效期: " + self.data.pictures[e.currentTarget.dataset.id].result.result.valid_date + '\n' 
+                + '\n'
+                +  "所属银行: " + self.data.pictures[e.currentTarget.dataset.id].result.result.bank_name + '\n' 
+    
     self.setData({
-      pictures: pictures,
-      chooseStack: chooseStack,
+      bank_info: bank_info,
     })
-
+    
   },
 
 
@@ -211,109 +207,28 @@ Page({
 
 
   indexTap: function (e) {
-    let self = this,
-      pictures = self.data.pictures;
-
-    pictures[self.data.TabCur].result.words_result.forEach(element => {
-      element.boxChoosed = false;
-    })
-
-    self.setData({
-      pictures: pictures,
-    })
-
+    let self = this;
+    
     wx.navigateBack({
       delta: 99,
     })
   },
 
-
-  backTap: function (e) {
-    let self = this,
-      chooseStack = self.data.chooseStack;
-
-    if (!self.data.isTranslate && chooseStack.length != 0) {
-      let pictures = self.data.pictures;
-
-      pictures[self.data.TabCur].result.words_result[chooseStack.pop()].boxChoosed = false;
-
-      self.setData({
-        pictures: pictures,
-        chooseStack: chooseStack,
-      })
-
-    }
-
-  },
-
-
-  clearTap: function (e) {
+  extractTap: function(e){
     let self = this;
 
-    if (!self.data.isTranslate && self.data.chooseStack.length != 0) {
-      let pictures = self.data.pictures;
+    wx.setClipboardData({
+      data: self.data.pictures[self.data.TabCur].result.result.bank_card_number,
+    })
 
-      pictures[self.data.TabCur].result.words_result.forEach(element => {
-        element.boxChoosed = false;
-      });
-
-      self.setData({
-        pictures: pictures,
-      })
-
-    }
   },
 
 
-  translateTap: function (e) {
-    let self = this,
-      translate_from = '',
-      chNum = 0;
+  checkTap: function (e) {
+    let self = this;
 
     self.setData({
-      isTranslate: !self.data.isTranslate,
-    })
-
-    if (self.data.isTranslate) {
-      self.data.pictures[self.data.TabCur].result.words_result.forEach(element => {
-        if (element.boxChoosed) {
-          translate_from += element.words + "\n";
-          chNum++;
-        }
-      });
-
-      if (chNum == 0) {
-        self.data.pictures[self.data.TabCur].result.words_result.forEach(element => {
-          translate_from += element.words + "\n";
-        });
-      }
-
-      self.setData({
-        translate_from: translate_from,
-      })
-
-    }
-  },
-
-
-  bindFromChange: function (e) {
-    let self = this,
-      translate = self.data.translate;
-
-    translate.from = e.detail.value;
-    this.setData({
-      translate: translate
-    })
-  },
-
-
-  bindToChange: function (e) {
-    let self = this,
-      translate = self.data.translate;
-
-    translate.to = e.detail.value;
-    this.setData({
-      translate: translate,
+      isCheck: !self.data.isCheck,
     })
   },
 
@@ -322,7 +237,7 @@ Page({
     let self = this;
 
     self.setData({
-      translate_from: e.detail.value,
+      bank_info: e.detail.value,
     })
 
   },
@@ -332,38 +247,9 @@ Page({
     let self = this;
 
     wx.setClipboardData({
-      data: self.data.translate_from,
+      data: self.data.bank_info,
     })
 
   },
-
-
-  toBlur: function (e) {
-    let self = this;
-
-    self.setData({
-      translate_to: e.detail.value,
-    })
-
-  },
-
-
-  copyTo: function (e) {
-    let self = this;
-
-    wx.setClipboardData({
-      data: self.data.translate_to,
-    })
-
-  },
-
-
-  // 将翻译的数据提交给api
-  translateSubmit: function (e) {
-    let self = this;
-
-
-  }
-
 
 })

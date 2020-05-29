@@ -7,7 +7,7 @@ Page({
     pictures: '',
     TabCur: 0,
     scrollLeft: 0,
-    check: false,
+    isCheck: false,
     windowH: '',
     windowW: '',
     CustomBar: app.globalData.CustomBar,
@@ -20,37 +20,36 @@ Page({
     },
     img_width: '',
     img_height: '',
-    scanResult: '',
+    proportion: '',
+    bank_info: '',
   },
 
 
   onLoad: function (options) {
     let self = this,
-      eventChannel = self.getOpenerEventChannel();
+      eventChannel = self.getOpenerEventChannel(),
+      pictures = [];
 
     let picpromise = new Promise(function (resolve, reject) {
-
-      eventChannel.on("albumnToResult_scan", data => {
+      eventChannel.on("albumnToResult_bankInfo", data => {
         self.setData({
           pictures: data.pictures,
         })
         resolve(data.pictures);
         reject("读取数据失败");
       })
-
     })
-
     picpromise.then((pictures) => {
-      let scanResult = "",
+      let bank_info = '',
         result = JSON.parse(pictures[self.data.TabCur].result);
-
-      result.words_result.forEach(element => {
-        scanResult += element.words + '\n'
-      });
+      bank_info = "银行卡号: " + result.result.bank_card_number + '\n'
+        + '\n'
+        + "有效期: " + result.result.valid_date + '\n'
+        + '\n'
+        + "所属银行: " + result.result.bank_name + '\n'
       self.setData({
-        scanResult: scanResult,
+        bank_info: bank_info,
       })
-
     }).catch((res) => {
       wx.showToast({
         title: res,
@@ -70,7 +69,6 @@ Page({
         })
       },
     })
-
   },
 
 
@@ -81,7 +79,7 @@ Page({
     this.setData({
       TabCur: e.currentTarget.dataset.id,
       scrollLeft: (e.currentTarget.dataset.id - 1) * 60,
-      check: false,
+      isCheck: false,
       stv: {
         offsetX: 0,
         offsetY: 0,
@@ -91,69 +89,19 @@ Page({
       },
     })
 
-    let scanResult = "",
+    let bank_info = '',
       result = JSON.parse(self.data.pictures[e.currentTarget.dataset.id].result);
 
-    result.words_result.forEach(element => {
-      scanResult += element.words + '\n'
-    });
-    self.setData({
-      scanResult: scanResult,
-    })
-
-  },
-
-
-  fromBlur: function (e) {
-    let self = this;
+    bank_info = "银行卡号: " + result.result.bank_card_number + '\n'
+      + '\n'
+      + "有效期: " + result.result.valid_date + '\n'
+      + '\n'
+      + "所属银行: " + result.result.bank_name + '\n'
 
     self.setData({
-      scanResult: e.detail.value,
+      bank_info: bank_info,
     })
 
-  },
-
-
-  indexTap: function (e) {
-    let self = this;
-
-    wx.navigateBack({
-      delta: 99,
-    })
-  },
-
-
-  copyTap: function (e) {
-    let self = this;
-
-    wx.setClipboardData({
-      data: self.data.scanResult,
-    })
-
-  },
-
-
-  checkTap: function (e) {
-    let self = this;
-
-    self.setData({
-      check: !self.data.check,
-    })
-
-    if (self.data.check) {
-
-      wx.getImageInfo({
-        src: self.data.pictures[self.data.TabCur].images,
-        success: res => {
-          let scale = res.width / res.height
-          this.setData({
-            img_height: self.data.windowW / scale,
-            img_width: self.data.windowW,
-          })
-        },
-      })
-
-    }
   },
 
 
@@ -227,6 +175,70 @@ Page({
         'stv.zoom': false, //重置缩放状态
       })
     }
+  },
+
+
+  indexTap: function (e) {
+    let self = this;
+
+    wx.navigateBack({
+      delta: 99,
+    })
+  },
+
+  extractTap: function (e) {
+    let self = this,
+      result = JSON.parse(pictures[self.data.TabCur].result);
+    
+    
+
+    wx.setClipboardData({
+      data: result.result.bank_card_number,
+    })
+
+  },
+
+
+  checkTap: function (e) {
+    let self = this;
+
+    self.setData({
+      isCheck: !self.data.isCheck,
+    })
+
+    wx.getImageInfo({
+      src: self.data.pictures[self.data.TabCur].images,
+      success: res => {
+        let scale = res.width / res.height,
+          proportion = res.width / self.data.windowW;
+        this.setData({
+          img_height: self.data.windowW / scale,
+          img_width: self.data.windowW,
+          proportion: proportion,
+        })
+      },
+    })
+
+  },
+
+
+  fromBlur: function (e) {
+    let self = this;
+
+    self.setData({
+      bank_info: e.detail.value,
+    })
+
+  },
+
+
+  copyFrom: function (e) {
+    let self = this;
+
+    wx.setClipboardData({
+      data: self.data.bank_info,
+    })
+
   },
 
 })

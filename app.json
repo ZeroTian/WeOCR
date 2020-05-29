@@ -12,7 +12,8 @@
     "pages/muchMore/muchMore",
     "pages/result_scan/result_scan",
     "pages/result_translate/result_translate",
-    "pages/mine/mine"
+    "pages/mine/mine",
+    "pages/result_bankInfo/result_bankInfo"
   ],
   "window": {
     "backgroundTextStyle": "light",
