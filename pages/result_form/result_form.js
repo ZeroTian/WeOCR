@@ -1,28 +1,12 @@
 const app = getApp();
 
-const utils = require('../../utils.js');
-
-function uz() {
-  var v = $("txt1").value;
-  var r = v.match(/\\u[0-9a-fA-F]{4}/g);
-  if (r == null) {
-    $("txt2").value = v;
-    return false;
-  }
-  for (var i = 0; i < r.length; i++) {
-    v = v.replace(r[i], unescape(r[i].replace("\\u", "%u")));
-  }
-  $("txt2").value = v;
-}
 
 Page({
-
-
   data: {
     pictures: '',
     TabCur: 0,
     scrollLeft: 0,
-    isTranslate: false,
+    isCheck: false,
     windowH: '',
     windowW: '',
     CustomBar: app.globalData.CustomBar,
@@ -36,19 +20,8 @@ Page({
     img_width: '',
     img_height: '',
     proportion: '',
-    translate: {
-      language: [
-        '自动检测', '中文', '英文', '粤语', '文言文', '日语', '韩语', '法语', '西班牙语', '泰语', '阿拉伯语', '俄语', '葡萄牙语', '德语', '意大利语', '希腊语', '荷兰语', '波兰语', '保加利亚语', '爱沙尼亚语', '丹麦语', '芬兰语', '捷克语', '罗马尼亚语', '斯洛文尼亚语', '瑞典语', '匈牙利语', '繁体中文', '越南语'
-      ],
-      slanguage: [
-        'auto', 'zh', 'en', 'yue', 'wyw', 'jp', 'kor', 'fra', 'spa', 'th', 'ara', 'ru', 'pt', 'de', 'it', 'el', 'nl', 'pl', 'bul', 'est', 'dan', 'fin', 'cs', 'rom', 'slo', 'swe', 'hu', 'cht', 'vie'
-      ],
-      from: 0,
-      to: 2,
-    },
-    translate_from: '',
-    translate_to: '',
     chooseStack: [],
+    selectResult: '',
   },
 
 
@@ -60,14 +33,15 @@ Page({
       title: '请稍候...',
     })
 
-    eventChannel.on("albumnToResult_translate", data => {
+    eventChannel.on("albumnToResult_form", data => {
       let pictures = [];
       data.pictures.forEach(element => {
         pictures.push({
           images: element.images,
-          result: JSON.parse(element.result),
+          result: JSON.parse(element.result.result.result_data),
         })
       });
+      console.log(pictures[0].result)
 
       setTimeout(() => {
         wx.getImageInfo({
@@ -101,7 +75,6 @@ Page({
         })
       },
     })
-
   },
 
 
@@ -112,20 +85,8 @@ Page({
     this.setData({
       TabCur: e.currentTarget.dataset.id,
       scrollLeft: (e.currentTarget.dataset.id - 1) * 60,
-      isTranslate: false,
+      isCheck: false,
       chooseStack: [],
-      translate_from: '',
-      translate_to: '',
-      translate: {
-        language: [
-          '自动检测', '中文', '英文', '粤语', '文言文', '日语', '韩语', '法语', '西班牙语', '泰语', '阿拉伯语', '俄语', '葡萄牙语', '德语', '意大利语', '希腊语', '荷兰语', '波兰语', '保加利亚语', '爱沙尼亚语', '丹麦语', '芬兰语', '捷克语', '罗马尼亚语', '斯洛文尼亚语', '瑞典语', '匈牙利语', '繁体中文', '越南语'
-        ],
-        slanguage: [
-          'auto', 'zh', 'en', 'yue', 'wyw', 'jp', 'kor', 'fra', 'spa', 'th', 'ara', 'ru', 'pt', 'de', 'it', 'el', 'nl', 'pl', 'bul', 'est', 'dan', 'fin', 'cs', 'rom', 'slo', 'swe', 'hu', 'cht', 'vie'
-        ],
-        from: 0,
-        to: 2,
-      },
       stv: {
         offsetX: 0,
         offsetY: 0,
@@ -158,8 +119,8 @@ Page({
       chooseStack = self.data.chooseStack;
 
     pictures = self.data.pictures;
-    pictures[self.data.TabCur].result.words_result[e.currentTarget.dataset.id].boxChoosed = !pictures[self.data.TabCur].result.words_result[e.currentTarget.dataset.id].boxChoosed;
-    if (pictures[self.data.TabCur].result.words_result[e.currentTarget.dataset.id].boxChoosed) {
+    pictures[self.data.TabCur].result.forms[0].body[e.currentTarget.dataset.id].boxChoosed = !pictures[self.data.TabCur].result.forms[0].body[e.currentTarget.dataset.id].boxChoosed;
+    if (pictures[self.data.TabCur].result.forms[0].body[e.currentTarget.dataset.id].boxChoosed) {
       chooseStack.push(e.currentTarget.dataset.id)
     } else {
       chooseStack.pop()
@@ -254,14 +215,23 @@ Page({
   },
 
 
+  copyTap: function (e) {
+    let self = this;
+
+    wx.setClipboardData({
+      data: self.data.selectResult,
+    })
+
+  },
+
+
   backTap: function (e) {
     let self = this,
       chooseStack = self.data.chooseStack;
 
-    if (!self.data.isTranslate && chooseStack.length != 0) {
+    if (!self.data.isCheck && chooseStack.length != 0) {
       let pictures = self.data.pictures;
-
-      pictures[self.data.TabCur].result.words_result[chooseStack.pop()].boxChoosed = false;
+      pictures[self.data.TabCur].result.forms[0].body[chooseStack.pop()].boxChoosed = false;
 
       self.setData({
         pictures: pictures,
@@ -276,10 +246,10 @@ Page({
   clearTap: function (e) {
     let self = this;
 
-    if (!self.data.isTranslate && self.data.chooseStack.length != 0) {
+    if (!self.data.isCheck && self.data.chooseStack.length != 0) {
       let pictures = self.data.pictures;
 
-      pictures[self.data.TabCur].result.words_result.forEach(element => {
+      pictures[self.data.TabCur].result.forms[0].body.forEach(element => {
         element.boxChoosed = false;
       });
 
@@ -292,56 +262,36 @@ Page({
   },
 
 
-  translateTap: function (e) {
+  checkTap: function (e) {
     let self = this,
-      translate_from = '',
+      selectResult = '',
       chNum = 0;
 
     self.setData({
-      isTranslate: !self.data.isTranslate,
+      isCheck: !self.data.isCheck,
     })
 
-    if (self.data.isTranslate) {
-      self.data.pictures[self.data.TabCur].result.words_result.forEach(element => {
+    if (self.data.isCheck) {
+      self.data.pictures[self.data.TabCur].result.forms[0].body.forEach(element => {
         if (element.boxChoosed) {
-          translate_from += element.words + "\n";
+          selectResult += element.word + "\n";
           chNum++;
         }
       });
 
       if (chNum == 0) {
-        self.data.pictures[self.data.TabCur].result.words_result.forEach(element => {
-          translate_from += element.words + "\n";
+        self.data.pictures[self.data.TabCur].result.forms[0].body.forEach(element => {
+          if(element.word != ''){
+            selectResult += element.word + "\n";
+          }
         });
       }
 
       self.setData({
-        translate_from: translate_from,
+        selectResult: selectResult,
       })
 
     }
-  },
-
-
-  bindFromChange: function (e) {
-    let self = this,
-      translate = self.data.translate;
-
-    translate.from = e.detail.value;
-    this.setData({
-      translate: translate
-    })
-  },
-
-
-  bindToChange: function (e) {
-    let self = this,
-      translate = self.data.translate;
-
-    translate.to = e.detail.value;
-    this.setData({
-      translate: translate,
-    })
   },
 
 
@@ -354,67 +304,4 @@ Page({
 
   },
 
-
-  copyFrom: function (e) {
-    let self = this;
-
-    wx.setClipboardData({
-      data: self.data.translate_from,
-    })
-
-  },
-
-
-  toBlur: function (e) {
-    let self = this;
-
-    self.setData({
-      translate_to: e.detail.value,
-    })
-
-  },
-
-
-  copyTo: function (e) {
-    let self = this;
-
-    wx.setClipboardData({
-      data: self.data.translate_to,
-    })
-
-  },
-
-
-  // 将翻译的数据提交给api
-  translateSubmit: function (e) {
-    let self = this,
-      translate_to = '',
-      from = self.data.translate.slanguage[self.data.translate.from],
-      to = self.data.translate.slanguage[self.data.translate.to],
-      apiPath = 'https://fanyi-api.baidu.com/api/trans/vip/translate',
-      appid = '20200530000479202',
-      salt = '1435660288',
-      password = 'IXbuPnCbYx4OIIDVVnPK',
-      q = encodeURI(self.data.translate_from),
-      sign = utils.md5(appid + self.data.translate_from + salt + password),
-      url = apiPath + '?' + 'q=' + q + '&' + 'from=' + from + '&' + 'to=' + to + '&' + 'appid=' + appid + '&' + 'salt=' + salt + '&' + 'sign=' + sign
-
-    wx.request({
-      url: url,
-      success: res => {
-        console.log(res.data)
-
-        res.data.trans_result.forEach(element => {
-          translate_to += element.dst + '\n';
-        });
-
-        self.setData({
-          translate_to: translate_to,
-        })
-    
-      }
-    })
-  }
-
 })
-

@@ -408,8 +408,6 @@ Page({
 
         wx.hideLoading();
 
-        console.log(result)
-
         wx.navigateTo({
           url: '../result_translate/result_translate',
           success: res => {
@@ -442,10 +440,11 @@ Page({
                 filePath: element.images,
                 encoding: 'base64',
                 success: res => {
+                  let image = encodeURI(res.data)
                   wx.request({
                     url: 'https://aip.baidubce.com/rest/2.0/solution/v1/form_ocr/request' + "?access_token=" + access_token,
                     data: {
-                      image: res.data,
+                      image: image,
                       is_sync: 'true',
                       request_type: 'json',
                     },
@@ -480,17 +479,16 @@ Page({
           },
           fail: res => {
             reject(res)
-          }
+          },
         })
       }).then((result) => {
         wx.hideLoading();
-        console.log(result)
-        // wx.navigateTo({
-        //   url: '../result_scan/result_scan',
-        //   success: res => {
-        //     res.eventChannel.emit('albumnToResult_scan', { pictures: result })
-        //   }
-        // })
+        wx.navigateTo({
+          url: '../result_form/result_form',
+          success: res => {
+            res.eventChannel.emit('albumnToResult_form', { pictures: result })
+          }
+        })
       }).catch((res) => {
         console.log(res);
         wx.showToast({

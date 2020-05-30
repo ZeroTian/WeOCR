@@ -52,7 +52,7 @@ Page({
       })
     }).catch((res) => {
       wx.showToast({
-        title: res,
+        title: '出现了个错误 请重试',
         icon: 'none',
       })
     })
@@ -188,9 +188,9 @@ Page({
 
   extractTap: function (e) {
     let self = this,
-      result = JSON.parse(pictures[self.data.TabCur].result);
-    
-    
+      result = JSON.parse(self.data.pictures[self.data.TabCur].result);
+
+
 
     wx.setClipboardData({
       data: result.result.bank_card_number,

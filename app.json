@@ -13,7 +13,12 @@
     "pages/result_scan/result_scan",
     "pages/result_translate/result_translate",
     "pages/mine/mine",
-    "pages/result_bankInfo/result_bankInfo"
+    "pages/result_bankInfo/result_bankInfo",
+    "pages/feedback/feedback",
+    "pages/User_Download/User_Download",
+    "pages/User_Information/User_Information",
+    "pages/User_Shoucang/User_Shoucang",
+    "pages/result_form/result_form"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -46,7 +51,7 @@
         "selectedIconPath": "./images/tool-selected.png"
       },
       {
-        "pagePath": "pages/mine/mine",
+        "pagePath": "pages/test/test",
         "text": "我的",
         "iconPath": "./images/mine.png",
         "selectedIconPath": "./images/mine-selected.png"

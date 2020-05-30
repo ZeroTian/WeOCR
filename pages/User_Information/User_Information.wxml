@@ -1,0 +1,5 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="content">我的信息</view>
+</cu-custom>
+<!--pages/User_Information/User_Information.wxml-->
+<text>pages/User_Information/User_Information.wxml</text>
