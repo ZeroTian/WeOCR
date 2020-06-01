@@ -108,23 +108,23 @@ page{
 } */
 
 .img-switch-style {
-height: 80rpx;
-width: 80rpx;
-position: absolute;
-bottom: 180rpx;
-right: 80rpx;
-z-index: 100;
-}
-
-.img-style {
-height: 80rpx;
-width: 80rpx;
-position: absolute;
-bottom: 180rpx;
-right: 80rpx;
-opacity: 0;
-z-index: 99;
-}
+  height: 80rpx;
+  width: 80rpx;
+  position: absolute;
+  bottom: 250rpx;
+  right: 100rpx;
+  z-index: 100;
+ }
+  
+ .img-style {
+  height: 80rpx;
+  width: 80rpx;
+  position: absolute;
+  bottom: 250rpx;
+  right: 100rpx;
+  opacity: 0;
+  z-index: 99;
+ }
 
 .gray{
 z-index: -1;

@@ -47,7 +47,7 @@
         </view>
         <image class="icon" src="../../images/down.png" />
         <view class="radius shadow-warp bg-white margin-top">
-            <textarea id="to" class="to" maxlength= "-1"  bindblur="toBlur" ></textarea>
+            <textarea id="to" class="to" maxlength= "-1"  bindblur="toBlur" value="{{translate_to}}" ></textarea>
             <image bindtap="copyTo" src="../../images/copy_T.png" />
         </view>
     </view>

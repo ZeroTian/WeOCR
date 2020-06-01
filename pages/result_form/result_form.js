@@ -35,15 +35,29 @@ Page({
 
     eventChannel.on("albumnToResult_form", data => {
       let pictures = [];
-      data.pictures.forEach(element => {
-        pictures.push({
-          images: element.images,
-          result: JSON.parse(element.result.result.result_data),
-        })
-      });
-      console.log(pictures[0].result)
 
-      setTimeout(() => {
+      let picpromise = new Promise(function (resolve, reject){
+        try{
+          data.pictures.forEach(element => {
+            pictures.push({
+              images: element.images,
+              result: JSON.parse(element.result.result.result_data),
+            })
+          });
+        }
+        catch(error){
+          wx.hideLoading();
+
+          wx.showToast({
+            title: '出现了一点错误, 请重试',
+            icon: 'none',
+          })
+
+          reject(error);
+
+        }
+        resolve(pictures);
+      }).then((pictures) => {
         wx.getImageInfo({
           src: pictures[self.data.TabCur].images,
           success: res => {
@@ -55,12 +69,12 @@ Page({
               img_width: self.data.windowW,
               proportion: proportion,
             })
-
             wx.hideLoading();
-
           },
         })
-      }, 1000);
+      }).catch((error) => {
+        console.log(error);
+      })
     })
 
     wx.showShareMenu({
@@ -281,7 +295,7 @@ Page({
 
       if (chNum == 0) {
         self.data.pictures[self.data.TabCur].result.forms[0].body.forEach(element => {
-          if(element.word != ''){
+          if (element.word != '') {
             selectResult += element.word + "\n";
           }
         });

@@ -1,4 +1,7 @@
 {
-  "usingComponents": {},
-  "navigationBarTitleText": "个人主页"
+  "usingComponents": {
+    "drag": "../../components/drag/drag"
+  },
+  "navigationBarTitleText": "识别结果",
+  "disableScroll": true
 }

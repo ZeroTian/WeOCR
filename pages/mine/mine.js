@@ -10,62 +10,41 @@ Page({
     //判断小程序的API，回调，参数，组件等是否在当前版本可用。
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     isHide: false,
-  },
-  //事件处理函数
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
+    starCount: 0,
+    forksCount: 0,
+    visitTotal: 0,
+    isGitHub: false,
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function() {
+  onLoad: function () {
     var that = this;
-    // 查看是否授权
+    
     wx.getSetting({
-      success: function(res) {
+      success: function (res) {
         if (res.authSetting['scope.userInfo']) {
           wx.getUserInfo({
-            success: function(res) {
+            success: function (res) {
               app.globalData.userInfo = res.userInfo
               that.setData({
                 userInfo: res.userInfo,
               })
-              // 用户已经授权过,不需要显示授权页面,所以不需要改变 isHide 的值
-              // 根据自己的需求有其他操作再补充
-              // 我这里实现的是在用户授权成功后，调用微信的 wx.login 接口，从而获取code
-              wx.login({
-                success: res => {
-                  // 获取到用户的 code 之后：res.code
-                  // console.log("用户的code:" + res.code);
-                  // 可以传给后台，再经过解析获取用户的 openid
-                  // 或者可以直接使用微信的提供的接口直接获取 openid ，方法如下：
-                  // wx.request({
-                  //     // 自行补上自己的 APPID 和 SECRET
-                  //     url: 'https://api.weixin.qq.com/sns/jscode2session?appid=自己的APPID&secret=自己的SECRET&js_code=' + res.code + '&grant_type=authorization_code',
-                  //     success: res => {
-                  //         // 获取到用户的 openid
-                  //         console.log("用户的openid:" + res.data.openid);
-                  //     }
-                  // });
-                }
-              });
             }
           });
         } else {
-          // 用户没有授权
-          // 改变 isHide 的值，显示授权页面
           that.setData({
             isHide: true
           });
         }
       }
     });
+
   },
 
-  bindGetUserInfo: function(e) {
+  bindGetUserInfo: function (e) {
     if (e.detail.userInfo) {
       //用户按了允许授权按钮
       var that = this;
@@ -81,10 +60,10 @@ Page({
       //用户按了拒绝按钮
       wx.showModal({
         title: '警告',
-        content: '您点击了拒绝授权，将无法进入小程序，请授权之后再进入!!!',
+        content: '您拒绝了授权',
         showCancel: false,
         confirmText: '返回授权',
-        success: function(res) {
+        success: function (res) {
           // 用户没有授权成功，不需要改变 isHide 的值
           if (res.confirm) {
             console.log('用户点击了“返回授权”');
@@ -94,58 +73,65 @@ Page({
     }
   },
 
-  /**
-   * 
-   * 用户点击退出登录
-   */
-  // exit:function(e){
-  //   wx.showModal({
-  //     title: '提示',
-  //     content: '是否确认退出',
-  //     success: function (res) {
-  //       if (res.confirm) {
-  //         // console.log('用户点击确定')
-  //         wx.removeStorageSync('student');
-  //         //页面跳转
-  //         wx.redirectTo({
-  //           url: '../login/..',
-  //         })
-  //       } else if (res.cancel) {
-  //         console.log('用户点击取消')
-  //       }
-  //     }
-  //   })
-  // },
-  /**
-   * 用户点击我的信息，跳转页面
-   */
-  toInfo: function () {
-    wx.navigateTo({
-      url: '../User_Information/userInfo'
+  CopyLink: function(e){
+    let self = this;
+
+    let i = 0;
+    numDH();
+    function numDH() {
+      if (i < 20) {
+        setTimeout(function () {
+          self.setData({
+            starCount: i,
+            forksCount: i,
+            visitTotal: i
+          })
+          i++
+          numDH();
+        }, 20)
+      } else {
+        self.setData({
+          starCount: self.coutNum(10),
+          forksCount: self.coutNum(19),
+          visitTotal: self.coutNum(30)
+        })
+      }
+    }
+    
+    if(!self.data.isGitHub){
+      wx.setClipboardData({
+        data: "https://github.com/ZeroTian/WeOCR",
+      })
+    }
+    
+    self.setData({
+      isGitHub: !self.data.isGitHub,
+    })
+
+    
+  },
+
+  coutNum: function (e) {
+    if (e > 1000 && e < 10000) {
+      e = (e / 1000).toFixed(1) + 'k'
+    }
+    if (e > 10000) {
+      e = (e / 10000).toFixed(1) + 'W'
+    }
+    return e
+  },
+
+  statementCopy: function(e){
+    wx.setClipboardData({
+      data: "https://www.color-ui.com/",
     })
   },
-  /**
-   * 用户点击我的下载
-   */
-  toDownload:function(){
-    wx.navigateTo({
-      url: '../User_Download/udl',
-    })
-  },
-  /**
-   * 用户点击我的收藏
-   */
-  toSc:function(){
-    wx.navigateTo({
-      url: '../User_Shoucang/sc',
-    })
-  },
-  /**
-   * 用户手机绑定·
-   */
-  toYj:function(){
-    wx.navigateTo({
-      url: '../yijianfankui/yj',
+
+  showQrcode: function(e){
+    wx.showToast({
+      title: '感谢打赏!',
+      icon: 'none',
     })
   }
+
 })

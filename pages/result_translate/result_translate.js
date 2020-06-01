@@ -387,6 +387,10 @@ Page({
 
   // 将翻译的数据提交给api
   translateSubmit: function (e) {
+    wx.showLoading({
+      title: "正在翻译..."
+    })
+
     let self = this,
       translate_to = '',
       from = self.data.translate.slanguage[self.data.translate.from],
@@ -402,7 +406,8 @@ Page({
     wx.request({
       url: url,
       success: res => {
-        console.log(res.data)
+
+        wx.hideLoading();
 
         res.data.trans_result.forEach(element => {
           translate_to += element.dst + '\n';
@@ -412,6 +417,14 @@ Page({
           translate_to: translate_to,
         })
     
+      },
+      fail: res => {
+        wx.hideLoading();
+        
+        wx.showToast({
+          title: '请求超时, 请检查网络.',
+          icon: 'none',
+        })
       }
     })
   }

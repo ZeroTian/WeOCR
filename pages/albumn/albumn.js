@@ -152,31 +152,6 @@ Page({
           },
         })
       }
-      // else if (active > 2 && id !== '') {
-      //   wx.navigateTo({
-      //     url: "../preImg/preImg",
-      //   // 一个事件的监听器可以随时接听事件是否被调用
-      //   event: {
-      //     // 接收来自preview_img的数据
-      //     preToAlbumn: function (data) {
-      //       console.log(data.feedback);
-      //     },
-
-      //     },
-      //     success: function (res) {
-      //       // 通过eventChannel向被打开页面传送图片
-      //       res.eventChannel.emit('albumnToPre', { pictures: self.data.pictures, id: id, active: self.data.active, })
-      //     },
-      //   })
-      //   let pictures = [];
-      //   self.data.pictures.forEach(element => {
-      //     pictures.push(element.images);
-      //   });
-
-      //   wx.previewImage({
-      //     urls: pictures,
-      //   })
-      // }
     }
   },
 
@@ -371,7 +346,7 @@ Page({
       pictures = [];
 
     if (self.data.active == 0) {
-      let url = 'http://101.37.87.153:8888/scan',
+      let url = 'https://www.universitydog.cn/scan',
         name = 'scan',
         header = {
           "Content-Type": "text/html",
@@ -397,7 +372,7 @@ Page({
       })
 
     } else if (self.data.active == 1) {
-      let url = 'http://101.37.87.153:8888/translatescan',
+      let url = 'https://www.universitydog.cn/translatescan',
         name = 'translatescan',
         header = {
           "Content-Type": "text/html",
@@ -430,6 +405,7 @@ Page({
 
         wx.request({
           url: 'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=tOdCCaGHqBEzp2ojPIfGOvWK&client_secret=3yzHnT8Fw29X0bMyuUa88oNu12k4Dga7',
+          method: 'POST',
           success: res => {
             let access_token = res.data.access_token,
               flag = 0,
@@ -498,7 +474,7 @@ Page({
       })
 
     } else if (self.data.active == 3) {
-      let url = 'http://101.37.87.153:8888/bankcard',
+      let url = 'https://www.universitydog.cn/bankcard',
         name = 'bankcard',
         header = {
           "Content-Type": "text/html",
@@ -569,6 +545,14 @@ Page({
 
     self.drag.init();
 
+  },
+
+
+  none: function (e) {
+    wx.showToast({
+      title: '功能待开发...',
+      icon: 'none',
+    })
   },
 
 

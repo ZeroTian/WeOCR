@@ -6,34 +6,12 @@ Page({
   data: {
     pictures: [],
     isIphoneX: app.globalData.isIphoneX,
-    // 共有多少列
     size: 3,
     listData: [],
     extraNodes: [
-      // {
-      // 	type: "destBefore",
-      // 	dragId: "destBefore0",
-      // 	destKey: 0,
-      // 	slot: "before",
-      // 	fixed: true
-      // },
-      // {
-      // 	type: "destAfter",
-      // 	dragId: "destAfter0",
-      // 	destKey: 0,
-      // 	slot: "after",
-      // 	fixed: true
-      // },
-      // {
-      // 	type: "after",
-      // 	dragId: "plus",
-      // 	slot: "plus",
-      // 	fixed: true
-      // }
     ],
     pageMetaScrollTop: 0,
     scrollTop: 0,
-    // 处于那一个功能
     active: '',
     isPopping: true,
     animPlus: {},
@@ -74,15 +52,12 @@ Page({
       },
     })
 
-    // 持续监听事件 可以获取来自Index的图片地址
     eventChannel.on('chooseImgToMore', function (data) {
 
       if (data.active == -4) {
         let pictures = [];
 
         data.pictures.forEach(element => {
-          // picture是引用类型所以一个更改所有的值都被更改了
-          // 将picture的定义放在循环内部
           let picture = { images: '', isChoose: '', quality: 80, };
           picture.images = element.images;
           picture.isChoose = element.isChoose;
@@ -108,7 +83,6 @@ Page({
   },
 
 
-  // 当点击图片时可以对图片进行操作: 图片的缩放, 图片的裁剪
   onTapImg(e) {
 
     let self = this,
@@ -116,7 +90,6 @@ Page({
       active = self.data.active;
 
     if (!self.data.chooseB) {
-      // 实现图片的剪切或预览
       if (id !== '') {
         let pictures = self.data.pictures;
         wx.navigateTo({
@@ -131,7 +104,6 @@ Page({
             }
           },
           success: function (res) {
-            // 通过eventChannel向被打开页面传送图片
             res.eventChannel.emit('albumnToCropper', { pictures: self.data.pictures, id: id, active: active, })
           },
         })
@@ -329,15 +301,96 @@ Page({
 
     // 当功能为发现素材时
     if (active == -1) {
-      self.data.pictures.forEach(element => {
-        wx.getFileSystemManager().readFile({
-          filePath: element.images,
-          encoding: 'base64',
+      let picpromise = new Promise(function (resolve, reject) {
+        wx.showLoading({
+          title: "正在处理..."
+        })
+
+        wx.request({
+          url: 'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=tOdCCaGHqBEzp2ojPIfGOvWK&client_secret=3yzHnT8Fw29X0bMyuUa88oNu12k4Dga7',
+          method: 'POST',
           success: res => {
-            console.log(res.data)
+            let access_token = res.data.access_token,
+              flag = 0,
+              results = [];
+
+            self.data.pictures.forEach(element => {
+              wx.getFileSystemManager().readFile({
+                filePath: element.images,
+                encoding: 'base64',
+                success: res => {
+                  let image = encodeURI(res.data)
+                  wx.request({
+                    url: 'https://aip.baidubce.com/rest/2.0/image-classify/v2/advanced_general' + "?access_token=" + access_token,
+                    data: {
+                      image: image,
+                    },
+                    header: {
+                      'content-type': 'application/x-www-form-urlencoded'
+                    },
+                    method: 'POST',
+                    success: res => {
+                      flag++;
+
+                      let keyword = '',
+                        request_url = "",
+                        API_KEY = "12867126-c7615fc9c532fe59e7ea7ac27";
+                      if (res.data.result.length > 0) {
+                        keyword = res.data.result[0].keyword;
+                      }
+                      request_url = "https://pixabay.com/api/?key=" + API_KEY + "&q=" + encodeURIComponent(keyword) + "&lang=zh&per_page=21";
+                      wx.request({
+                        url: "https://www.universitydog.cn/find",
+                        data: {
+                          request_url: request_url,
+                        },
+                        success: res => {
+                          results.push({
+                            images: element.images,
+                            result: res.data,
+                            request_url: request_url
+
+                          })
+                          if (flag == self.data.pictures.length) {
+                            resolve(results)
+                          }
+                        },
+                      })
+                    },
+                    fail: res => {
+                      flag++;
+
+                      if (flag == self.data.pictures.length) {
+                        reject(res)
+                      }
+                    }
+                  })
+                },
+                fail: res => {
+                  reject(res)
+                }
+              })
+            });
+          },
+          fail: res => {
+            reject(res)
+          },
+        })
+      }).then((result) => {
+        wx.hideLoading();
+        wx.navigateTo({
+          url: '../result_find/result_find',
+          success: res => {
+            res.eventChannel.emit('albumnToResult_find', { pictures: result })
           }
         })
-      });
+      }).catch((res) => {
+        console.log(res);
+        wx.showToast({
+          title: "出现了一个错误\n请重试",
+          icon: "none"
+        })
+      })
     }
     // 当功能为裁剪图片时不做任何处理直接保存图片到相册
     else if (active == -2) {
@@ -367,7 +420,7 @@ Page({
             icon: 'success',
             duration: 2000
           })
-          
+
           setTimeout(() => {
             wx.navigateBack();
           }, 2000);
@@ -402,15 +455,15 @@ Page({
     }
     // 当功能为pdf导出时
     else if (active == -3) {
-      self.data.pictures.forEach(element => {
-        wx.getFileSystemManager().readFile({
-          filePath: element.images,
-          encoding: 'base64',
-          success: res => {
-            console.log(res.data)
-          }
-        })
-      });
+      // self.data.pictures.forEach(element => {
+      //   wx.getFileSystemManager().readFile({
+      //     filePath: element.images,
+      //     encoding: 'base64',
+      //     success: res => {
+      //       console.log(res.data)
+      //     }
+      //   })
+      // });
     }
     // 当功能为图片压缩时
     else if (active == -4) {
@@ -573,6 +626,10 @@ Page({
 
 
   none: function (e) {
+    wx.showToast({
+      title: '功能待开发...',
+      icon: 'none',
+    })
   },
 
 

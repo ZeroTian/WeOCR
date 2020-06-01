@@ -1,0 +1,29 @@
+.cu-bar.tabbar.bg-white{
+    position: absolute;
+    bottom: 0rpx;
+  }
+  
+  .img{
+    background: rgb(231,235,237);
+  }
+  
+  .box{
+    position: absolute; 
+    border: solid 1px #00be29;
+  }
+  
+  .box.boxChoosed{
+    background: #00be29;
+    opacity: 0.5;
+  }
+  
+  .sorry{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .sorry .content{
+    font-size: 35rpx;
+  }

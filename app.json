@@ -18,7 +18,8 @@
     "pages/User_Download/User_Download",
     "pages/User_Information/User_Information",
     "pages/User_Shoucang/User_Shoucang",
-    "pages/result_form/result_form"
+    "pages/result_form/result_form",
+    "pages/result_find/result_find"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -51,7 +52,7 @@
         "selectedIconPath": "./images/tool-selected.png"
       },
       {
-        "pagePath": "pages/test/test",
+        "pagePath": "pages/mine/mine",
         "text": "我的",
         "iconPath": "./images/mine.png",
         "selectedIconPath": "./images/mine-selected.png"
