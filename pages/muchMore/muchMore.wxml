@@ -40,15 +40,15 @@
 </drag>
 
 <view>
- <image src="../../images/tool_T.png" class="img-switch-style" animation="{{animPlus}}" bindtap="plus"></image>
- <image src="../../images/download_T.png" class="img-style" animation="{{animDownload}}" style="height: 70rpx; width: 70rpx" bindtap="download"></image>
- <image src="../../images/choose_T.png" class="img-style" animation="{{animChoose}}" bindtap="choose"></image>
- <image src="../../images/delete_T.png" class="img-style" animation="{{animDelete}}" bindtap="delete"></image>
- <block wx:if="{{active == -4}}">
- 	<image src="../../images/quality_T.png" class="img-style" animation="{{animInput}}" bindtap="quality"></image>
- </block>
- <block wx:else>
- 	<image src="../../images/ban_T.png" class="img-style" animation="{{animInput}}" bindtap="none"></image>
- </block>
- <image src="../../images/ban_T.png" class="img-style" animation="{{animCloud}}" bindtap="none"></image>
+	<image src="../../images/tool_T.png" class="img-switch-style" animation="{{animPlus}}" bindtap="plus"></image>
+	<image src="../../images/{{active == -4 || active == -2 ? 'download' : 'scan'}}_T.png" class="img-style" animation="{{animDownload}}" style="height: 70rpx; width: 70rpx" bindtap="download"></image>
+	<image src="../../images/choose_T.png" class="img-style" animation="{{animChoose}}" bindtap="choose"></image>
+	<image src="../../images/delete_T.png" class="img-style" animation="{{animDelete}}" bindtap="delete"></image>
+	<block wx:if="{{active == -4}}">
+		<image src="../../images/quality_T.png" class="img-style" animation="{{animInput}}" bindtap="quality"></image>
+	</block>
+	<block wx:else>
+		<image src="../../images/ban_T.png" class="img-style" animation="{{animInput}}" bindtap="none"></image>
+	</block>
+	<image src="../../images/ban_T.png" class="img-style" animation="{{animCloud}}" bindtap="none"></image>
 </view>

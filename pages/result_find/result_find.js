@@ -323,10 +323,17 @@ Page({
       wx.showLoading({
         title: '正在请求...'
       })
-      let url = pictures[self.data.TabCur].request_url + "&page=" + (--page),
+      let request_url = pictures[self.data.TabCur].request_url + "&page=" + (--page),
         listData = []
       wx.request({
-        url: url,
+        url: "https://www.universitydog.cn/find",
+        header: {
+          "content-type": 'application/json'
+        },
+        data: {
+          request_url: request_url,
+        },
+        method: 'GET',
         success: res => {
           res.data.hits.forEach(element => {
             listData.push({ images: element.previewURL })
@@ -368,10 +375,17 @@ Page({
       wx.showLoading({
         title: '正在请求...'
       })
-      let url = pictures[self.data.TabCur].request_url + "&page=" + (++page),
+      let request_url = pictures[self.data.TabCur].request_url + "&page=" + (++page),
         listData = []
       wx.request({
-        url: url,
+        url: "https://www.universitydog.cn/find",
+        header: {
+          "content-type": 'application/json'
+        },
+        data: {
+          request_url: request_url,
+        },
+        method: 'GET',
         success: res => {
           res.data.hits.forEach(element => {
             listData.push({ images: element.previewURL })
@@ -417,7 +431,7 @@ Page({
       canNext: canNext,
     })
     setTimeout(() => {
-      if (isCheck && pictures[TabCur].result.total != 0) {
+      if (isCheck && self.data.pictures[self.data.TabCur].result.total != 0) {
         let drag = self.selectComponent('#drag');
         drag.init();
       }

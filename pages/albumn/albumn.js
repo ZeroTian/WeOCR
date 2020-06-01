@@ -41,34 +41,12 @@ Page({
   data: {
     pictures: [],
     isIphoneX: app.globalData.isIphoneX,
-    // 共有多少列
     size: 3,
     listData: [],
     extraNodes: [
-      // {
-      // 	type: "destBefore",
-      // 	dragId: "destBefore0",
-      // 	destKey: 0,
-      // 	slot: "before",
-      // 	fixed: true
-      // },
-      // {
-      // 	type: "destAfter",
-      // 	dragId: "destAfter0",
-      // 	destKey: 0,
-      // 	slot: "after",
-      // 	fixed: true
-      // },
-      // {
-      // 	type: "after",
-      // 	dragId: "plus",
-      // 	slot: "plus",
-      // 	fixed: true
-      // }
     ],
     pageMetaScrollTop: 0,
     scrollTop: 0,
-    // 处于那一个功能
     active: '',
     isPopping: true,
     animPlus: {},
@@ -472,7 +450,6 @@ Page({
           icon: "none"
         })
       })
-
     } else if (self.data.active == 3) {
       let url = 'https://www.universitydog.cn/bankcard',
         name = 'bankcard',

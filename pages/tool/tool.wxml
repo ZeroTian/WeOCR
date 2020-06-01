@@ -16,6 +16,20 @@
 			<text class="bg-grey" style="width 2rem;"></text>
 		</view>
 	</navigator>
+	<navigator url="/pages/chooseImg/chooseImg?active=-5" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
+
+		<view class="action sub-title">
+			<text class="text-xl text-bold" style="font-size: 30rpx">果蔬识别</text>
+			<text class="bg-grey" style="width 2rem;"></text>
+		</view>
+	</navigator>
+	<navigator url="/pages/chooseImg/chooseImg?active=-6" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
+
+		<view class="action sub-title">
+			<text class="text-xl text-bold" style="font-size: 30rpx">地标识别</text>
+			<text class="bg-grey" style="width 2rem;"></text>
+		</view>
+	</navigator>
 	<navigator url="/pages/chooseImg/chooseImg?active=-2" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
 		<view class="action sub-title">
 			<text class="text-xl text-bold" style="font-size: 30rpx">裁剪图片</text>

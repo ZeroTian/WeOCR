@@ -341,15 +341,18 @@ Page({
                       request_url = "https://pixabay.com/api/?key=" + API_KEY + "&q=" + encodeURIComponent(keyword) + "&lang=zh&per_page=21";
                       wx.request({
                         url: "https://www.universitydog.cn/find",
+                        header: {
+                          "content-type": 'application/json'
+                        },
                         data: {
                           request_url: request_url,
                         },
+                        method: 'GET',
                         success: res => {
                           results.push({
                             images: element.images,
                             result: res.data,
                             request_url: request_url
-
                           })
                           if (flag == self.data.pictures.length) {
                             resolve(results)
@@ -538,6 +541,159 @@ Page({
         })
 
       }
+
+    }
+    // 当功能为识别果蔬时
+    else if (active == -5) {
+      let picpromise = new Promise(function (resolve, reject) {
+        wx.showLoading({
+          title: "正在处理..."
+        })
+
+        wx.request({
+          url: 'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=tOdCCaGHqBEzp2ojPIfGOvWK&client_secret=3yzHnT8Fw29X0bMyuUa88oNu12k4Dga7',
+          method: 'POST',
+          success: res => {
+            let access_token = res.data.access_token,
+              flag = 0,
+              results = [];
+
+            self.data.pictures.forEach(element => {
+              wx.getFileSystemManager().readFile({
+                filePath: element.images,
+                encoding: 'base64',
+                success: res => {
+                  let image = encodeURI(res.data)
+                  wx.request({
+                    url: 'https://aip.baidubce.com/rest/2.0/image-classify/v1/classify/ingredient' + "?access_token=" + access_token,
+                    data: {
+                      image: image,
+                      top_num: 3,
+                    },
+                    header: {
+                      'content-type': 'application/x-www-form-urlencoded'
+                    },
+                    method: 'POST',
+                    success: res => {
+                      flag++;
+                      results.push({
+                        images: element.images,
+                        result: res.data,
+                      })
+                      if (flag == self.data.pictures.length) {
+                        resolve(results)
+                      }
+                    },
+                    fail: res => {
+                      flag++;
+
+                      if (flag == self.data.pictures.length) {
+                        reject(res)
+                      }
+                    }
+                  })
+                },
+                fail: res => {
+                  reject(res)
+                }
+              })
+            });
+          },
+          fail: res => {
+            reject(res)
+          },
+        })
+      }).then((result) => {
+        wx.hideLoading();
+        wx.navigateTo({
+          url: '../result_fav/result_fav',
+          success: res => {
+            res.eventChannel.emit('albumnToResult_fav', { pictures: result })
+          }
+        })
+      }).catch((res) => {
+        console.log(res);
+        wx.showToast({
+          title: "出现了一个错误\n请重试",
+          icon: "none"
+        })
+      })
+    }
+    // 当功能为识别地标时
+    else if(active == -6) {
+      let picpromise = new Promise(function (resolve, reject) {
+        wx.showLoading({
+          title: "正在处理..."
+        })
+
+        wx.request({
+          url: 'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=tOdCCaGHqBEzp2ojPIfGOvWK&client_secret=3yzHnT8Fw29X0bMyuUa88oNu12k4Dga7',
+          method: 'POST',
+          success: res => {
+            let access_token = res.data.access_token,
+              flag = 0,
+              results = [];
+
+            self.data.pictures.forEach(element => {
+              wx.getFileSystemManager().readFile({
+                filePath: element.images,
+                encoding: 'base64',
+                success: res => {
+                  let image = encodeURI(res.data)
+                  wx.request({
+                    url: 'https://aip.baidubce.com/rest/2.0/image-classify/v1/landmark' + "?access_token=" + access_token,
+                    data: {
+                      image: image,
+                    },
+                    header: {
+                      'content-type': 'application/x-www-form-urlencoded'
+                    },
+                    method: 'POST',
+                    success: res => {
+                      flag++;
+                      results.push({
+                        images: element.images,
+                        result: res.data,
+                      })
+                      if (flag == self.data.pictures.length) {
+                        resolve(results)
+                      }
+                    },
+                    fail: res => {
+                      flag++;
+
+                      if (flag == self.data.pictures.length) {
+                        reject(res)
+                      }
+                    }
+                  })
+                },
+                fail: res => {
+                  reject(res)
+                }
+              })
+            });
+          },
+          fail: res => {
+            reject(res)
+          },
+        })
+      }).then((result) => {
+        wx.hideLoading();
+        console.log(result);
+        wx.navigateTo({
+          url: '../result_landmark/result_landmark',
+          success: res => {
+            res.eventChannel.emit('albumnToResult_landmark', { pictures: result })
+          }
+        })
+      }).catch((res) => {
+        console.log(res);
+        wx.showToast({
+          title: "出现了一个错误\n请重试",
+          icon: "none"
+        })
+      })
 
     }
 

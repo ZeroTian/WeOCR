@@ -19,7 +19,9 @@
     "pages/User_Information/User_Information",
     "pages/User_Shoucang/User_Shoucang",
     "pages/result_form/result_form",
-    "pages/result_find/result_find"
+    "pages/result_find/result_find",
+    "pages/result_fav/result_fav",
+    "pages/result_landmark/result_landmark"
   ],
   "window": {
     "backgroundTextStyle": "light",

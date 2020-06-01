@@ -1,0 +1,19 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+    <view slot="content">识别结果</view>
+</cu-custom>
+
+<scroll-view class="output radius shadow-warp bg-white" scroll-x scroll-y scroll-with-animation style="margin: 30rpx 20rpx; height: {{(windowH - 1.3 * CustomBar) - (30 + 30) * windowW / 750}}px">
+    <view class="cu-list menu-avatar" wx:for="{{pictures}}" wx:key="*this">
+        <view class="cu-item">
+            <image class="cu-avatar radius lg" src="{{item.images}}" />
+            <view class="content">
+                <view class="text-blue">
+                    <text class="text-cut">{{item.result.result[0].name}}</text>
+                </view>
+                <view class="text-gray text-sm flex">
+                    <text class="text-cut">可能的果蔬是：{{item.result.result[0].name + '，' + item.result.result[1].name + '，' + item.result.result[2].name}}</text>
+                </view>
+            </view>
+        </view>
+    </view>
+</scroll-view>
