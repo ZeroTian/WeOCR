@@ -9,7 +9,6 @@ Page({
     userInfo: {},
     //判断小程序的API，回调，参数，组件等是否在当前版本可用。
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    isHide: false,
     starCount: 0,
     forksCount: 0,
     visitTotal: 0,
@@ -23,23 +22,26 @@ Page({
   onLoad: function () {
     var that = this;
     
-    wx.getSetting({
-      success: function (res) {
-        if (res.authSetting['scope.userInfo']) {
-          wx.getUserInfo({
-            success: function (res) {
-              app.globalData.userInfo = res.userInfo
-              that.setData({
-                userInfo: res.userInfo,
-              })
-            }
-          });
-        } else {
-          that.setData({
-            isHide: true
-          });
+    that.authorize = that.selectComponent("#authorization");
+    that.authorize.isAuthorize('userInfo', () => {
+      wx.getSetting({
+        success: function (res) {
+          if (res.authSetting['scope.userInfo']) {
+            wx.getUserInfo({
+              success: function (res) {
+                app.globalData.userInfo = res.userInfo
+                that.setData({
+                  userInfo: res.userInfo,
+                })
+              }
+            });
+          } else {
+            that.setData({
+              isHide: true
+            });
+          }
         }
-      }
+      });
     });
 
   },

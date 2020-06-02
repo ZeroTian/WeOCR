@@ -14,6 +14,6 @@
         <text>同意此应用访问你的{{authTxt}}功能</text>
       </view>
     </view>
-    <button class='bottom' open-type="openSetting" bindopensetting="getAuthorizeTool">允许</button>
+    <button class='bottom' open-type="{{scope == 'userInfo' ? 'getUserInfo' : 'openSetting'}}" bindgetuserinfo="getUserInfo" bindopensetting="getAuthorizeTool">允许</button>
   </view>
 </view>

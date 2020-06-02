@@ -27,9 +27,6 @@ Page({
         pictures: pictures,
       })
       wx.hideLoading();
-
-      console.log(pictures)
-
     })
 
     wx.getSystemInfo({

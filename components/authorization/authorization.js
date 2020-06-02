@@ -1,15 +1,16 @@
 
-  // 装载在需要使用的事件里可以提供授权服务
-  // // 获取id为authorization的组件
-  // this.authorize = this.selectComponent("#authorization");
-  // // 在isAuthorize的第一个参数中加入希望获取的权限
-  // this.authorize.isAuthorize('camera', () => {
-  // })
+// 装载在需要使用的事件里可以提供授权服务
+// // 获取id为authorization的组件
+// this.authorize = this.selectComponent("#authorization");
+// // 在isAuthorize的第一个参数中加入希望获取的权限
+// this.authorize.isAuthorize('camera', () => {
+// })
 
 Component({
   /**
    * 组件的属性列表
    */
+
   properties: {
 
   },
@@ -47,6 +48,7 @@ Component({
                 self.setAuthTxt(scope);
                 self.callBack = cb;
                 self.setData({
+                  scope: scope,
                   popShow: true
                 })
               }
@@ -86,7 +88,7 @@ Component({
     },
 
     // 获取权限的按钮事件
-    getAuthorizeTool: function(res) {
+    getAuthorizeTool: function (res) {
       var scope = 'scope.' + this.data.authType;
       if (res.detail.authSetting[scope]) {
         this.setData({
@@ -96,12 +98,18 @@ Component({
       }
     },
 
+    getUserInfo: function(res) {
+        this.setData({
+          popShow: false
+        })
+        return typeof this.callBack == "function" && this.callBack();
+    },
+
     popClose() {
       this.setData({
         popShow: false
       })
-    }
-
+    },
 
   }
 })

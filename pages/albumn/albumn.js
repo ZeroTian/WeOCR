@@ -230,6 +230,7 @@ Page({
 
   //弹出动画
   popp: function () {
+    let self = this;
     //plus顺时针旋转
     var animationPlus = wx.createAnimation({
       duration: 400,
@@ -257,11 +258,11 @@ Page({
     })
 
     animationPlus.rotateZ(180).step();
-    animationScan.translate(15, -60).rotateZ(180).opacity(1).step();
-    animationChoose.translate(-37.5, -45).rotateZ(180).opacity(1).step();
-    animationDelete.translate(-63, 0).rotateZ(180).opacity(1).step();
-    animationInput.translate(-37.5, 45).rotateZ(180).opacity(1).step();
-    animationCloud.translate(15, 60).rotateZ(180).opacity(1).step();
+    animationScan.translate(30 * self.data.windowW / 750, -120 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
+    animationChoose.translate(-75 * self.data.windowW / 750, -90 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
+    animationDelete.translate(-126 * self.data.windowW / 750, 0).rotateZ(180).opacity(1).step();
+    animationInput.translate(-75 * self.data.windowW / 750, 90 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
+    animationCloud.translate(30 * self.data.windowW / 750, 120 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
     this.setData({
       animPlus: animationPlus.export(),
       animScan: animationScan.export(),

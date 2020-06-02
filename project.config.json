@@ -1,5 +1,6 @@
 {
-	"cloudfunctionRoot": "cloudfunctions/",
+	"cloudfunctionRoot": "cloud/cloudfunctions/",
+	"miniprogramRoot": "/",
 	"setting": {
 		"urlCheck": true,
 		"es6": true,
@@ -13,7 +14,7 @@
 		"showShadowRootInWxmlPanel": true,
 		"scopeDataCheck": false,
 		"checkInvalidKey": true,
-		"checkSiteMap": true,
+		"checkSiteMap": false,
 		"uploadWithSourceMap": true,
 		"babelSetting": {
 			"ignore": [],

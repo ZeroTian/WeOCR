@@ -56,11 +56,6 @@
   border-radius: 50%;
   margin-bottom: 32rpx;
 }
-.box .pop .center .duoduo image{
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-}
 .box .pop .center .explain{
   font-size: 32rpx;
   width: 520rpx;

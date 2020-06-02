@@ -17,12 +17,14 @@ page{
 
 .photo-choose-group button{
     width: 600rpx;
+    height: 104rpx;
     display: flex;
     flex-direction: row;
     justify-content: center;
     margin-top: 30rpx;
     font: bolder;
     background: #FFFFFF;
+    font-size: 36rpx;
 }
 
 .other{

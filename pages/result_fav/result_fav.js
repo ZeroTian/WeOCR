@@ -28,8 +28,6 @@ Page({
       })
       wx.hideLoading();
 
-      console.log(pictures)
-
     })
 
     wx.getSystemInfo({

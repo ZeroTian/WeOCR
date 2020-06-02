@@ -1,4 +1,5 @@
 Component({
+  
   properties: {
     /**     
      * 图片路径
@@ -573,8 +574,8 @@ Component({
         timingFunction: 'ease-out'
       })
       animationPlus.rotateZ(180).step();
-      animationCut.translate(-45, 0).rotateZ(180).opacity(1).step();
-      animationGray.translate(-100, 0).rotateZ(180).opacity(1).step();
+      animationCut.translate(-90 * this.data.info.windowWidth / 750, 0).rotateZ(180).opacity(1).step();
+      animationGray.translate(-200 * this.data.info.windowWidth / 750, 0).rotateZ(180).opacity(1).step();
       this.setData({
         animPlus: animationPlus.export(),
         animCut: animationCut.export(),

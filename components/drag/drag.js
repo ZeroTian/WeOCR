@@ -37,7 +37,7 @@ const compareVersion = (v1, v2) => {
 
 Component({
 	options: {
-		multipleSlots: true
+		multipleSlots: true,
 	},
 	properties: {
 		extraNodes: { type: Array, value: null },                  // 额外节点

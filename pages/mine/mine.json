@@ -1,4 +1,6 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "auth": "../../components/authorization/authorization"
+  },
   "navigationBarTitleText": "个人主页"
 }

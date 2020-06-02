@@ -52,7 +52,6 @@ let touchStartY = 0;
 
 Component({
 
-
   /**
    * 组件的初始数据
    */

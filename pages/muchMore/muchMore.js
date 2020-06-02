@@ -2,7 +2,6 @@ const app = getApp()
 
 Page({
 
-
   data: {
     pictures: [],
     isIphoneX: app.globalData.isIphoneX,
@@ -233,11 +232,11 @@ Page({
     })
 
     animationPlus.rotateZ(180).step();
-    animationDownload.translate(15, -60).rotateZ(180).opacity(1).step();
-    animationChoose.translate(-37.5, -45).rotateZ(180).opacity(1).step();
-    animationDelete.translate(-63, 0).rotateZ(180).opacity(1).step();
-    animationInput.translate(-37.5, 45).rotateZ(180).opacity(1).step();
-    animationCloud.translate(15, 60).rotateZ(180).opacity(1).step();
+    animationDownload.translate(30 * self.data.windowW / 750, -120 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
+    animationChoose.translate(-75 * self.data.windowW / 750, -90 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
+    animationDelete.translate(-126 * self.data.windowW / 750, 0).rotateZ(180).opacity(1).step();
+    animationInput.translate(-75 * self.data.windowW / 750, 90 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
+    animationCloud.translate(30 * self.data.windowW / 750, 120 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
     this.setData({
       animPlus: animationPlus.export(),
       animDownload: animationDownload.export(),
@@ -395,7 +394,7 @@ Page({
         })
       })
     }
-    // 当功能为裁剪图片时不做任何处理直接保存图片到相册
+    
     else if (active == -2) {
       let pictures = self.data.pictures;
 
@@ -680,7 +679,6 @@ Page({
         })
       }).then((result) => {
         wx.hideLoading();
-        console.log(result);
         wx.navigateTo({
           url: '../result_landmark/result_landmark',
           success: res => {
