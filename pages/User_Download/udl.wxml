@@ -12,15 +12,12 @@
   <!-- 完成 -->
   <swiper-item>
     <scroll-view class="hot-box" scroll-y="true">
-      <view  class="orderDetails" wx:for="{{alreadyOrder}}" wx:key=" ">
+      <view  class="orderDetails" wx:for="{{alreadyOrder}}" wx:key="*this">
         <view class="orderListTitle">
           <text class="userName">{{item.name}}</text>
           <text class="orderStatus">{{item.state}}</text>
         </view>
         <view class="orderListDetails">
-          <view class="productImg">
-            <image src="{{item.url}}" background-size="cover"></image>
-          </view>
           <view class="productInfo">
             <view class="productTitle">开始时间: {{item.time}}</view>
             <text class="productPrice">当前内存占用：{{item.status}}</text>
@@ -37,15 +34,12 @@
   <!-- 未下载 -->
   <swiper-item>
     <scroll-view class="hot-box" scroll-y="true">
-      <view class="orderDetails" wx:for="{{waitPayOrder}}" wx:key=" ">
+      <view class="orderDetails" wx:for="{{waitPayOrder}}" wx:key="*this">
         <view class="orderListTitle">
            <text class="userName">{{item.name}}</text>
           <text class="orderStatus">{{item.state}}</text>
         </view>
         <view class="orderListDetails">
-          <view class="productImg">
-            <image src="{{item.url}}" background-size="cover"></image>
-          </view>
           <view class="productInfo">
             <view class="productTitle">开始时间: {{item.time}}</view>
             <text class="productPrice">当前内存占用：{{item.status}}</text>
@@ -62,15 +56,12 @@
   <!-- 取消 -->
   <swiper-item>
     <scroll-view class="hot-box" scroll-y="true">
-      <view class="orderDetails" wx:for="{{lostOrder}}" wx:key=" ">
+      <view class="orderDetails" wx:for="{{lostOrder}}" wx:key="*this">
         <view class="orderListTitle">
          <text class="userName">{{item.name}}</text>
           <text class="orderStatus">{{item.state}}</text>
         </view>
         <view class="orderListDetails">
-          <view class="productImg">
-            <image src="{{item.url}}" background-size="cover"></image>
-          </view>
           <view class="productInfo">
             <view class="productTitle">开始时间: {{item.time}}</view>
             <text class="productPrice">当前内存占用：{{item.status}}</text>

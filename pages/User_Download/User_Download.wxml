@@ -1,5 +1,0 @@
-<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
-  <view slot="content">我的下载</view>
-</cu-custom>
-<!--pages/User_Download/User_Download.wxml-->
-<text>pages/User_Download/User_Download.wxml</text>

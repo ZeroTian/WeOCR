@@ -5,3 +5,9 @@ page{
     background: 231,235,237;
     padding: 0rpx;
 } */
+
+
+textarea{
+    margin: 15rpx;
+    overflow: hidden;
+}

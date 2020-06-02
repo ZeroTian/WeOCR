@@ -15,13 +15,15 @@
     "pages/mine/mine",
     "pages/result_bankInfo/result_bankInfo",
     "pages/feedback/feedback",
-    "pages/User_Download/User_Download",
-    "pages/User_Information/User_Information",
-    "pages/User_Shoucang/User_Shoucang",
+    "pages/User_Download/udl",
+    "pages/User_Information/userInfo",
+    "pages/User_Shoucang/sc",
     "pages/result_form/result_form",
     "pages/result_find/result_find",
     "pages/result_fav/result_fav",
-    "pages/result_landmark/result_landmark"
+    "pages/result_landmark/result_landmark",
+    "pages/tran/tran",
+    "pages/about/about"
   ],
   "window": {
     "backgroundTextStyle": "light",

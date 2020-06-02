@@ -61,8 +61,8 @@ page{
 .img image{
     width: 40rpx;
     height: 40rpx;
-    margin-right: 15rpx;
-    margin-top: 28rpx;
+    margin-right: 20rpx;
+    margin-top: 30rpx;
 }
 
 .other{

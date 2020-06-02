@@ -1,0 +1,5 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+	<view slot="content">关于我们</view>
+</cu-custom>
+
+<view class="text-gray" style="font-size: 40rpx; margin: 40rpx">正在搭建中......</view>

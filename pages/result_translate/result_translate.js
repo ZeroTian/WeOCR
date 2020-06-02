@@ -2,22 +2,7 @@ const app = getApp();
 
 const utils = require('../../utils.js');
 
-function uz() {
-  var v = $("txt1").value;
-  var r = v.match(/\\u[0-9a-fA-F]{4}/g);
-  if (r == null) {
-    $("txt2").value = v;
-    return false;
-  }
-  for (var i = 0; i < r.length; i++) {
-    v = v.replace(r[i], unescape(r[i].replace("\\u", "%u")));
-  }
-  $("txt2").value = v;
-}
-
 Page({
-
-
   data: {
     pictures: '',
     TabCur: 0,
@@ -29,9 +14,9 @@ Page({
     stv: {
       offsetX: 0,
       offsetY: 0,
-      zoom: false, //是否缩放状态
-      distance: 0,  //两指距离
-      scale: 1,  //缩放倍数
+      zoom: false, 
+      distance: 0,  
+      scale: 1,  
     },
     img_width: '',
     img_height: '',

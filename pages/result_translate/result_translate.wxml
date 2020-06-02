@@ -3,8 +3,6 @@
 </cu-custom>
 
 
-<!-- <view class="result" style="height: {{windowH}}px; width: {{windowW}}px;"> -->
-
 <scroll-view scroll-x class="bg-white nav radius shadow-warp" scroll-with-animation scroll-left="{{scrollLeft}}" style="height: 90rpx;">
     <view class="cu-item {{index==TabCur?'text-green cur':''}}" wx:for="{{pictures}}" wx:key="*this" bindtap="tabSelect" data-id="{{index}}">
         Item{{index}}
@@ -82,5 +80,3 @@
         <view class="text-{{isTranslate ? 'blue' : 'gray'}}">翻译</view>
     </view>
 </view>
-    
-<!-- </view> -->

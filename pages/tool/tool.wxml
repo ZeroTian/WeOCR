@@ -17,16 +17,20 @@
 		</view>
 	</navigator>
 	<navigator url="/pages/chooseImg/chooseImg?active=-5" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
-
 		<view class="action sub-title">
 			<text class="text-xl text-bold" style="font-size: 30rpx">果蔬识别</text>
 			<text class="bg-grey" style="width 2rem;"></text>
 		</view>
 	</navigator>
 	<navigator url="/pages/chooseImg/chooseImg?active=-6" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
-
 		<view class="action sub-title">
 			<text class="text-xl text-bold" style="font-size: 30rpx">地标识别</text>
+			<text class="bg-grey" style="width 2rem;"></text>
+		</view>
+	</navigator>
+	<navigator url="/pages/tran/tran" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
+		<view class="action sub-title">
+			<text class="text-xl text-bold" style="font-size: 30rpx">文本翻译</text>
 			<text class="bg-grey" style="width 2rem;"></text>
 		</view>
 	</navigator>
@@ -43,7 +47,6 @@
 		</view>
 	</navigator> -->
 	<navigator url="/pages/chooseImg/chooseImg?active=-4" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
-
 		<view class="action sub-title">
 			<text class="text-xl text-bold" style="font-size: 30rpx">图片压缩</text>
 			<text class="bg-grey" style="width 2rem;"></text>
@@ -59,7 +62,7 @@
 			<image src="../../images/index-list.png"></image>
 		</view>
 	</view>
-	<navigator url="/pages/index-list/index" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
+	<navigator url="/pages/about/about" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
 		<view class="action sub-title">
 			<text class="text-xl text-bold" style="font-size: 30rpx">关于我们</text>
 			<text class="bg-grey" style="width 2rem;"></text>

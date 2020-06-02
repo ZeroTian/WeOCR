@@ -1,5 +1,0 @@
-<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
-  <view slot="content">我的收藏</view>
-</cu-custom>
-<!--pages/User_Shoucang/User_Shoucang.wxml-->
-<text>pages/User_Shoucang/User_Shoucang.wxml</text>
