@@ -1,6 +1,0 @@
-{
-  "usingComponents": {
-    "cropper":"/components/shear/shear"
-  },
-  "disableScroll": true
-}

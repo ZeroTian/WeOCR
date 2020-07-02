@@ -3,7 +3,7 @@ Page({
 
 
   data: {
-
+    content:'小工具'
   },
 
 

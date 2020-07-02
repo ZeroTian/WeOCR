@@ -1,3 +1,5 @@
+@import "/templates/chooseImg/chooseImg.wxss";
+
 page{
     background: #f4f4f4;
     padding: 0rpx;
@@ -13,31 +15,6 @@ page{
     margin-right: 10rpx;
     margin-top: 25rpx;
 }
-
-
-.photo-choose-group button{
-    width: 600rpx;
-    height: 104rpx;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin-top: 30rpx;
-    font: bolder;
-    background: #FFFFFF;
-    font-size: 36rpx;
-}
-
-.other{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-image[class*="gif-"] {
-    border-radius: 6rpx;
-    display: block;
-  }
 
 .gif{
   z-index: -1;

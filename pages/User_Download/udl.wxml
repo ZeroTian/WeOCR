@@ -1,6 +1,7 @@
-<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
-  <view slot="content">我的下载</view>
-</cu-custom>
+<import src="/templates/header/header.wxml"/>
+
+<template is="second" data="{{content}}"/>
+
 <!-- 切换栏 -->
 <view class="swiper-tab">
   <block wx:for="{{swipertab}}" wx:key="sptab">

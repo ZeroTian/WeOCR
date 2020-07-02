@@ -5,6 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    content: '我的下载',
     currtab: 0,
     swipertab: [{ name: '已完成', index: 0 }, { name: '未下载', index: 1 }, { name: '已取消', index: 2 }],
   },

@@ -1,6 +1,6 @@
-<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
-	<view slot="content">图册</view>
-</cu-custom>
+<import src="/templates/header/header.wxml"/>
+
+<template is="second" data="{{content}}"/>
 
 
 <drag id="drag"
@@ -17,24 +17,8 @@
 			top-size="110"
 			bottom-size="{{isIphoneX ? 380 : 300 }}"
 			choose-b="{{chooseB}}">
-	<!-- 额外节点 -->
-	<!-- <view slot="before" class="extra">
-		 第0个元素之前插入该元素, 该元素不参与排序
-	</view>
-	<view slot="after" class="extra">
-		第0个元素之后插入该元素, 该元素不参与排序
-	</view> -->
-	<!-- <view slot="plus" class="plus-wrap" bindtap="add">
-		<view class="plus"></view>
-	</view> -->
 </drag>
 
-<!-- 原界面 -->
-<!-- <view class="img">
-    <view class="thumb-img" wx:for="{{pictures}}" wx:key="*this">
-        <image class="thumb" src="{{item}}" data-id="{{index}}" mode="aspectFill" bindtap="onTapImg"/>
-    </view>
-</view> -->
 <view>
  <image src="../../images/tool_T.png" class="img-switch-style" animation="{{animPlus}}" bindtap="plus"></image>
  <image src="../../images/scan_T.png" class="img-style" animation="{{animScan}}" style="height: 60rpx; width: 60rpx" bindtap="scan"></image>
@@ -43,10 +27,3 @@
  <image src="../../images/ban_T.png" class="img-style" animation="{{animInput}}" bindtap="none"></image>
  <image src="../../images/ban_T.png" class="img-style" animation="{{animCloud}}" bindtap="none"></image>
 </view>
-
-
-
-<!-- <view style='position: fixed; top: 9999rpx;'>
-	<canvas class="gray" canvas-id="gray" style="height: {{img_h}}px; width: {{img_w}}px;"/>
-	<canvas class="gray" canvas-id="grayOut" style="height: {{img_h}}px; width: {{img_w}}px;"/>
-</view> -->

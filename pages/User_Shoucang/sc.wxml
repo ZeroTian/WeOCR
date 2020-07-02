@@ -1,6 +1,7 @@
-<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
-  <view slot="content">我的收藏</view>
-</cu-custom>
+<import src="/templates/header/header.wxml"/>
+
+<template is="second" data="{{content}}"/>
+
 <swiper current="{{currtab}}" class="swiper-box" duration="300" style="height:{{deviceH-31}}px" bindchange="tabChange">
   <!-- 我的收藏 -->
   <swiper-item>

@@ -39,6 +39,7 @@ Page({
 
 
   data: {
+    content:'图册',
     pictures: [],
     isIphoneX: app.globalData.isIphoneX,
     size: 3,
@@ -79,8 +80,8 @@ Page({
         const windowHeight = res.windowHeight,
           windowWidth = res.windowWidth;
         self.setData({
-          windowH: windowHeight * 2,
-          windowW: windowWidth * 2,
+          windowH: windowHeight,
+          windowW: windowWidth,
         })
       },
     })
@@ -258,11 +259,11 @@ Page({
     })
 
     animationPlus.rotateZ(180).step();
-    animationScan.translate(30 * self.data.windowW / 750, -120 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
-    animationChoose.translate(-75 * self.data.windowW / 750, -90 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
-    animationDelete.translate(-126 * self.data.windowW / 750, 0).rotateZ(180).opacity(1).step();
-    animationInput.translate(-75 * self.data.windowW / 750, 90 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
-    animationCloud.translate(30 * self.data.windowW / 750, 120 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
+    animationScan.translate(40 * self.data.windowW / 750, -160 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
+    animationChoose.translate(-100 * self.data.windowW / 750, -120 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
+    animationDelete.translate(-168 * self.data.windowW / 750, 0).rotateZ(180).opacity(1).step();
+    animationInput.translate(-100 * self.data.windowW / 750, 120 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
+    animationCloud.translate(40 * self.data.windowW / 750, 160 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
     this.setData({
       animPlus: animationPlus.export(),
       animScan: animationScan.export(),
@@ -337,7 +338,7 @@ Page({
         wx.hideLoading();
 
         wx.navigateTo({
-          url: '../result_scan/result_scan',
+          url: '../result/result_scan/result_scan',
           success: res => {
             res.eventChannel.emit('albumnToResult_scan', { pictures: result })
           }
@@ -363,7 +364,7 @@ Page({
         wx.hideLoading();
 
         wx.navigateTo({
-          url: '../result_translate/result_translate',
+          url: '../result/result_translate/result_translate',
           success: res => {
             res.eventChannel.emit('albumnToResult_translate', { pictures: result })
           }
@@ -439,7 +440,7 @@ Page({
       }).then((result) => {
         wx.hideLoading();
         wx.navigateTo({
-          url: '../result_form/result_form',
+          url: '../result/result_form/result_form',
           success: res => {
             res.eventChannel.emit('albumnToResult_form', { pictures: result })
           }
@@ -464,7 +465,7 @@ Page({
         wx.hideLoading();
 
         wx.navigateTo({
-          url: '../result_bankInfo/result_bankInfo',
+          url: '../result/result_bankInfo/result_bankInfo',
           success: res => {
             res.eventChannel.emit('albumnToResult_bankInfo', { pictures: result })
           }

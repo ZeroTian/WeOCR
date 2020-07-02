@@ -1,6 +1,7 @@
-<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
-	<view slot="content">图册</view>
-</cu-custom>
+<import src="/templates/header/header.wxml"/>
+
+<template is="second" data="{{content}}"/>
+
 
 <auth id="authorization"></auth>
 

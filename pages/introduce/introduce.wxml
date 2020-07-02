@@ -1,0 +1,5 @@
+<import src="/templates/header/header.wxml"/>
+
+<template is="second" data="{{content}}"/>
+
+<rich-text nodes="{{articles}}"></rich-text>

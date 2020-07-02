@@ -1,6 +1,6 @@
-<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
-  <view slot="content">我的信息</view>
-</cu-custom>
+<import src="/templates/header/header.wxml"/>
+
+<template is="second" data="{{content}}"/>
 <!--pages/User_Information/userInfo.wxml-->
 <!--pages/myinfo/myinfo.wxml-->
 <!-- <text>pages/myinfo/myinfo.wxml</text> -->

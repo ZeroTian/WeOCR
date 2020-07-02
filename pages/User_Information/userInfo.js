@@ -7,7 +7,8 @@ Page({
     // onPullDownRefresh: function () {
     //   wx.stopPullDownRefresh()
     // },
-    myinfo:null
+    content: '我的信息',
+    myinfo: null,
   
   },
  

@@ -1,13 +1,8 @@
-//获取应用实例
 const app = getApp()
 
 Page({
-
-
-  /**
-   * 页面的初始数据
-   */
   data: {
+    content: 'Multi OCR',
     fun: [{
       id: 0,
       name: "扫描",
@@ -42,7 +37,6 @@ Page({
     },
     ],
 
-
     active: 0,
 
   },
@@ -59,32 +53,8 @@ Page({
       withShareTicket: true
     })
 
-    // fun.forEach(element => {
-    //   fileList.push(element.fileID);
-    // });
-
-    // wx.cloud.getTempFileURL({
-    //   fileList: fileList,
-    //   success: function (res) {
-    //     fileList = res.fileList;
-    //     fileList.forEach(element => {
-    //       tempFileURL.push(element.tempFileURL)
-    //     });
-
-    //     for (var i = 0; i < tempFileURL.length; i++) {
-    //       fun[i].img_src = tempFileURL[i];
-    //     }
-
-    //     self.setData({
-    //       fun: fun,
-    //     })
-    //   }
-    // })
-
   },
 
-
-  // 上方功能选择框的滑动
   onNavbarTap: function (e) {
     var id = e.currentTarget.dataset.id;
     this.setData({
@@ -92,25 +62,20 @@ Page({
     })
   },
 
-  // 图片的选择事件
   onChooseImageAlbumn: function (e) {
     let self = this;
 
     wx.chooseImage({
-      count: 100,
+      count: 4,
       sourceType: ['album'],
 
       success: res => {
-        // tempFilePath可以作为img标签的src属性显示图片
         let tempFilePaths = res.tempFilePaths,
           pictures = [];
 
-        // 导向照片集合页面
         wx.navigateTo({
           url: "../albumn/albumn",
-          // 一个事件的监听器可以随时接听事件是否被调用
           event: {
-            // 接收来自Albumn的数据
             albumnToIndex: function (data) {
               console.log(data.feedback);
             },
@@ -123,7 +88,6 @@ Page({
                 isChoose: '',
               })
             });
-            // 通过eventChannel向被打开页面传送图片
             res.eventChannel.emit('indexToAlbumn', {
               pictures: pictures,
               active: self.data.active
@@ -140,12 +104,10 @@ Page({
     let self = this;
 
     wx.chooseMessageFile({
-      count: 100,
+      count: 4,
       type: 'image',
 
       success: res => {
-        // tempFilePath可以作为img标签的src属性显示图片
-        let self = this,
           tempFiles = res.tempFiles,
           tempFilePaths = [],
           pictures = [];
@@ -154,12 +116,9 @@ Page({
           tempFilePaths.push(element.path);
         });
 
-        // 导向照片集合页面
         wx.navigateTo({
           url: "../albumn/albumn",
-          // 一个事件的监听器可以随时接听事件是否被调用
           event: {
-            // 接收来自Albumn的数据
             albumnToIndex: function (data) {
               console.log(data.feedback);
             },
@@ -171,7 +130,6 @@ Page({
                 images: element
               })
             });
-            // 通过eventChannel向被打开页面传送图片
             res.eventChannel.emit('indexToAlbumn', {
               pictures: pictures,
               active: self.data.active
@@ -188,20 +146,16 @@ Page({
     let self = this;
 
     wx.chooseImage({
-      count: 100,
+      count: 4,
       sourceType: ['camera'],
 
       success: res => {
-        // tempFilePath可以作为img标签的src属性显示图片
         let tempFilePaths = res.tempFilePaths,
           pictures = [];
 
-        // 导向照片集合页面
         wx.navigateTo({
           url: "../albumn/albumn",
-          // 一个事件的监听器可以随时接听事件是否被调用
           event: {
-            // 接收来自Albumn的数据
             albumnToIndex: function (data) {
               console.log(data.feedback);
             },
@@ -213,7 +167,6 @@ Page({
                 images: element
               })
             });
-            // 通过eventChannel向被打开页面传送图片
             res.eventChannel.emit('indexToAlbumn', {
               pictures: pictures,
               active: self.data.active

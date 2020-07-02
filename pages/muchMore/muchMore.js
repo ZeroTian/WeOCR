@@ -3,6 +3,7 @@ const app = getApp()
 Page({
 
   data: {
+    content: '图册',
     pictures: [],
     isIphoneX: app.globalData.isIphoneX,
     size: 3,
@@ -45,8 +46,8 @@ Page({
         const windowHeight = res.windowHeight,
           windowWidth = res.windowWidth;
         self.setData({
-          windowH: windowHeight * 2,
-          windowW: windowWidth * 2,
+          windowH: windowHeight,
+          windowW: windowWidth,
         })
       },
     })
@@ -232,11 +233,11 @@ Page({
     })
 
     animationPlus.rotateZ(180).step();
-    animationDownload.translate(30 * self.data.windowW / 750, -120 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
-    animationChoose.translate(-75 * self.data.windowW / 750, -90 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
-    animationDelete.translate(-126 * self.data.windowW / 750, 0).rotateZ(180).opacity(1).step();
-    animationInput.translate(-75 * self.data.windowW / 750, 90 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
-    animationCloud.translate(30 * self.data.windowW / 750, 120 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
+    animationDownload.translate(40 * this.data.windowW / 750, -160 * this.data.windowW / 750).rotateZ(180).opacity(1).step();
+    animationChoose.translate(-100 * this.data.windowW / 750, -120 * this.data.windowW / 750).rotateZ(180).opacity(1).step();
+    animationDelete.translate(-168 * this.data.windowW / 750, 0).rotateZ(180).opacity(1).step();
+    animationInput.translate(-100 * this.data.windowW / 750, 120 * this.data.windowW / 750).rotateZ(180).opacity(1).step();
+    animationCloud.translate(40 * this.data.windowW / 750, 160 * this.data.windowW / 750).rotateZ(180).opacity(1).step();
     this.setData({
       animPlus: animationPlus.export(),
       animDownload: animationDownload.export(),
@@ -381,7 +382,7 @@ Page({
       }).then((result) => {
         wx.hideLoading();
         wx.navigateTo({
-          url: '../result_find/result_find',
+          url: '../result/result_find/result_find',
           success: res => {
             res.eventChannel.emit('albumnToResult_find', { pictures: result })
           }
@@ -605,7 +606,7 @@ Page({
       }).then((result) => {
         wx.hideLoading();
         wx.navigateTo({
-          url: '../result_fav/result_fav',
+          url: '../result/result_fav/result_fav',
           success: res => {
             res.eventChannel.emit('albumnToResult_fav', { pictures: result })
           }
@@ -680,7 +681,7 @@ Page({
       }).then((result) => {
         wx.hideLoading();
         wx.navigateTo({
-          url: '../result_landmark/result_landmark',
+          url: '../result/result_landmark/result_landmark',
           success: res => {
             res.eventChannel.emit('albumnToResult_landmark', { pictures: result })
           }

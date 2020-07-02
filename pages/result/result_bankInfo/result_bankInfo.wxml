@@ -1,0 +1,45 @@
+<import src="/templates/header/header.wxml"/>
+<import src="/templates/result/result.wxml"/>
+
+<template is="fourth"/>
+<template is="bar" data="{{TabCur, pictures}}"/>
+
+
+<view class="output" style="height: {{isCheck ? (windowH - ((100 + 90) * windowW / 750) - 1.3 * CustomBar) / 2 : (windowH - ((100 + 90) * windowW / 750) - 1.3 * CustomBar)}}px">
+    <view class="radius shadow-warp bg-white margin-top">
+        <textarea id="from" class="from" maxlength= "-1" bindblur="fromBlur" value="{{bank_info}}" style="font-size: 36rpx" ></textarea>
+        <image bindtap="copyFrom" src="/images/copy_T.png" />
+    </view>
+</view>
+
+
+<scroll-view class="img" wx:if="{{isCheck}}"
+    bindtouchstart="touchstartCallback"  
+    bindtouchmove="touchmoveCallback" 
+    bindtouchend="touchendCallback"  
+    scroll-x scroll-y scroll-with-animation 
+    style="height: {{(windowH - ((100 + 90) * windowW / 750) - 1.3 * CustomBar) / 2}}px">
+    <image style="zoom:{{stv.scale}}; width: {{img_width}}px; height: {{img_height}}px" src="{{pictures[TabCur].images}}"></image>
+</scroll-view>
+
+
+<view class="cu-bar tabbar bg-white" style="width: {{windowW}}px; height: {{(100 *  windowW / 750) + CustomBar * 0.3}}px;">
+    <view class="action" bindtap="indexTap">
+        <view class="cuIcon-cu-image">
+            <image src="/images/home.png"></image>
+        </view>
+        <view style="color: '#303030'">首页</view>
+    </view>
+    <view class="action" bindtap="extractTap">
+        <view class="cuIcon-cu-image">
+            <image src="/images/extract.png"></image>
+        </view>
+        <view style="color: #303030">提取卡号</view>
+    </view>
+    <view class="action" bindtap="checkTap">
+        <view class="cuIcon-cu-image">
+            <image src="/images/check{{isCheck ? '_selected' : ''}}.png"></image>
+        </view>
+        <view class="text-{{isCheck ? 'blue' : 'gray'}}">检查</view>
+    </view>
+</view>

@@ -1,8 +1,7 @@
-<cu-custom bgColor="bg-gradual-blue" isBack="{{false}}">
-	<view slot="content">WeOCR</view>
-</cu-custom>
+<import src="/templates/header/header.wxml"/>
+<import src="/templates/chooseImg/chooseImg.wxml"/>
 
-<!-- <auth id="authorization"></auth> -->
+<template is="first" data="{{content}}"/>
 
 <view class="navbar">
     <swiper class="slider" display-multiple-items="2" current="{{active}}" circular="{{true}}">
@@ -12,43 +11,8 @@
     </swiper>
 </view>
 
-<!-- 功能模块的展示图片的显示 -->
 <view class="display">
     <image src="{{fun[active].fileID}}" mode="scaleToFill" />
 </view>
 
-<view class="photo-choose-group">
-    <view class="album">
-        <button bindtap="onChooseImageAlbumn" style="background-image: linear-gradient(45deg, #0081ff, #1cbbb4);">
-            <view class="img">
-                <image src="../../images/album_w.png" />
-            </view>
-            <view class="text" style="color: #FFFFFF">相册中选图</view>
-        </button>
-    </view>
-    <view class="weChat">
-        <button bindtap="onChooseWeChatAlbumn" style="background-image: linear-gradient(45deg, #39b54a, #8dc63f);">
-            <view class="img">
-                <image src="../../images/wechat_w.png" />
-            </view>
-            <view class="text" style="color: #FFFFFF">微信中选图</view>
-        </button>
-    </view>
-    <view class="camera">
-        <button bindtap="onChooseCameraAlbumn" >
-            <view class="img">
-                <image style="width: 35rpx; height: 28rpx;" src="../../images/camera_b.png" />
-            </view>
-            <view class="text" style="color: #666666">相机</view>
-        </button>
-    </view>
-</view>
-
-<view class="other">
-    <view class="tip">
-        <text class="text-gray">使用相册和微信中选图可以批量{{fun[active].tab}}</text>
-    </view>
-    <view class="share">
-        <button size="mini" open-type='share' plain="{{true}}" style="font-size: 26rpx;">分享给好友</button>
-    </view>
-</view>
+<template is="chooseImg"/>

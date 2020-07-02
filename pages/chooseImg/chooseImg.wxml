@@ -1,34 +1,9 @@
-<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
-    <view slot="content">选择图片</view>
-</cu-custom>
+<import src="/templates/header/header.wxml"/>
+<import src="/templates/chooseImg/chooseImg.wxml"/>
 
+<template is="second" data="{{content}}"/>
 
-<view class="photo-choose-group">
-    <view class="album">
-        <button bindtap="onChooseImageAlbumn" style="background-image: linear-gradient(45deg, #0081ff, #1cbbb4);">
-            <view class="img">
-                <image src="../../images/album_w.png" />
-            </view>
-            <view class="text" style="color: #FFFFFF">相册中选图</view>
-        </button>
-    </view>
-    <view class="weChat">
-        <button bindtap="onChooseWeChatAlbumn" style="background-image: linear-gradient(45deg, #39b54a, #8dc63f);">
-            <view class="img">
-                <image src="../../images/wechat_w.png" />
-            </view>
-            <view class="text" style="color: #FFFFFF">微信中选图</view>
-        </button>
-    </view>
-    <view class="camera">
-        <button bindtap="onChooseCameraAlbumn">
-            <view class="img">
-                <image style="width: 35rpx; height: 28rpx;" src="../../images/camera_b.png" />
-            </view>
-            <view class="text" style="color: #666666">相机</view>
-        </button>
-    </view>
-</view>
+<template is="chooseImg"/>
 
 <view class="gif" >
     <image src="cloud://ocr-qaq.6f63-ocr-qaq-1302036835/icon/bg.gif" mode="aspectFit" style="width: {{windowW}}px"/>

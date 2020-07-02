@@ -1,6 +1,6 @@
-  <cu-custom isBack="{{true}}">
-  	<view slot="content" style="color: #ffffff;">图片剪裁</view>
-  </cu-custom>
+<import src="/templates/header/header.wxml"/>
+
+<template is="third" data="{{content}}"/>
 
 
   <image-cropper id="image-cropper" limit_move="{{true}}" disable_rotate="{{true}}" width="{{width}}" height="{{height}}" imgSrc="{{src}}" bindload="cropperload" bindimageload="loadimage" bindtapcut="tapCutPre" bindtapcuticon="tapIcon" bindtapgrayicon="tapIcon">

@@ -1,0 +1,6 @@
+<import src="/templates/header/header.wxml"/>
+<import src="/templates/result/result.wxml"/>
+
+<template is="second" data="{{content}}"/>
+
+<template is="translate" data="{{windowH, windowW, CustomBar, translate}}"/>

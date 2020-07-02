@@ -1,12 +1,10 @@
 Page({
 
   data: {
-
+    content:'选择图片',
     active: '',
     windowW: '',
-
   },
-
   
   onLoad: function (options) {
     let self = this;
@@ -22,31 +20,23 @@ Page({
         })
       },
     })
-
-
-    
   },
 
 
-  // 图片的选择事件
   onChooseImageAlbumn: function (e) {
     let self = this;
 
     wx.chooseImage({
-      count: 100,
+      count: 4,
       sourceType: ['album'],
 
       success: res => {
-        // tempFilePath可以作为img标签的src属性显示图片
         let tempFilePaths = res.tempFilePaths,
           pictures = [];
 
-        // 导向照片集合页面
         wx.navigateTo({
           url: "../muchMore/muchMore",
-          // 一个事件的监听器可以随时接听事件是否被调用
           event: {
-            // 接收来自Albumn的数据
             moreToChooseImg: function (data) {
               console.log(data.feedback);
             },
@@ -59,7 +49,6 @@ Page({
                 isChoose: '',
               })
             });
-            // 通过eventChannel向被打开页面传送图片
             res.eventChannel.emit('chooseImgToMore', {
               pictures: pictures,
               active: self.data.active
@@ -68,7 +57,6 @@ Page({
         })
       },
     })
-
   },
 
 
@@ -76,11 +64,10 @@ Page({
     let self = this;
 
     wx.chooseMessageFile({
-      count: 100,
+      count: 4,
       type: 'image',
 
       success: res => {
-        // tempFilePath可以作为img标签的src属性显示图片
         let self = this,
           tempFiles = res.tempFiles,
           tempFilePaths = [],
@@ -90,12 +77,9 @@ Page({
           tempFilePaths.push(element.path);
         });
 
-        // 导向照片集合页面
         wx.navigateTo({
           url: "../muchMore/muchMore",
-          // 一个事件的监听器可以随时接听事件是否被调用
           event: {
-            // 接收来自Albumn的数据
             moreToChooseImg: function (data) {
               console.log(data.feedback);
             },
@@ -107,7 +91,6 @@ Page({
                 images: element
               })
             });
-            // 通过eventChannel向被打开页面传送图片
             res.eventChannel.emit('chooseImgToMore', {
               pictures: pictures,
               active: self.data.active
@@ -115,7 +98,6 @@ Page({
           },
         })
       },
-
     })
   },
 
@@ -124,20 +106,16 @@ Page({
     let self = this;
 
     wx.chooseImage({
-      count: 100,
+      count: 4,
       sourceType: ['camera'],
 
       success: res => {
-        // tempFilePath可以作为img标签的src属性显示图片
         let tempFilePaths = res.tempFilePaths,
           pictures = [];
 
-        // 导向照片集合页面
         wx.navigateTo({
           url: "../albumn/albumn",
-          // 一个事件的监听器可以随时接听事件是否被调用
           event: {
-            // 接收来自Albumn的数据
             moreToChooseImg: function (data) {
               console.log(data.feedback);
             },
@@ -149,7 +127,6 @@ Page({
                 images: element
               })
             });
-            // 通过eventChannel向被打开页面传送图片
             res.eventChannel.emit('indexToAlbumn', {
               pictures: pictures,
               active: self.data.active
@@ -158,7 +135,6 @@ Page({
         })
       },
     })
-
   },
 
 })

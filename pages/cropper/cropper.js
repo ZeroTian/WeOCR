@@ -1,5 +1,6 @@
 Page({
     data: {
+        content:'图片裁剪',
         src: '',
         id: '',
         width: 250,//裁剪框宽度

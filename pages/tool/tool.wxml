@@ -1,6 +1,6 @@
-<cu-custom bgColor="bg-gradual-blue" isBack="{{false}}">
-	<view slot="content">小工具</view>
-</cu-custom>
+<import src="/templates/header/header.wxml"/>
+
+<template is="first" data="{{content}}"/>
 
 
 <view class="cells">
@@ -28,7 +28,7 @@
 			<text class="bg-grey" style="width 2rem;"></text>
 		</view>
 	</navigator>
-	<navigator url="/pages/tran/tran" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
+	<navigator url="/pages/result/translate/translate" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
 		<view class="action sub-title">
 			<text class="text-xl text-bold" style="font-size: 30rpx">文本翻译</text>
 			<text class="bg-grey" style="width 2rem;"></text>
@@ -65,6 +65,12 @@
 	<navigator url="/pages/about/about" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
 		<view class="action sub-title">
 			<text class="text-xl text-bold" style="font-size: 30rpx">关于我们</text>
+			<text class="bg-grey" style="width 2rem;"></text>
+		</view>
+	</navigator>
+	<navigator url="/pages/introduce/introduce" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
+		<view class="action sub-title">
+			<text class="text-xl text-bold" style="font-size: 30rpx">使用教程</text>
 			<text class="bg-grey" style="width 2rem;"></text>
 		</view>
 	</navigator>
