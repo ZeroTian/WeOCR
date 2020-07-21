@@ -1,4 +1,5 @@
 @import "/templates/chooseImg/chooseImg.wxss";
+@import "/pages/tool/tool.wxss";
 
 page{
     background: #f4f4f4;

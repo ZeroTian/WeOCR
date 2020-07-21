@@ -10,9 +10,9 @@
     "pages/result/result_translate/result_translate",
     "pages/mine/mine",
     "pages/result/result_bankInfo/result_bankInfo",
-    "pages/User_Download/udl",
-    "pages/User_Information/userInfo",
-    "pages/User_Shoucang/sc",
+    "pages/User/User_Download/User_Download",
+    "pages/User/User_Information/User_Information",
+    "pages/User/User_Collection/User_Collection",
     "pages/result/result_form/result_form",
     "pages/result/result_find/result_find",
     "pages/result/result_fav/result_fav",
@@ -21,8 +21,8 @@
     "pages/about/about",
     "pages/introduce/introduce",
     "pages/cropper/cropper"
-
   ],
+  
   "window": {
     "backgroundTextStyle": "light",
     "backgroundColor": "rgb(231,235,237)",

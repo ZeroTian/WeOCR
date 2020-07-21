@@ -633,7 +633,6 @@ Page({
             let access_token = res.data.access_token,
               flag = 0,
               results = [];
-
             self.data.pictures.forEach(element => {
               wx.getFileSystemManager().readFile({
                 filePath: element.images,
@@ -693,6 +692,41 @@ Page({
           icon: "none"
         })
       })
+    }
+    // 当功能为识别银行卡时
+    else if(active == -7) {
+
+    }
+    // 当功能为识别出生证明时
+    else if(active == -8) {
+
+    }
+    // 当功能为识别名片时
+    else if(active == -9) {
+
+    }
+    // 当功能为识别户口本时
+    else if(active == -10) {
+
+    }
+    // 当功能为识别身份证时
+    else if(active == -11) {
+
+    }
+    // 当功能为识别营业执照时
+    else if(active == -12) {
+
+    }
+    // 当功能为识别护照时
+    else if(active == -13) {
+
+    }
+    // 当功能为识别港澳通行证时
+    else if(active == -14) {
+
+    }
+    // 当功能为识别台湾通行证时
+    else if(active == -15) {
 
     }
 

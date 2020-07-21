@@ -16,7 +16,7 @@ let http = {
     return postpromise;
   },
 
-  mutlUploadFile: function (pictures, url, name, header) {
+  mutlUploadFile : function (pictures, url, name, header) {
     var postpromise = new Promise(function (resolve, reject) {
       wx.showLoading({
         title: "正在处理..."

@@ -1,18 +1,89 @@
-<import src="/templates/header/header.wxml"/>
-<import src="/templates/chooseImg/chooseImg.wxml"/>
+<import src="/templates/header/header.wxml" />
+<import src="/templates/chooseImg/chooseImg.wxml" />
 
-<template is="first" data="{{content}}"/>
+<template is="first" data="{{content}}" />
 
 <view class="navbar">
-    <swiper class="slider" display-multiple-items="2" current="{{active}}" circular="{{true}}">
-        <swiper-item class="item" wx:for="{{fun}}" wx:key="id" bindtap="onNavbarTap" data-id="{{item.id}}">
-            <text class="text {{active==index? 'active': ''}}" >{{item.name}}</text>
-        </swiper-item>
-    </swiper>
+	<swiper class="slider" display-multiple-items="2" current="{{active}}" circular="{{true}}">
+		<swiper-item class="item" wx:for="{{fun}}" wx:key="id" bindtap="onNavbarTap" data-id="{{item.id}}">
+			<text class="text {{active==index? 'active': ''}}" >{{item.name}}</text>
+		</swiper-item>
+	</swiper>
 </view>
 
 <view class="display">
-    <image src="{{fun[active].fileID}}" mode="scaleToFill" />
+	<image src="{{fun[active].fileID}}" mode="scaleToFill" />
 </view>
 
-<template is="chooseImg"/>
+<template is="chooseImg" wx:if="{{active < 3}}" />
+
+<view class="chooseFun" wx:if="{{active == 3}}">
+	<view class="cells">
+		<view class="title">
+			<view class="title__bd text-orange">可选功能</view>
+			<view class="title__ft">
+				<image src="../../images/list.png"></image>
+			</view>
+		</view>
+		<navigator url="/pages/chooseImg/chooseImg?active=-7" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
+			<view class="action sub-title">
+				<text class="text-xl text-bold" style="font-size: 30rpx">银行卡识别</text>
+				<text class="bg-grey" style="width 2rem;"></text>
+			</view>
+		</navigator>
+		<navigator url="/pages/chooseImg/chooseImg?active=-8" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
+			<view class="action sub-title">
+				<text class="text-xl text-bold" style="font-size: 30rpx">出生证明识别</text>
+				<text class="bg-grey" style="width 2rem;"></text>
+			</view>
+		</navigator>
+		<navigator url="/pages/chooseImg/chooseImg?active=-9" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
+			<view class="action sub-title">
+				<text class="text-xl text-bold" style="font-size: 30rpx">名片识别</text>
+				<text class="bg-grey" style="width 2rem;"></text>
+			</view>
+		</navigator>
+		<navigator url="/pages/chooseImg/chooseImg?active=-10" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
+			<view class="action sub-title">
+				<text class="text-xl text-bold" style="font-size: 30rpx">户口本识别</text>
+				<text class="bg-grey" style="width 2rem;"></text>
+			</view>
+		</navigator>
+		<navigator url="/pages/chooseImg/chooseImg?active=-11" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
+			<view class="action sub-title">
+				<text class="text-xl text-bold" style="font-size: 30rpx">身份证识别</text>
+				<text class="bg-grey" style="width 2rem;"></text>
+			</view>
+		</navigator>
+		<navigator url="/pages/chooseImg/chooseImg?active=-12" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
+			<view class="action sub-title">
+				<text class="text-xl text-bold" style="font-size: 30rpx">营业执照识别</text>
+				<text class="bg-grey" style="width 2rem;"></text>
+			</view>
+		</navigator>
+		<navigator url="/pages/chooseImg/chooseImg?active=-13" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
+			<view class="action sub-title">
+				<text class="text-xl text-bold" style="font-size: 30rpx">护照识别</text>
+				<text class="bg-grey" style="width 2rem;"></text>
+			</view>
+		</navigator>
+		<navigator url="/pages/chooseImg/chooseImg?active=-14" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
+			<view class="action sub-title">
+				<text class="text-xl text-bold" style="font-size: 30rpx">港澳通行证识别</text>
+				<text class="bg-grey" style="width 2rem;"></text>
+			</view>
+		</navigator>
+		<navigator url="/pages/chooseImg/chooseImg?active=-15" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
+			<view class="action sub-title">
+				<text class="text-xl text-bold" style="font-size: 30rpx">台湾通行证识别</text>
+				<text class="bg-grey" style="width 2rem;"></text>
+			</view>
+		</navigator>
+	</view>
+
+	<view class="other">
+		<view class="share">
+			<button size="mini" open-type='share' plain="{{true}}" style="font-size: 26rpx;">分享给好友</button>
+		</view>
+	</view>
+</view>

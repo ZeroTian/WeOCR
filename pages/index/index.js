@@ -6,34 +6,26 @@ Page({
     fun: [{
       id: 0,
       name: "扫描",
-      tab: "扫描",
       en_name: 'scan',
       fileID: 'cloud://ocr-qaq.6f63-ocr-qaq-1302036835/icon/ocr.png',
-      img_src: '',
     },
     {
       id: 1,
       name: "翻译",
-      tab: "翻译",
       en_name: 'translate',
       fileID: 'cloud://ocr-qaq.6f63-ocr-qaq-1302036835/icon/translate.png',
-      img_src: '',
     },
     {
       id: 2,
       name: "表格识别",
-      tab: "识别",
       en_name: 'exportExcle',
       fileID: 'cloud://ocr-qaq.6f63-ocr-qaq-1302036835/icon/excel.jpg',
-      img_src: '',
     },
     {
       id: 3,
-      name: "银行卡识别",
-      tab: "识别",
+      name: "卡片识别",
       en_name: 'identify',
       fileID: 'cloud://ocr-qaq.6f63-ocr-qaq-1302036835/icon/bank-card.png',
-      img_src: '',
     },
     ],
 
@@ -41,142 +33,99 @@ Page({
 
   },
 
+  // 进行页面的初始化操作
+  onLoad: function () {
+    let self = this;
 
-  onLoad: function (e) {
-    let self = this,
-      fun = self.data.fun,
-      fileList = [],
-      tempFileURL = [];
-
-
+    // 使分享按钮可用
     wx.showShareMenu({
       withShareTicket: true
     })
 
   },
 
+  // 当导航栏被点击是改变active的值
   onNavbarTap: function (e) {
-    var id = e.currentTarget.dataset.id;
     this.setData({
-      active: id
+      active: e.currentTarget.dataset.id
     })
   },
 
-  onChooseImageAlbumn: function (e) {
-    let self = this;
+  // 当点击相册中选图的按钮时
+  onChooseImageAlbumn: function () {
+    chooseImageFile(this, 4, ['album'], "../albumn/albumn");
+  },
 
+  // 当点击微信中选图的按钮时
+  onChooseWeChatAlbumn: function () {
+    chooseImageFile(this, 4, ['wechat'], "../albumn/albumn");
+  },
+
+  // 当点击相册中选图的按钮时 
+  onChooseCameraAlbumn: function () {
+    chooseImageFile(this, 4, ['camera'], "../albumn/albumn");
+  },
+})
+
+
+// 选择相册图片或拍照图片
+function chooseImageFile(self, count, sourceType, navigateTo) {
+  if(sourceType[0] == 'album' || sourceType[0] == 'camera' ){
+    chooseImage(count, sourceType, navigateTo);
+  }else if(sourceType[0] == 'wechat'){
+    chooseMessageFile(count, navigateTo);
+  }
+  
+  // 选择手机相册图片或拍照图片
+  function chooseImage(count, sourceType, navigateTo) {
     wx.chooseImage({
-      count: 4,
-      sourceType: ['album'],
+      count: count,
+      sourceType: sourceType,
 
       success: res => {
-        let tempFilePaths = res.tempFilePaths,
-          pictures = [];
-
-        wx.navigateTo({
-          url: "../albumn/albumn",
-          event: {
-            albumnToIndex: function (data) {
-              console.log(data.feedback);
-            },
-
-          },
-          success: function (res) {
-            tempFilePaths.forEach(element => {
-              pictures.push({
-                images: element,
-                isChoose: '',
-              })
-            });
-            res.eventChannel.emit('indexToAlbumn', {
-              pictures: pictures,
-              active: self.data.active
-            })
-          },
-        })
+        navigate(res.tempFilePaths, navigateTo);
       },
-    })
+    });
+  }
 
-  },
-
-
-  onChooseWeChatAlbumn: function (e) {
-    let self = this;
-
+  // 选择微信图片
+  function chooseMessageFile(count, navigateTo) {
     wx.chooseMessageFile({
-      count: 4,
+      count: count,
       type: 'image',
 
       success: res => {
-          tempFiles = res.tempFiles,
-          tempFilePaths = [],
-          pictures = [];
-
-        tempFiles.forEach(element => {
+        let tempFilePaths = [];
+        res.tempFiles.forEach(element => {
           tempFilePaths.push(element.path);
+        })
+        navigate(tempFilePaths, navigateTo);
+      },
+    });
+  }
+
+  // 进行导航操作
+  function navigate(tempFilePaths, navigateTo) {
+    wx.navigateTo({
+      url: navigateTo,
+      event: {
+        albumnToIndex: function (data) {
+          console.log(data.feedback);
+        },
+      },
+      success: function (res) {
+        let pictures = [];
+        tempFilePaths.forEach(element => {
+          pictures.push({
+            images: element,
+            isChoose: '',
+          });
         });
-
-        wx.navigateTo({
-          url: "../albumn/albumn",
-          event: {
-            albumnToIndex: function (data) {
-              console.log(data.feedback);
-            },
-
-          },
-          success: function (res) {
-            tempFilePaths.forEach(element => {
-              pictures.push({
-                images: element
-              })
-            });
-            res.eventChannel.emit('indexToAlbumn', {
-              pictures: pictures,
-              active: self.data.active
-            })
-          },
-        })
+        res.eventChannel.emit('indexToAlbumn', {
+          pictures: pictures,
+          active: self.data.active
+        });
       },
-
-    })
-  },
-
-
-  onChooseCameraAlbumn: function (e) {
-    let self = this;
-
-    wx.chooseImage({
-      count: 4,
-      sourceType: ['camera'],
-
-      success: res => {
-        let tempFilePaths = res.tempFilePaths,
-          pictures = [];
-
-        wx.navigateTo({
-          url: "../albumn/albumn",
-          event: {
-            albumnToIndex: function (data) {
-              console.log(data.feedback);
-            },
-
-          },
-          success: function (res) {
-            tempFilePaths.forEach(element => {
-              pictures.push({
-                images: element
-              })
-            });
-            res.eventChannel.emit('indexToAlbumn', {
-              pictures: pictures,
-              active: self.data.active
-            })
-          },
-        })
-      },
-    })
-
-  },
-
-
-})
+    });
+  }
+}
