@@ -1,48 +1,10 @@
 const app = getApp()
 
-var mutlUploadFile = function (pictures, url, name, header) {
-  var postpromise = new Promise(function (resolve, reject) {
-    wx.showLoading({
-      title: "正在处理..."
-    })
-    let flag = 0,
-      results = [];
-    pictures.forEach(element => {
-      wx.uploadFile({
-        url: url,
-        filePath: element.images,
-        name: name,
-        header: header,
-        success(res) {
-          flag++;
-          results.push({
-            images: element.images,
-            result: res.data,
-          })
-          if (flag == pictures.length) {
-            resolve(results);
-          }
-        },
-        fail: (res) => {
-          flag++;
-          if (flag == pictures.length) {
-            reject(res);
-          }
-        },
-      })
-    })
-  })
-  return postpromise;
-}
-
 Page({
-
-
   data: {
-    content:'图册',
+    content: '图册',
     pictures: [],
     isIphoneX: app.globalData.isIphoneX,
-    size: 3,
     listData: [],
     extraNodes: [
     ],
@@ -50,12 +12,12 @@ Page({
     scrollTop: 0,
     active: '',
     isPopping: true,
-    animPlus: {},
+    animMenu: {},
     animScan: {},
     animChoose: {},
-    animDelete: {},
-    animInput: {},
-    animCloud: {},
+    animErase: {},
+    animNone1: {},
+    animNone2: {},
     windowH: '',
     windowW: '',
     img_h: '',
@@ -64,7 +26,7 @@ Page({
   },
 
 
-  onLoad(options) {
+  onLoad() {
     let self = this,
       eventChannel = self.getOpenerEventChannel();
 
@@ -97,21 +59,18 @@ Page({
 
   onShow() {
     let self = this;
-
     self.drag.init();
   },
 
 
   // 当点击图片时可以对图片进行操作: 图片的缩放, 图片的裁剪
-  onTapImg(e) {
+  onTapImg() {
 
     let self = this,
       id = self.drag.getIndex(),
       active = self.data.active;
 
     if (!self.data.chooseB) {
-      // 实现图片的剪切或预览
-      // if (active <= 2 && id !== '') {
       if (id !== '') {
         let pictures = self.data.pictures;
         wx.navigateTo({
@@ -153,7 +112,7 @@ Page({
 
 
   // 将数据传输给index页面
-  backIndex(e) {
+  backIndex() {
     let self = this,
       eventChannel = self.getOpenerEventChannel();
 
@@ -171,28 +130,13 @@ Page({
   },
 
 
-  change(e) {
+  change() {
     // console.log("change", e.detail.pictures)
   },
 
 
-  itemClick(e) {
+  itemClick() {
     // console.log(e);
-  },
-
-
-  add(e) {
-    let pictures = this.data.pictures;
-    pictures.push({
-      images: "../../images/Sample/1.jpg",
-      fixed: false
-    });
-    setTimeout(() => {
-      this.setData({
-        pictures: pictures
-      });
-      this.drag.init();
-    }, 300)
   },
 
 
@@ -212,15 +156,13 @@ Page({
 
 
   //点击弹出
-  plus: function () {
+  menu: function () {
     if (this.data.isPopping) {
-      //缩回动画
-      this.popp();
+      this.pop();
       this.setData({
         isPopping: false
       })
     } else if (!this.data.isPopping) {
-      //弹出动画
       this.takeback();
       this.setData({
         isPopping: true
@@ -230,100 +172,64 @@ Page({
 
 
   //弹出动画
-  popp: function () {
-    let self = this;
-    //plus顺时针旋转
-    var animationPlus = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
-    var animationScan = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
-    var animationChoose = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
-    var animationDelete = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
-    var animationInput = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
-    var animationCloud = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
+  pop: function () {
+    let self = this,
+      menu = createAnimation(),
+      scan = createAnimation(),
+      choose = createAnimation(),
+      erase = createAnimation(),
+      none1 = createAnimation(),
+      none2 = createAnimation()
 
-    animationPlus.rotateZ(180).step();
-    animationScan.translate(40 * self.data.windowW / 750, -160 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
-    animationChoose.translate(-100 * self.data.windowW / 750, -120 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
-    animationDelete.translate(-168 * self.data.windowW / 750, 0).rotateZ(180).opacity(1).step();
-    animationInput.translate(-100 * self.data.windowW / 750, 120 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
-    animationCloud.translate(40 * self.data.windowW / 750, 160 * self.data.windowW / 750).rotateZ(180).opacity(1).step();
+    menuIconAnimation(menu, 180);
+    childrenIconAnimation(self, scan, 40, -160, 1, 180);
+    childrenIconAnimation(self, choose, -100, -120, 1, 180);
+    childrenIconAnimation(self, erase, -168, 0, 1, 180);
+    childrenIconAnimation(self, none1, -100, 120, 1, 180);
+    childrenIconAnimation(self, none2, 40, 160, 1, 180);
+
     this.setData({
-      animPlus: animationPlus.export(),
-      animScan: animationScan.export(),
-      animChoose: animationChoose.export(),
-      animDelete: animationDelete.export(),
-      animInput: animationInput.export(),
-      animCloud: animationCloud.export(),
+      animMenu: menu.export(),
+      animScan: scan.export(),
+      animChoose: choose.export(),
+      animErase: erase.export(),
+      animNone1: none1.export(),
+      animNone2: none2.export(),
     })
   },
 
 
   //收回动画
   takeback: function () {
-    //plus逆时针旋转
-    var animationPlus = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
-    var animationScan = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
-    var animationChoose = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
-    var animationDelete = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
-    var animationInput = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
-    var animationCloud = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
+    let self = this,
+      menu = createAnimation(),
+      scan = createAnimation(),
+      choose = createAnimation(),
+      erase = createAnimation(),
+      none1 = createAnimation(),
+      none2 = createAnimation()
 
-    animationPlus.rotateZ(0).step();
-    animationScan.translate(0, 0).rotateZ(0).opacity(0).step();
-    animationChoose.translate(0, 0).rotateZ(0).opacity(0).step();
-    animationDelete.translate(0, 0).rotateZ(0).opacity(0).step();
-    animationInput.translate(0, 0).rotateZ(0).opacity(0).step();
-    animationCloud.translate(0, 0).rotateZ(0).opacity(0).step();
+    menuIconAnimation(menu, 0);
+    childrenIconAnimation(self, scan, 0, 0, 0, 0);
+    childrenIconAnimation(self, choose, 0, 0, 0, 0);
+    childrenIconAnimation(self, erase, 0, 0, 0, 0);
+    childrenIconAnimation(self, none1, 0, 0, 0, 0);
+    childrenIconAnimation(self, none2, 0, 0, 0, 0);
+
     this.setData({
-      animPlus: animationPlus.export(),
-      animScan: animationScan.export(),
-      animChoose: animationChoose.export(),
-      animDelete: animationDelete.export(),
-      animInput: animationInput.export(),
-      animCloud: animationCloud.export(),
+      animMenu: menu.export(),
+      animScan: scan.export(),
+      animChoose: choose.export(),
+      animErase: erase.export(),
+      animNone1: none1.export(),
+      animNone2: none2.export(),
       chooseB: false,
     })
   },
 
-
-  scan(e) {
-    let self = this,
-      pictures = [];
+  // 当点击扫描图标时
+  scan() {
+    let self = this;
 
     if (self.data.active == 0) {
       let url = 'https://www.universitydog.cn/scan',
@@ -333,23 +239,7 @@ Page({
           'accept': 'application/json',
         };
 
-      mutlUploadFile(self.data.pictures, url, name, header).then((result) => {
-
-        wx.hideLoading();
-
-        wx.navigateTo({
-          url: '../result/result_scan/result_scan',
-          success: res => {
-            res.eventChannel.emit('albumnToResult_scan', { pictures: result })
-          }
-        })
-      }).catch((res) => {
-        console.log(res);
-        wx.showToast({
-          title: "出现了一个错误\n请重试",
-          icon: "none"
-        })
-      })
+      promiseThen(mutlUploadFile(self.data.pictures, url, name, header), '../result/result_scan/result_scan', 'albumnToResult_scan');
 
     } else if (self.data.active == 1) {
       let url = 'https://www.universitydog.cn/translatescan',
@@ -359,23 +249,7 @@ Page({
           'accept': 'application/json',
         };
 
-      mutlUploadFile(self.data.pictures, url, name, header).then((result) => {
-
-        wx.hideLoading();
-
-        wx.navigateTo({
-          url: '../result/result_translate/result_translate',
-          success: res => {
-            res.eventChannel.emit('albumnToResult_translate', { pictures: result })
-          }
-        })
-      }).catch((res) => {
-        console.log(res);
-        wx.showToast({
-          title: "出现了一个错误\n请重试",
-          icon: "none"
-        })
-      })
+      promiseThen(mutlUploadFile(self.data.pictures, url, name, header), '../result/result_translate/result_translate', 'albumnToResult_translate');
 
     } else if (self.data.active == 2) {
       let picpromise = new Promise(function (resolve, reject) {
@@ -437,52 +311,13 @@ Page({
             reject(res)
           },
         })
-      }).then((result) => {
-        wx.hideLoading();
-        wx.navigateTo({
-          url: '../result/result_form/result_form',
-          success: res => {
-            res.eventChannel.emit('albumnToResult_form', { pictures: result })
-          }
-        })
-      }).catch((res) => {
-        console.log(res);
-        wx.showToast({
-          title: "出现了一个错误\n请重试",
-          icon: "none"
-        })
       })
-    } else if (self.data.active == 3) {
-      let url = 'https://www.universitydog.cn/bankcard',
-        name = 'bankcard',
-        header = {
-          "Content-Type": "text/html",
-          'accept': 'application/json',
-        };
-
-      mutlUploadFile(self.data.pictures, url, name, header).then((result) => {
-
-        wx.hideLoading();
-
-        wx.navigateTo({
-          url: '../result/result_bankInfo/result_bankInfo',
-          success: res => {
-            res.eventChannel.emit('albumnToResult_bankInfo', { pictures: result })
-          }
-        })
-      }).catch((res) => {
-        console.log(res);
-        wx.showToast({
-          title: "出现了一个错误\n请重试",
-          icon: "none"
-        })
-      })
+      promiseThen(picpromise, '../result/result_form/result_form', 'albumnToResult_form');
     }
-
   },
 
 
-  choose: function (e) {
+  choose: function () {
     let self = this,
       chooseB = !self.data.chooseB,
       pictures = self.data.pictures;
@@ -503,7 +338,7 @@ Page({
   },
 
 
-  delete: function (e) {
+  erase: function () {
     let self = this,
       deleteNum = [],
       pictures = self.data.pictures;
@@ -527,7 +362,7 @@ Page({
   },
 
 
-  none: function (e) {
+  none: function () {
     wx.showToast({
       title: '功能待开发...',
       icon: 'none',
@@ -536,3 +371,100 @@ Page({
 
 
 })
+
+// 菜单键的动画
+function menuIconAnimation(animation, rotateZ) {
+  animationRotate(animation, rotateZ);
+  animationStep(animation);
+}
+
+
+// 子项的动画
+function childrenIconAnimation(self, animation, x, y, opacity, rotateZ) {
+  animationTranslate(self, animation, x, y, opacity);
+  animationRotate(animation, rotateZ);
+  animationStep(animation);
+}
+
+// 绕Z旋转动画
+function animationRotate(animation, rotateZ) {
+  animation.rotateZ(rotateZ);
+}
+
+// 平移动画
+function animationTranslate(self, animation, x, y, opacity) {
+  animation.translate(x * self.data.windowW / 750, y * self.data.windowW / 750).opacity(opacity);
+}
+
+// 动画结束
+function animationStep(animation) {
+  animation.step();
+}
+
+// 创建动画
+function createAnimation() {
+  return wx.createAnimation({
+    duration: 400,
+    timingFunction: 'ease-out'
+  });
+}
+
+// 承诺完成后执行的内容
+function promiseThen(promise, path, emitName) {
+  promise.then((result) => {
+    wx.hideLoading();
+    navigate(path, emitName, result);
+  }).catch((res) => {
+    console.log(res);
+    wx.showToast({
+      title: "出现了一个错误\n请重试",
+      icon: "none"
+    });
+  });
+
+  // 导航到某个页面 
+  function navigate(path, emitName, pictures) {
+    wx.navigateTo({
+      url: path,
+      success: res => {
+        res.eventChannel.emit(emitName, { pictures: pictures });
+      }
+    });
+  }
+}
+
+// 上传多张照片
+function mutlUploadFile(pictures, url, name, header) {
+  let postpromise = new Promise(function (resolve, reject) {
+    wx.showLoading({
+      title: "正在处理..."
+    })
+    let flag = 0,
+      results = [];
+    pictures.forEach(element => {
+      wx.uploadFile({
+        url: url,
+        filePath: element.images,
+        name: name,
+        header: header,
+        success(res) {
+          flag++;
+          results.push({
+            images: element.images,
+            result: res.data,
+          })
+          if (flag == pictures.length) {
+            resolve(results);
+          }
+        },
+        fail: (res) => {
+          flag++;
+          if (flag == pictures.length) {
+            reject(res);
+          }
+        },
+      })
+    })
+  })
+  return postpromise;
+}

@@ -105,9 +105,9 @@ function chooseImageFile(self, count, sourceType, navigateTo) {
   }
 
   // 进行导航操作
-  function navigate(tempFilePaths, navigateTo) {
+  function navigate(tempFilePaths, path) {
     wx.navigateTo({
-      url: navigateTo,
+      url: path,
       event: {
         albumnToIndex: function (data) {
           console.log(data.feedback);

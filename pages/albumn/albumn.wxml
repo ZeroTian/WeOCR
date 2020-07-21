@@ -12,7 +12,7 @@
 			bind:tap="onTapImg"
 			extra-nodes="{{extraNodes}}"
 			list-data="{{pictures}}"
-			columns="{{size}}"
+			columns="{{3}}"
 			scroll-top="{{scrollTop}}"
 			top-size="110"
 			bottom-size="{{isIphoneX ? 380 : 300 }}"
@@ -20,10 +20,10 @@
 </drag>
 
 <view>
- <image src="../../images/tool_T.png" class="img-switch-style" animation="{{animPlus}}" bindtap="plus"></image>
+ <image src="../../images/tool_T.png" class="img-switch-style" animation="{{animMenu}}" bindtap="menu"></image>
  <image src="../../images/scan_T.png" class="img-style" animation="{{animScan}}" style="height: 60rpx; width: 60rpx" bindtap="scan"></image>
  <image src="../../images/choose_T.png" class="img-style" animation="{{animChoose}}" bindtap="choose"></image>
- <image src="../../images/delete_T.png" class="img-style" animation="{{animDelete}}" bindtap="delete"></image>
- <image src="../../images/ban_T.png" class="img-style" animation="{{animInput}}" bindtap="none"></image>
- <image src="../../images/ban_T.png" class="img-style" animation="{{animCloud}}" bindtap="none"></image>
+ <image src="../../images/delete_T.png" class="img-style" animation="{{animErase}}" bindtap="erase"></image>
+ <image src="../../images/ban_T.png" class="img-style" animation="{{animNone1}}" bindtap="none"></image>
+ <image src="../../images/ban_T.png" class="img-style" animation="{{animNone2}}" bindtap="none"></image>
 </view>
