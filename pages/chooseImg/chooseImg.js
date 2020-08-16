@@ -1,3 +1,5 @@
+const utils = require('../../utils.js');
+
 Page({
 
   data: {
@@ -24,117 +26,16 @@ Page({
 
 
   onChooseImageAlbumn: function (e) {
-    let self = this;
-
-    wx.chooseImage({
-      count: 4,
-      sourceType: ['album'],
-
-      success: res => {
-        let tempFilePaths = res.tempFilePaths,
-          pictures = [];
-
-        wx.navigateTo({
-          url: "../muchMore/muchMore",
-          event: {
-            moreToChooseImg: function (data) {
-              console.log(data.feedback);
-            },
-
-          },
-          success: function (res) {
-            tempFilePaths.forEach(element => {
-              pictures.push({
-                images: element,
-                isChoose: '',
-              })
-            });
-            res.eventChannel.emit('chooseImgToMore', {
-              pictures: pictures,
-              active: self.data.active
-            })
-          },
-        })
-      },
-    })
+    utils.chooseImageFile(this, 4, ['album'], "../muchMore/muchMore", 'chooseImgToMore');
   },
 
 
   onChooseWeChatAlbumn: function (e) {
-    let self = this;
-
-    wx.chooseMessageFile({
-      count: 4,
-      type: 'image',
-
-      success: res => {
-        let self = this,
-          tempFiles = res.tempFiles,
-          tempFilePaths = [],
-          pictures = [];
-
-        tempFiles.forEach(element => {
-          tempFilePaths.push(element.path);
-        });
-
-        wx.navigateTo({
-          url: "../muchMore/muchMore",
-          event: {
-            moreToChooseImg: function (data) {
-              console.log(data.feedback);
-            },
-
-          },
-          success: function (res) {
-            tempFilePaths.forEach(element => {
-              pictures.push({
-                images: element
-              })
-            });
-            res.eventChannel.emit('chooseImgToMore', {
-              pictures: pictures,
-              active: self.data.active
-            })
-          },
-        })
-      },
-    })
+    utils.chooseImageFile(this, 4, ['wechat'], "../muchMore/muchMore", 'chooseImgToMore');
   },
 
 
   onChooseCameraAlbumn: function (e) {
-    let self = this;
-
-    wx.chooseImage({
-      count: 4,
-      sourceType: ['camera'],
-
-      success: res => {
-        let tempFilePaths = res.tempFilePaths,
-          pictures = [];
-
-        wx.navigateTo({
-          url: "../albumn/albumn",
-          event: {
-            moreToChooseImg: function (data) {
-              console.log(data.feedback);
-            },
-
-          },
-          success: function (res) {
-            tempFilePaths.forEach(element => {
-              pictures.push({
-                images: element
-              })
-            });
-            res.eventChannel.emit('indexToAlbumn', {
-              pictures: pictures,
-              active: self.data.active
-            })
-          },
-        })
-      },
-    })
+    utils.chooseImageFile(this, 4, ['camera'], "../muchMore/muchMore", 'chooseImgToMore');
   },
-
 })

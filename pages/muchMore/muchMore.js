@@ -1,30 +1,16 @@
+const utils = require('../../utils.js');
+
 const app = getApp()
 
 Page({
 
   data: {
     content: '图册',
-    pictures: [],
     isIphoneX: app.globalData.isIphoneX,
     size: 3,
-    listData: [],
-    extraNodes: [
-    ],
     pageMetaScrollTop: 0,
     scrollTop: 0,
-    active: '',
     isPopping: true,
-    animPlus: {},
-    animDownload: {},
-    animChoose: {},
-    animDelete: {},
-    animInput: {},
-    animCloud: {},
-    windowH: '',
-    windowW: '',
-    img_h: '',
-    img_w: '',
-    chooseB: '',
     quality: 80,
     isQuality: false,
   },
@@ -33,14 +19,11 @@ Page({
   onLoad(options) {
     let self = this,
       eventChannel = self.getOpenerEventChannel();
-
     self.drag = self.selectComponent('#drag');
     self.drag.init();
-
     wx.showShareMenu({
       withShareTicket: true
     })
-
     wx.getSystemInfo({
       success: res => {
         const windowHeight = res.windowHeight,
@@ -53,42 +36,32 @@ Page({
     })
 
     eventChannel.on('chooseImgToMore', function (data) {
-
       if (data.active == -4) {
         let pictures = [];
-
         data.pictures.forEach(element => {
           let picture = { images: '', isChoose: '', quality: 80, };
           picture.images = element.images;
           picture.isChoose = element.isChoose;
           pictures.push(picture);
         });
-
         data.pictures = pictures;
-
       }
-
       self.setData({
         pictures: data.pictures,
         active: data.active,
       })
-
     })
   },
 
   onShow() {
     let self = this;
-
     self.drag.init();
   },
 
-
   onTapImg(e) {
-
     let self = this,
       id = self.drag.getIndex(),
       active = self.data.active;
-
     if (!self.data.chooseB) {
       if (id !== '') {
         let pictures = self.data.pictures;
@@ -97,7 +70,6 @@ Page({
           events: {
             cropperToAlbumn: function (data) {
               pictures[data.id].images = data.src;
-
               self.setData({
                 pictures: pictures,
               })
@@ -111,11 +83,9 @@ Page({
     }
   },
 
-
   tapDragImg(e) {
     let self = this,
       pictures = [];
-
     for (let i = 0; i < e.detail.pictures.length; i++) {
       pictures.push(e.detail.pictures[i].data);
     }
@@ -123,53 +93,30 @@ Page({
     self.setData({
       pictures: pictures,
     })
-
     self.drag.init()
 
   },
-
 
   // 将数据传输给index页面
   backIndex(e) {
     let self = this,
       eventChannel = self.getOpenerEventChannel();
-
     // 调用事件fromAlbumn
     eventChannel.emit('moreToChooseImg', { data: "要反馈的信息" })
   },
-
 
   sortEnd(e) {
     this.setData({
       pictures: e.detail.listData
     });
-
     this.drag.init();
   },
-
 
   change(e) {
   },
 
-
   itemClick(e) {
   },
-
-
-  add(e) {
-    let pictures = this.data.pictures;
-    pictures.push({
-      images: "../../images/Sample/1.jpg",
-      fixed: false
-    });
-    setTimeout(() => {
-      this.setData({
-        pictures: pictures
-      });
-      this.drag.init();
-    }, 300)
-  },
-
 
   scroll(e) {
     this.setData({
@@ -177,20 +124,17 @@ Page({
     })
   },
 
-
-  // 页面滚动
   onPageScroll(e) {
     this.setData({
       scrollTop: e.scrollTop
     });
   },
 
-
   //点击弹出
   plus: function () {
     if (this.data.isPopping) {
       //缩回动画
-      this.popp();
+      this.pop();
       this.setData({
         isPopping: false
       })
@@ -203,93 +147,53 @@ Page({
     }
   },
 
-
   //弹出动画
-  popp: function () {
-    //plus顺时针旋转
-    var animationPlus = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
-    var animationDownload = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
-    var animationChoose = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
-    var animationDelete = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
-    var animationInput = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
-    var animationCloud = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
-
-    animationPlus.rotateZ(180).step();
-    animationDownload.translate(40 * this.data.windowW / 750, -160 * this.data.windowW / 750).rotateZ(180).opacity(1).step();
-    animationChoose.translate(-100 * this.data.windowW / 750, -120 * this.data.windowW / 750).rotateZ(180).opacity(1).step();
-    animationDelete.translate(-168 * this.data.windowW / 750, 0).rotateZ(180).opacity(1).step();
-    animationInput.translate(-100 * this.data.windowW / 750, 120 * this.data.windowW / 750).rotateZ(180).opacity(1).step();
-    animationCloud.translate(40 * this.data.windowW / 750, 160 * this.data.windowW / 750).rotateZ(180).opacity(1).step();
-    this.setData({
-      animPlus: animationPlus.export(),
-      animDownload: animationDownload.export(),
-      animChoose: animationChoose.export(),
-      animDelete: animationDelete.export(),
-      animInput: animationInput.export(),
-      animCloud: animationCloud.export(),
+  pop: function () {
+    let self = this,
+      menu = utils.animation.createAnimation(),
+      anim1 = utils.animation.createAnimation(),
+      anim2 = utils.animation.createAnimation(),
+      anim3 = utils.animation.createAnimation(),
+      anim4 = utils.animation.createAnimation(),
+      anim5 = utils.animation.createAnimation()
+    utils.animation.menuIconAnimation(menu, 180);
+    utils.animation.childrenIconAnimation(self, anim1, 40, -160, 1, 180);
+    utils.animation.childrenIconAnimation(self, anim2, -100, -120, 1, 180);
+    utils.animation.childrenIconAnimation(self, anim3, -168, 0, 1, 180);
+    utils.animation.childrenIconAnimation(self, anim4, -100, 120, 1, 180);
+    utils.animation.childrenIconAnimation(self, anim5, 40, 160, 1, 180);
+    self.setData({
+      animMenu: menu.export(),
+      anim1: anim1.export(),
+      anim2: anim2.export(),
+      anim3: anim3.export(),
+      anim4: anim4.export(),
+      anim5: anim5.export(),
     })
   },
 
-
   //收回动画
   takeback: function () {
-    //plus逆时针旋转
-    var animationPlus = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
-    var animationDownload = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
-    var animationChoose = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
-    var animationDelete = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
-    var animationInput = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
-    var animationCloud = wx.createAnimation({
-      duration: 400,
-      timingFunction: 'ease-out'
-    })
-
-    animationPlus.rotateZ(0).step();
-    animationDownload.translate(0, 0).rotateZ(0).opacity(0).step();
-    animationChoose.translate(0, 0).rotateZ(0).opacity(0).step();
-    animationDelete.translate(0, 0).rotateZ(0).opacity(0).step();
-    animationInput.translate(0, 0).rotateZ(0).opacity(0).step();
-    animationCloud.translate(0, 0).rotateZ(0).opacity(0).step();
-    this.setData({
-      animPlus: animationPlus.export(),
-      animDownload: animationDownload.export(),
-      animChoose: animationChoose.export(),
-      animDelete: animationDelete.export(),
-      animInput: animationInput.export(),
-      animCloud: animationCloud.export(),
+    let self = this,
+      menu = utils.animation.createAnimation(),
+      anim1 = utils.animation.createAnimation(),
+      anim2 = utils.animation.createAnimation(),
+      anim3 = utils.animation.createAnimation(),
+      anim4 = utils.animation.createAnimation(),
+      anim5 = utils.animation.createAnimation()
+    utils.animation.menuIconAnimation(menu, 0);
+    utils.animation.childrenIconAnimation(self, anim1, 0, 0, 0, 0);
+    utils.animation.childrenIconAnimation(self, anim2, 0, 0, 0, 0);
+    utils.animation.childrenIconAnimation(self, anim3, 0, 0, 0, 0);
+    utils.animation.childrenIconAnimation(self, anim4, 0, 0, 0, 0);
+    utils.animation.childrenIconAnimation(self, anim5, 0, 0, 0, 0);
+    self.setData({
+      animMenu: menu.export(),
+      anim1: anim1.export(),
+      anim2: anim2.export(),
+      anim3: anim3.export(),
+      anim4: anim4.export(),
+      anim5: anim5.export(),
       chooseB: false,
       isQuality: false,
     })
@@ -298,7 +202,6 @@ Page({
   download: function (e) {
     let self = this,
       active = self.data.active;
-
     // 当功能为发现素材时
     if (active == -1) {
       let picpromise = new Promise(function (resolve, reject) {
@@ -395,7 +298,7 @@ Page({
         })
       })
     }
-    
+
     else if (active == -2) {
       let pictures = self.data.pictures;
 
@@ -620,7 +523,7 @@ Page({
       })
     }
     // 当功能为识别地标时
-    else if(active == -6) {
+    else if (active == -6) {
       let picpromise = new Promise(function (resolve, reject) {
         wx.showLoading({
           title: "正在处理..."
@@ -694,39 +597,96 @@ Page({
       })
     }
     // 当功能为识别银行卡时
-    else if(active == -7) {
+    else if (active == -7) {
+      // mark: 更新
+      let picpromise = new Promise(function (resolve, reject) {
+        wx.showLoading({
+          title: "正在处理..."
+        })
 
+        let flag = 0,
+          results = [];
+
+        self.data.pictures.forEach(element => {
+          wx.getFileSystemManager().readFile({
+            filePath: element.images,
+            encoding: 'base64',
+            success: res => {
+              wx.request({
+                url: 'https://www.universitydog.cn/cardBag/get?cardType=0',
+                method: 'GET',
+                data: { 
+                  "image": res.data,
+                },
+                success: res => {
+                  flag++;
+                  results.push({
+                    images: element.images,
+                    result: res.data,
+                  })
+                  if (flag == self.data.pictures.length) {
+                    resolve(results)
+                  }
+                },
+                fail: res => {
+                  flag++;
+                  if (flag == self.data.pictures.length) {
+                    reject(res)
+                  }
+                }
+              })
+            },
+            fail: res => {
+              reject(res)
+            }
+          })
+        });
+      }).then((result) => {
+        wx.hideLoading();
+        wx.navigateTo({
+          url: '../result/result_fav/result_fav',
+          success: res => {
+            res.eventChannel.emit('albumnToResult_fav', { pictures: result })
+          }
+        })
+      }).catch((res) => {
+        console.log(res);
+        wx.showToast({
+          title: "出现了一个错误\n请重试",
+          icon: "none"
+        })
+      })
     }
     // 当功能为识别出生证明时
-    else if(active == -8) {
+    else if (active == -8) {
 
     }
     // 当功能为识别名片时
-    else if(active == -9) {
+    else if (active == -9) {
 
     }
     // 当功能为识别户口本时
-    else if(active == -10) {
+    else if (active == -10) {
 
     }
     // 当功能为识别身份证时
-    else if(active == -11) {
+    else if (active == -11) {
 
     }
     // 当功能为识别营业执照时
-    else if(active == -12) {
+    else if (active == -12) {
 
     }
     // 当功能为识别护照时
-    else if(active == -13) {
+    else if (active == -13) {
 
     }
     // 当功能为识别港澳通行证时
-    else if(active == -14) {
+    else if (active == -14) {
 
     }
     // 当功能为识别台湾通行证时
-    else if(active == -15) {
+    else if (active == -15) {
 
     }
 
@@ -753,7 +713,7 @@ Page({
   },
 
 
-  delete: function (e) {
+  erase: function (e) {
     let self = this,
       deleteNum = [],
       pictures = self.data.pictures;
@@ -810,16 +770,11 @@ Page({
       });
 
     }
-
   },
-
-
   none: function (e) {
     wx.showToast({
       title: '功能待开发...',
       icon: 'none',
     })
   },
-
-
 })

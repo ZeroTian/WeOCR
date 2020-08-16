@@ -1,3 +1,5 @@
+const utils = require('../../utils.js');
+
 const app = getApp()
 
 Page({
@@ -53,79 +55,16 @@ Page({
 
   // 当点击相册中选图的按钮时
   onChooseImageAlbumn: function () {
-    chooseImageFile(this, 4, ['album'], "../albumn/albumn");
+    utils.chooseImageFile(this, 4, ['album'], "../albumn/albumn", 'indexToAlbumn');
   },
 
   // 当点击微信中选图的按钮时
   onChooseWeChatAlbumn: function () {
-    chooseImageFile(this, 4, ['wechat'], "../albumn/albumn");
+    utils.chooseImageFile(this, 4, ['wechat'], "../albumn/albumn", 'indexToAlbumn');
   },
 
   // 当点击相册中选图的按钮时 
   onChooseCameraAlbumn: function () {
-    chooseImageFile(this, 4, ['camera'], "../albumn/albumn");
+    utils.chooseImageFile(this, 4, ['camera'], "../albumn/albumn", 'indexToAlbumn');
   },
 })
-
-
-// 选择相册图片或拍照图片
-function chooseImageFile(self, count, sourceType, navigateTo) {
-  if(sourceType[0] == 'album' || sourceType[0] == 'camera' ){
-    chooseImage(count, sourceType, navigateTo);
-  }else if(sourceType[0] == 'wechat'){
-    chooseMessageFile(count, navigateTo);
-  }
-  
-  // 选择手机相册图片或拍照图片
-  function chooseImage(count, sourceType, navigateTo) {
-    wx.chooseImage({
-      count: count,
-      sourceType: sourceType,
-
-      success: res => {
-        navigate(res.tempFilePaths, navigateTo);
-      },
-    });
-  }
-
-  // 选择微信图片
-  function chooseMessageFile(count, navigateTo) {
-    wx.chooseMessageFile({
-      count: count,
-      type: 'image',
-
-      success: res => {
-        let tempFilePaths = [];
-        res.tempFiles.forEach(element => {
-          tempFilePaths.push(element.path);
-        })
-        navigate(tempFilePaths, navigateTo);
-      },
-    });
-  }
-
-  // 进行导航操作
-  function navigate(tempFilePaths, path) {
-    wx.navigateTo({
-      url: path,
-      event: {
-        albumnToIndex: function (data) {
-          console.log(data.feedback);
-        },
-      },
-      success: function (res) {
-        let pictures = [];
-        tempFilePaths.forEach(element => {
-          pictures.push({
-            images: element,
-            isChoose: '',
-          });
-        });
-        res.eventChannel.emit('indexToAlbumn', {
-          pictures: pictures,
-          active: self.data.active
-        });
-      },
-    });
-  }
-}

@@ -1,58 +1,104 @@
-let http = {
-  get: function (url, data) {
-    var postpromise = new Promise(function (getsuccess, getfail) {
-      wx.request({
-        header: { 'content-type': 'application/json' },
-        url: url,
-        data: data,
-        success: function (res) {
-          getsuccess(res);
-        },
-        fail: (res) => {
-          getfail(res);
-        }
-      })
-    })
-    return postpromise;
+var animation = {
+  // 菜单键的动画
+  menuIconAnimation: function (animation, rotateZ) {
+    this.animationRotate(animation, rotateZ);
+    this.animationStep(animation);
   },
 
-  mutlUploadFile : function (pictures, url, name, header) {
-    var postpromise = new Promise(function (resolve, reject) {
-      wx.showLoading({
-        title: "正在处理..."
-      })
-      let flag = 0,
-        results = [];
-      pictures.forEach(element => {
-        wx.uploadFile({
-          url: url,
-          filePath: element.images,
-          name: name,
-          header: header,
-          success(res) {
-            flag++;
-            results.push({
-              images: element.images,
-              result: res.data,
-            })
-            if (flag == pictures.length) {
-              resolve(results);
-            }
-          },
-          fail: (res) => {
-            flag++;
-            if (flag == pictures.length) {
-              reject(res);
-            }
-          },
-        })
-      })
-    })
-    return postpromise;
+  // 子项的动画
+  childrenIconAnimation: function (self, animation, x, y, opacity, rotateZ) {
+    this.animationTranslate(self, animation, x, y, opacity);
+    this.animationRotate(animation, rotateZ);
+    this.animationStep(animation);
+  },
+
+  // 绕Z旋转动画
+  animationRotate: function (animation, rotateZ) {
+    animation.rotateZ(rotateZ);
+  },
+
+  // 平移动画
+  animationTranslate: function (self, animation, x, y, opacity) {
+    animation.translate(x * self.data.windowW / 750, y * self.data.windowW / 750).opacity(opacity);
+  },
+
+  // 动画结束
+  animationStep: function(animation){
+    animation.step();
+  },
+
+  // 创建动画
+  createAnimation: function(){
+    return wx.createAnimation({
+      duration: 400,
+      timingFunction: 'ease-out'
+    });
   }
 }
 
+// 选择相册图片或拍照图片
+function chooseImageFile(self, count, sourceType, path, emitname) {
+  if (sourceType[0] == 'album' || sourceType[0] == 'camera') {
+    chooseImage(count, sourceType, path);
+  } else if (sourceType[0] == 'wechat') {
+    chooseMessageFile(count, path);
+  }
 
+  // 选择手机相册图片或拍照图片
+  function chooseImage(count, sourceType, path) {
+    wx.chooseImage({
+      count: count,
+      sourceType: sourceType,
+
+      success: res => {
+        navigate(res.tempFilePaths, path, emitname);
+      },
+    });
+  }
+
+  // 选择微信图片
+  function chooseMessageFile(count, path) {
+    wx.chooseMessageFile({
+      count: count,
+      type: 'image',
+
+      success: res => {
+        let tempFilePaths = [];
+        res.tempFiles.forEach(element => {
+          tempFilePaths.push(element.path);
+        })
+        navigate(tempFilePaths, path, emitname);
+      },
+    });
+  }
+
+  // 进行导航操作
+  function navigate(tempFilePaths, path, emitname) {
+    wx.navigateTo({
+      url: path,
+      event: {
+        albumnToIndex: function (data) {
+          console.log(data.feedback);
+        },
+      },
+      success: function (res) {
+        let pictures = [];
+        tempFilePaths.forEach(element => {
+          pictures.push({
+            images: element,
+            isChoose: '',
+          });
+        });
+        res.eventChannel.emit(emitname, {
+          pictures: pictures,
+          active: self.data.active
+        });
+      },
+    });
+  }
+}
+
+// 将字符串编码为MD5
 function md5(string) {
   function md5_RotateLeft(lValue, iShiftBits) {
     return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));
@@ -240,6 +286,7 @@ function md5(string) {
 
 
 module.exports = {
+  animation: animation,
+  chooseImageFile: chooseImageFile,
   md5: md5,
-  mutlUploadFile: http.mutlUploadFile,
 }

@@ -1,42 +1,25 @@
+const utils = require('../../utils.js');
+
 const app = getApp()
 
 Page({
   data: {
     content: '图册',
-    pictures: [],
     isIphoneX: app.globalData.isIphoneX,
-    listData: [],
-    extraNodes: [
-    ],
     pageMetaScrollTop: 0,
     scrollTop: 0,
-    active: '',
     isPopping: true,
-    animMenu: {},
-    animScan: {},
-    animChoose: {},
-    animErase: {},
-    animNone1: {},
-    animNone2: {},
-    windowH: '',
-    windowW: '',
-    img_h: '',
-    img_w: '',
-    chooseB: '',
   },
 
 
   onLoad() {
     let self = this,
       eventChannel = self.getOpenerEventChannel();
-
     self.drag = self.selectComponent('#drag');
     self.drag.init();
-
     wx.showShareMenu({
       withShareTicket: true
     })
-
     wx.getSystemInfo({
       success: res => {
         const windowHeight = res.windowHeight,
@@ -65,11 +48,9 @@ Page({
 
   // 当点击图片时可以对图片进行操作: 图片的缩放, 图片的裁剪
   onTapImg() {
-
     let self = this,
       id = self.drag.getIndex(),
       active = self.data.active;
-
     if (!self.data.chooseB) {
       if (id !== '') {
         let pictures = self.data.pictures;
@@ -97,29 +78,22 @@ Page({
   tapDragImg(e) {
     let self = this,
       pictures = [];
-
     for (let i = 0; i < e.detail.pictures.length; i++) {
       pictures.push(e.detail.pictures[i].data);
     }
-
     self.setData({
       pictures: pictures,
     })
-
     self.drag.init()
-
   },
-
 
   // 将数据传输给index页面
   backIndex() {
     let self = this,
       eventChannel = self.getOpenerEventChannel();
-
     // 调用事件fromAlbumn
     eventChannel.emit('albumnToIndex', { data: "要反馈的信息" })
   },
-
 
   sortEnd(e) {
     this.setData({
@@ -129,16 +103,11 @@ Page({
     this.drag.init();
   },
 
-
   change() {
-    // console.log("change", e.detail.pictures)
   },
-
 
   itemClick() {
-    // console.log(e);
   },
-
 
   scroll(e) {
     this.setData({
@@ -146,14 +115,12 @@ Page({
     })
   },
 
-
   // 页面滚动
   onPageScroll(e) {
     this.setData({
       scrollTop: e.scrollTop
     });
   },
-
 
   //点击弹出
   menu: function () {
@@ -174,27 +141,25 @@ Page({
   //弹出动画
   pop: function () {
     let self = this,
-      menu = createAnimation(),
-      scan = createAnimation(),
-      choose = createAnimation(),
-      erase = createAnimation(),
-      none1 = createAnimation(),
-      none2 = createAnimation()
-
-    menuIconAnimation(menu, 180);
-    childrenIconAnimation(self, scan, 40, -160, 1, 180);
-    childrenIconAnimation(self, choose, -100, -120, 1, 180);
-    childrenIconAnimation(self, erase, -168, 0, 1, 180);
-    childrenIconAnimation(self, none1, -100, 120, 1, 180);
-    childrenIconAnimation(self, none2, 40, 160, 1, 180);
-
-    this.setData({
+      menu = utils.animation.createAnimation(),
+      anim1 = utils.animation.createAnimation(),
+      anim2 = utils.animation.createAnimation(),
+      anim3 = utils.animation.createAnimation(),
+      anim4 = utils.animation.createAnimation(),
+      anim5 = utils.animation.createAnimation()
+    utils.animation.menuIconAnimation(menu, 180);
+    utils.animation.childrenIconAnimation(self, anim1, 40, -160, 1, 180);
+    utils.animation.childrenIconAnimation(self, anim2, -100, -120, 1, 180);
+    utils.animation.childrenIconAnimation(self, anim3, -168, 0, 1, 180);
+    utils.animation.childrenIconAnimation(self, anim4, -100, 120, 1, 180);
+    utils.animation.childrenIconAnimation(self, anim5, 40, 160, 1, 180);
+    self.setData({
       animMenu: menu.export(),
-      animScan: scan.export(),
-      animChoose: choose.export(),
-      animErase: erase.export(),
-      animNone1: none1.export(),
-      animNone2: none2.export(),
+      anim1: anim1.export(),
+      anim2: anim2.export(),
+      anim3: anim3.export(),
+      anim4: anim4.export(),
+      anim5: anim5.export(),
     })
   },
 
@@ -202,27 +167,25 @@ Page({
   //收回动画
   takeback: function () {
     let self = this,
-      menu = createAnimation(),
-      scan = createAnimation(),
-      choose = createAnimation(),
-      erase = createAnimation(),
-      none1 = createAnimation(),
-      none2 = createAnimation()
-
-    menuIconAnimation(menu, 0);
-    childrenIconAnimation(self, scan, 0, 0, 0, 0);
-    childrenIconAnimation(self, choose, 0, 0, 0, 0);
-    childrenIconAnimation(self, erase, 0, 0, 0, 0);
-    childrenIconAnimation(self, none1, 0, 0, 0, 0);
-    childrenIconAnimation(self, none2, 0, 0, 0, 0);
-
-    this.setData({
+      menu = utils.animation.createAnimation(),
+      anim1 = utils.animation.createAnimation(),
+      anim2 = utils.animation.createAnimation(),
+      anim3 = utils.animation.createAnimation(),
+      anim4 = utils.animation.createAnimation(),
+      anim5 = utils.animation.createAnimation()
+    utils.animation.menuIconAnimation(menu, 0);
+    utils.animation.childrenIconAnimation(self, anim1, 0, 0, 0, 0);
+    utils.animation.childrenIconAnimation(self, anim2, 0, 0, 0, 0);
+    utils.animation.childrenIconAnimation(self, anim3, 0, 0, 0, 0);
+    utils.animation.childrenIconAnimation(self, anim4, 0, 0, 0, 0);
+    utils.animation.childrenIconAnimation(self, anim5, 0, 0, 0, 0);
+    self.setData({
       animMenu: menu.export(),
-      animScan: scan.export(),
-      animChoose: choose.export(),
-      animErase: erase.export(),
-      animNone1: none1.export(),
-      animNone2: none2.export(),
+      anim1: anim1.export(),
+      anim2: anim2.export(),
+      anim3: anim3.export(),
+      anim4: anim4.export(),
+      anim5: anim5.export(),
       chooseB: false,
     })
   },
@@ -230,7 +193,6 @@ Page({
   // 当点击扫描图标时
   scan() {
     let self = this;
-
     if (self.data.active == 0) {
       let url = 'https://www.universitydog.cn/scan',
         name = 'scan',
@@ -238,9 +200,7 @@ Page({
           "Content-Type": "text/html",
           'accept': 'application/json',
         };
-
       promiseThen(mutlUploadFile(self.data.pictures, url, name, header), '../result/result_scan/result_scan', 'albumnToResult_scan');
-
     } else if (self.data.active == 1) {
       let url = 'https://www.universitydog.cn/translatescan',
         name = 'translatescan',
@@ -248,15 +208,12 @@ Page({
           "Content-Type": "text/html",
           'accept': 'application/json',
         };
-
       promiseThen(mutlUploadFile(self.data.pictures, url, name, header), '../result/result_translate/result_translate', 'albumnToResult_translate');
-
     } else if (self.data.active == 2) {
       let picpromise = new Promise(function (resolve, reject) {
         wx.showLoading({
           title: "正在处理..."
         })
-
         wx.request({
           url: 'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=tOdCCaGHqBEzp2ojPIfGOvWK&client_secret=3yzHnT8Fw29X0bMyuUa88oNu12k4Dga7',
           method: 'POST',
@@ -316,51 +273,39 @@ Page({
     }
   },
 
-
   choose: function () {
     let self = this,
       chooseB = !self.data.chooseB,
       pictures = self.data.pictures;
-
     if (chooseB) {
       pictures.forEach(element => {
         element.isChoose = false;
       });
     }
-
     self.setData({
       chooseB: chooseB,
       pictures: pictures,
     })
-
     self.drag.init();
-
   },
-
 
   erase: function () {
     let self = this,
       deleteNum = [],
       pictures = self.data.pictures;
-
     for (let i = 0; i < self.data.pictures.length; i++) {
       if (self.data.pictures[i].isChoose && self.data.chooseB) {
         deleteNum.push(i);
       }
     }
-
     for (let i = 0; i < deleteNum.length; i++) {
       pictures.splice(deleteNum[i] - i, 1);
     }
-
     self.setData({
       pictures: pictures,
     })
-
     self.drag.init();
-
   },
-
 
   none: function () {
     wx.showToast({
@@ -369,46 +314,7 @@ Page({
     })
   },
 
-
 })
-
-// 菜单键的动画
-function menuIconAnimation(animation, rotateZ) {
-  animationRotate(animation, rotateZ);
-  animationStep(animation);
-}
-
-
-// 子项的动画
-function childrenIconAnimation(self, animation, x, y, opacity, rotateZ) {
-  animationTranslate(self, animation, x, y, opacity);
-  animationRotate(animation, rotateZ);
-  animationStep(animation);
-}
-
-// 绕Z旋转动画
-function animationRotate(animation, rotateZ) {
-  animation.rotateZ(rotateZ);
-}
-
-// 平移动画
-function animationTranslate(self, animation, x, y, opacity) {
-  animation.translate(x * self.data.windowW / 750, y * self.data.windowW / 750).opacity(opacity);
-}
-
-// 动画结束
-function animationStep(animation) {
-  animation.step();
-}
-
-// 创建动画
-function createAnimation() {
-  return wx.createAnimation({
-    duration: 400,
-    timingFunction: 'ease-out'
-  });
-}
-
 // 承诺完成后执行的内容
 function promiseThen(promise, path, emitName) {
   promise.then((result) => {
