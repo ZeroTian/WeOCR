@@ -16,6 +16,12 @@
 			<text class="bg-grey" style="width 2rem;"></text>
 		</view>
 	</navigator>
+	<navigator url="/pages/garbage/garbage?active=-100" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
+		<view class="action sub-title">
+			<text class="text-xl text-bold" style="font-size: 30rpx">垃圾识别</text>
+			<text class="bg-grey" style="width 2rem;"></text>
+		</view>
+	</navigator>
 	<navigator url="/pages/chooseImg/chooseImg?active=-5" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
 		<view class="action sub-title">
 			<text class="text-xl text-bold" style="font-size: 30rpx">果蔬识别</text>

@@ -1,0 +1,8 @@
+<button class="share" openType="share" style="display: {{page==='test'?'none':'block'}};bottom: {{page==='index'?'350rpx':page==='test'?'350rpx':'100rpx'}};">
+    <image src="{{shareIconSrc}}"></image>
+    <text>分享</text>
+</button>
+<button class="cs" openType="contact" style="bottom: {{page==='index'?'270rpx':page==='test'?'270rpx':'20rpx'}};">
+    <image src="{{talkIconSrc}}"></image>
+    <text>留言</text>
+</button>

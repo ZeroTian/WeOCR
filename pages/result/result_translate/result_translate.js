@@ -395,28 +395,22 @@ Page({
 
     let self = this,
       translate_to = '',
-      from = self.data.translate.slanguage[self.data.translate.from],
       to = self.data.translate.slanguage[self.data.translate.to],
-      apiPath = 'https://fanyi-api.baidu.com/api/trans/vip/translate',
-      appid = '20200530000479202',
-      salt = '1435660288',
-      password = 'IXbuPnCbYx4OIIDVVnPK',
-      q = encodeURI(self.data.translate_from),
-      sign = utils.md5(appid + self.data.translate_from + salt + password),
-      url = apiPath + '?' + 'q=' + q + '&' + 'from=' + from + '&' + 'to=' + to + '&' + 'appid=' + appid + '&' + 'salt=' + salt + '&' + 'sign=' + sign
+      q = self.data.translate_from.split("\n").join('\r')
 
     wx.request({
-      url: url,
+      url: 'https://www.universitydog.cn/textTranslate',
+      data: {
+        to: to,
+        q: q,
+      },
       success: res => {
-
         wx.hideLoading();
-
-        res.data.trans_result.forEach(element => {
-          translate_to += element.dst + '\n';
-        });
+        translate_to += res.data.result;
 
         self.setData({
           translate_to: translate_to,
+          translate_data: res.data,
         })
 
       },

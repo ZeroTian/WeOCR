@@ -1,0 +1,90 @@
+<import src="/templates/header/header.wxml" />
+
+<template is="fifth" data="{{content}}" />
+
+ <view id="searchWrapper">
+        <input bindblur="searchOffFocus" bindfocus="searchOnFocus" bindinput="searchOnTyping" focus="{{searchTextFocus}}" id="search" placeholder="搜索垃圾查看对应分类" type="text" value="{{searchText}}"></input>
+        <image id="magnifier" src="{{magnifierSrc}}"></image>
+        <view bindtap="clearSearchText" id="clearSearchText" style="display: {{searchText.length>0?'block':'none'}};"></view>
+        <text bindtap="cancelSearch" id="cancelSearch">清除</text>   
+    </view>
+<view id="side" style="bottom: {{withAd?'250rpx':'0rpx'}}; top: 250rpx;">
+    <view bindtap="switchSection" class="cat{{activeSectionId==index?' active':''}}" id="cat{{index}}" wx:for="{{cats}}" wx:for-item="cat" wx:key="index">
+        <text>{{cat.title}}</text>
+    </view>
+
+</view>
+
+<view class="list-wrapper" style="bottom: {{withAd?'250rpx':'0rpx'}}; top: 250rpx;">
+    <scroll-view class="list" enableBackToTop="true" scrollWithAnimation="true" scrollY="true" style="display: {{activeSectionId==sectionIndex?'block':'none'}};" wx:for="{{data}}" wx:for-index="sectionIndex" wx:for-item="section" wx:key="index">
+        <view class="section" id="section{{sectionIndex}}">
+            <view class="cat-intro-wrapper cat-intro-wrapper-{{sectionIndex}}">
+                <image class="section-icon" src="{{cats[sectionIndex].imageSrc}}"></image>
+                <view class="cat-intro" wx:if="{{sectionIndex===0}}">
+                    <view class="cat-description">
+                        <text class="b">湿垃圾</text>是指易腐的生物质废弃物。包括剩菜剩饭、瓜皮果核、花卉绿植、肉类碎骨、过期食品、餐厨垃圾等。</view>
+                    <text class="throw-tips-title">投放要求：</text>
+                    <text class="throw-tip">纯流质的食物垃圾，如牛奶等，应直接倒进下水口</text>
+                    <text class="throw-tip">有包装物的湿垃圾应将包装物取出后分类投放，包装物请投放到对应的可回收物容器或干垃圾容器</text>
+                </view>
+                <view class="cat-intro" wx:elif="{{sectionIndex===1}}">
+                    <view class="cat-description">
+                        <text class="b">干垃圾</text>是指除有害垃圾、可回收物、湿垃圾以外的其他生活废弃物。</view>
+                    <text class="throw-tips-title">投放要求：</text>
+                    <text class="throw-tip">尽量沥干水分</text>
+                    <text class="throw-tip">难以辨识类别的生活垃圾投入干垃圾容器内</text>
+                </view>
+                <view class="cat-intro" wx:elif="{{sectionIndex===2}}">
+                    <view class="cat-description">
+                        <text class="b">可回收物</text>是指适宜回收和可循环再利用的废弃物。主要包括废玻璃、废金属、废塑料、废纸张、废织物等。</view>
+                    <text class="throw-tips-title">投放要求：</text>
+                    <text class="throw-tip">轻投轻放</text>
+                    <text class="throw-tip">清洁干燥，避免污染</text>
+                    <text class="throw-tip">废纸尽量平整</text>
+                    <text class="throw-tip">立体包装请清空内容物，清洁后压扁投放</text>
+                    <text class="throw-tip">有尖锐边角的，应包裹后投放</text>
+                </view>
+                <view class="cat-intro" wx:else>
+                    <view class="cat-description">
+                        <text class="b">有害垃圾</text>是指对人体健康或者自然环境造成直接或者潜在危害的零星废弃物，单位集中产生的除外。主要包括废电池、废灯管、废药品、废油漆桶等。</view>
+                    <text class="throw-tips-title">投放要求：</text>
+                    <text class="throw-tip">充电电池、纽扣电池、蓄电池投放时请注意轻放</text>
+                    <text class="throw-tip">油漆桶、杀虫剂如有残留请密闭后投放</text>
+                    <text class="throw-tip">荧光灯、节能灯易破损请连带包装或包裹后轻放</text>
+                    <text class="throw-tip">废药品及其包装连带包装一并投放</text>
+                </view>
+            </view>
+            <view id="searchOverlay">
+        <scroll-view enableBackToTop="true" id="results" scrollWithAnimatio="true" scrollY="true" style="display:block;">
+            <view bindtap="showDetail" class="result result-cat-{{result.c-1}}" data-cat-index="{{result.c-1}}" data-item-name="{{result.n}}" wx:for="{{searchResults}}" wx:key="index" wx:for-item="result">{{result.n}} [{{cats[result.c-1].title}}]</view>
+        </scroll-view>
+        <image id="searchWithNoResultsIcon" src="{{crySrc}}" style="display: {{searchWithNoResults?'block':'none'}};"></image>
+        <text id="searchWithNoResultsText" style="display: {{searchWithNoResults?'block':'none'}};">没有找到您要的结果</text>
+        <text bindtap="submitKeyword" id="searchWithNoResultsSubmit" style="display: {{submittedKeyword?'none':searchWithNoResults?'block':'none'}};">点击这里把 "{{searchText}}" 提交给我们吧</text>
+        <text id="submitKeywordStatus" style="display: {{submittedKeyword?'block':'none'}};">{{submitKeywordStatus}}</text>
+    </view>
+        </view>
+    </scroll-view>
+</view>
+<view bindtap="hideDetail" id="detailOverlay" style="display: {{showingDetail?'block':'none'}};">
+    <view class="detail-{{detailCatIndex}}" id="detail" style="display: {{showingDetail?'block':'none'}};">
+        <text id="detailItemName">{{detailItemName}}</text>
+        <text id="detailBelongToText">属于</text>
+        <image id="detailCatIcon" src="{{cats[detailCatIndex].imageSrc}}"></image>
+    </view>
+</view>
+<view bindtap="hideTips" id="tipsOverlay" style="display: {{showingTips?'block':'none'}};"></view>
+<view id="tips" style="display: {{showingTips?'block':'none'}};bottom: {{withAd?'340rpx':'90rpx'}};">本查询系统仅供参考，具体分类要求以属地专业管理部门为准。如果您发现有不正确的地方请给我们留言指出，谢谢！</view>
+<view id="adWrapper">
+    <image id="camera"  src="../../images/camera.png" bindtap="ToPhoto"></image>
+</view>
+<actions page="{{page}}"></actions>
+<view bindtap="hideQr" id="qrDownloadOverlay" style="display: {{showQr?'block':'none'}};"></view>
+<view id="qrDownloadWrapper" style="display: {{showQr?'block':'none'}};">
+    <image src="{{wsgQrSrc}}"></image>
+    <button bindtap="authorizeWritePhotosAlbum" wx:if="{{writePhotosAlbumStatus===0}}">授权保存二维码到相册</button>
+    <button bindtap="saveQrToAlbum" wx:elif="{{writePhotosAlbumStatus===1}}">保存二维码到相册</button>
+    <button bindopensetting="openSetting" openType="openSetting" wx:elif="{{writePhotosAlbumStatus===2}}">允许保存二维码到相册</button>
+    <button disabled="true" wx:else>保存成功！</button>
+    <view bindtap="hideQr" id="hideQr"></view>
+</view>

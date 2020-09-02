@@ -1,0 +1,7 @@
+{
+    "usingComponents": {
+        "add-to-my-miniapps": "/components/add_to_my_miniapps/add_to_my_miniapps",
+        "actions": "/components/actions/actions"
+    },
+    "navigationBarTitleText": "垃圾分类指南"
+}

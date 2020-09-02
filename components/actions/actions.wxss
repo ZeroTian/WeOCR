@@ -1,0 +1,37 @@
+.share,.cs {
+    position: fixed;
+    right: 10px;
+    width: 150rpx;
+    height: 60rpx;
+    border-top-left-radius: 30rpx;
+    border-bottom-left-radius: 30rpx;
+    border-top-right-radius: 30rpx;
+    border-bottom-right-radius: 30rpx;
+    background-color: #ffffff;
+    box-shadow: 0px 1px 3px 1px rgba(0,0,0,0.1);
+    z-index: 1501;
+}
+
+.cs {
+}
+
+.share::after,.cs::after {
+    border: none;
+}
+
+.share image,.cs image {
+    position: absolute;
+    left: 25rpx;
+    top: 15rpx;
+    width: 30rpx;
+    height: 30rpx;
+}
+
+.share text,.cs text {
+    position: absolute;
+    left: 65rpx;
+    top: 0rpx;
+    line-height: 60rpx;
+    color: #333333;
+    font-size: 28rpx;
+}

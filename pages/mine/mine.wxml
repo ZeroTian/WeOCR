@@ -48,12 +48,12 @@
             </navigator>
         </view>
 
-        <view class="cu-item arrow">
+        <!-- <view class="cu-item arrow">
             <navigator class="content" url="/pages/user/user_collection/user_collection" hover-class="none">
                 <text class="cuIcon-favorfill lg text-orange"></text>
                 <text class="text-grey">我的收藏</text>
             </navigator>
-        </view>
+        </view> -->
 
         <view class="cu-item arrow">
             <navigator class="content" url="/pages/user/user_history/user_history" hover-class="none">

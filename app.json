@@ -21,7 +21,8 @@
     "pages/introduce/introduce",
     "pages/cropper/cropper",
     "pages/user/user_history/user_history",
-    "pages/user/user_cardBag/user_cardBag"
+    "pages/user/user_cardBag/user_cardBag",
+    "pages/garbage/garbage"
   ],
   "window": {
     "backgroundTextStyle": "light",

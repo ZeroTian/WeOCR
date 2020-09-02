@@ -1,2 +1,18 @@
-<!--pages/user/user_history.wxml-->
-<text>pages/user/user_history.wxml</text>
+<import src="/templates/header/header.wxml" />
+
+<template is="fifth" data="{{content}}" />
+
+<view class="cu-list menu-avatar" style="border-bottom:solid 3rpx #f1f1f1;">
+    <view class="cu-item" wx:for="{{historyData}}" wx:key="index" bindtap="showModal" data-target="{{index}}">
+        <image class="cu-avatar radius lg"  mode="aspectFill" />
+        <view class="content">
+            <view class="text-gray flex">
+                <text class="text-gray text-cut" style="font-size: 27rpx">{{item.result}}</text>
+                <text class="text-gray" style="font-size: 27rpx">{{item.time}}</text>
+            </view>
+        </view>
+        <view class="action">
+            <view class="cu-tag round bg-blue light">{{item.tab}}</view>
+        </view>
+    </view>
+</view>

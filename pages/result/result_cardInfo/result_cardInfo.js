@@ -147,7 +147,29 @@ Page({
   },
 
   starSubmit(e){
-    
+    let self = this,
+      openid = ''
+    wx.showLoading({
+      title: "正在处理..."
+    })
+    let promise = new Promise(function (resolve, reject) {
+      wx.getStorage({
+        key:'app_openid',//获取key值
+        success: function(res) {
+          openid = res.data
+          resolve(openid)
+        },
+      })
+    }).then(openid => {
+      wx.request({
+        url:'https://www.universitydog.cn/star?openid=' + openid,
+        method: 'GET',
+        success: res => {
+        }
+      })
+    }).catch(() => {})
+    wx.hideLoading();
+    hideModal(self);
   },
 
   saveSubmit(e){

@@ -196,8 +196,8 @@ Page({
     if (self.data.active == 0) {
       let promise = new Promise(function (resolve, reject) {
         wx.getStorage({
-          key:'app_openid',
-          success: function(res) {
+          key: 'app_openid',
+          success: function (res) {
             let openid = res.data
             resolve(openid)
           },
@@ -210,12 +210,12 @@ Page({
             'accept': 'application/json',
           };
         promiseThen(mutlUploadFile(self.data.pictures, url, name, header, openid), '../result/result_scan/result_scan', 'albumnToResult_scan');
-      }).catch(res => {})
+      }).catch(res => { })
     } else if (self.data.active == 1) {
       let promise = new Promise(function (resolve, reject) {
         wx.getStorage({
-          key:'app_openid',
-          success: function(res) {
+          key: 'app_openid',
+          success: function (res) {
             let openid = res.data
             resolve(openid)
           },
@@ -228,7 +228,7 @@ Page({
             'accept': 'application/json',
           };
         promiseThen(mutlUploadFile(self.data.pictures, url, name, header, openid), '../result/result_translate/result_translate', 'albumnToResult_translate');
-      }).catch(res => {})
+      }).catch(res => { })
     } else if (self.data.active == 2) {
       let picpromise = new Promise(function (resolve, reject) {
         wx.showLoading({
@@ -290,6 +290,63 @@ Page({
         })
       })
       promiseThen(picpromise, '../result/result_form/result_form', 'albumnToResult_form');
+    } else if (self.data.active == -100) {
+      wx.showLoading({
+        title: "正在处理..."
+      })
+      wx.request({
+        url: 'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=tOdCCaGHqBEzp2ojPIfGOvWK&client_secret=3yzHnT8Fw29X0bMyuUa88oNu12k4Dga7',
+        method: 'POST',
+        success: res => {
+          let access_token = res.data.access_token
+          console.log(access_token)
+          wx.getFileSystemManager().readFile({
+            filePath: this.data.pictures[0].images,
+            encoding: 'base64',
+            success: res => {
+              let image = encodeURI(res.data)
+              wx.request({
+                url: 'https://aip.baidubce.com/rest/2.0/image-classify/v2/advanced_general' + "?access_token=" + access_token,
+                data: {
+                  image: image,
+                },
+                header: {
+                  'content-type': 'application/x-www-form-urlencoded'
+                },
+                method: 'POST',
+                success: res1 => {
+                  wx.navigateTo({
+                    url: '../garbage/garbage',
+                    events: {
+                      // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+                      acceptDataFromOpenedPage: function (data) {
+                        console.log(data)
+                      },
+                      someEvent: function (data) {
+                        console.log(data)
+                      }
+                    },
+                    success: function (res) {
+                      // 通过eventChannel向被打开页面传送数据
+                      wx.hideLoading()
+                      res.eventChannel.emit('acceptDataFromOpenerPage', { data1: res1.data.result[0].keyword })
+
+                    }
+                  })
+                },
+                fail: res => {
+                  console.log(res)
+                  wx.hideLoading()
+                  wx.showToast({
+                    title: "出现了一个错误\n请重试",
+                    icon: "none"
+                  });
+                }
+              })
+            }
+          })
+        }
+      })
     }
   },
 
@@ -373,7 +430,7 @@ function mutlUploadFile(pictures, url, name, header, openid) {
         filePath: element.images,
         name: name,
         header: header,
-        formData:{
+        formData: {
           'openid': openid
         },
         success(res) {

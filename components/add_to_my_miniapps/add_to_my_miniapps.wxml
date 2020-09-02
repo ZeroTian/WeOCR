@@ -1,0 +1,4 @@
+<view class="fav-hint" style="display: {{showFavHint?'block':'none'}};">
+    <text>添加到我的小程序</text>
+    <view bindtap="hideFavHint" class="close-fav-hint"></view>
+</view>

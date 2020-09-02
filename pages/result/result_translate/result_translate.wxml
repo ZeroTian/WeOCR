@@ -19,7 +19,7 @@
 </scroll-view>
 
 
-<template wx:if="{{isTranslate}}" is="translate" data="{{bottomHeight, barHeight, windowH, windowW, CustomBar, translate, translate_from, translate_to}}"/>
+<template wx:if="{{isTranslate}}" is="translate" data="{{bottomHeight, barHeight, windowH, windowW, CustomBar, translate, translate_from, translate_to, translate_data}}"/>
 
 
 <view class="cu-bar tabbar bg-white" style="width: {{windowW}}px; height: {{(100 *  windowW / 750) + CustomBar * 0.3}}px;">
