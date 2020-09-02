@@ -9,8 +9,7 @@
     "pages/result/result_scan/result_scan",
     "pages/result/result_translate/result_translate",
     "pages/mine/mine",
-    "pages/result/result_bankInfo/result_bankInfo",
-    "pages/user/user_download/user_download",
+    "pages/result/result_cardInfo/result_cardInfo",
     "pages/user/user_information/user_information",
     "pages/user/user_collection/user_collection",
     "pages/result/result_form/result_form",
@@ -20,9 +19,10 @@
     "pages/result/translate/translate",
     "pages/about/about",
     "pages/introduce/introduce",
-    "pages/cropper/cropper"
+    "pages/cropper/cropper",
+    "pages/user/user_history/user_history",
+    "pages/user/user_cardBag/user_cardBag"
   ],
-  
   "window": {
     "backgroundTextStyle": "light",
     "backgroundColor": "rgb(231,235,237)",

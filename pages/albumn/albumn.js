@@ -194,21 +194,41 @@ Page({
   scan() {
     let self = this;
     if (self.data.active == 0) {
-      let url = 'https://www.universitydog.cn/scan',
-        name = 'scan',
-        header = {
-          "Content-Type": "text/html",
-          'accept': 'application/json',
-        };
-      promiseThen(mutlUploadFile(self.data.pictures, url, name, header), '../result/result_scan/result_scan', 'albumnToResult_scan');
+      let promise = new Promise(function (resolve, reject) {
+        wx.getStorage({
+          key:'app_openid',
+          success: function(res) {
+            let openid = res.data
+            resolve(openid)
+          },
+        })
+      }).then(openid => {
+        let url = 'https://www.universitydog.cn/scan',
+          name = 'scan',
+          header = {
+            "Content-Type": "text/html",
+            'accept': 'application/json',
+          };
+        promiseThen(mutlUploadFile(self.data.pictures, url, name, header, openid), '../result/result_scan/result_scan', 'albumnToResult_scan');
+      }).catch(res => {})
     } else if (self.data.active == 1) {
-      let url = 'https://www.universitydog.cn/translatescan',
-        name = 'translatescan',
-        header = {
-          "Content-Type": "text/html",
-          'accept': 'application/json',
-        };
-      promiseThen(mutlUploadFile(self.data.pictures, url, name, header), '../result/result_translate/result_translate', 'albumnToResult_translate');
+      let promise = new Promise(function (resolve, reject) {
+        wx.getStorage({
+          key:'app_openid',
+          success: function(res) {
+            let openid = res.data
+            resolve(openid)
+          },
+        })
+      }).then(openid => {
+        let url = 'https://www.universitydog.cn/translatescan',
+          name = 'translatescan',
+          header = {
+            "Content-Type": "text/html",
+            'accept': 'application/json',
+          };
+        promiseThen(mutlUploadFile(self.data.pictures, url, name, header, openid), '../result/result_translate/result_translate', 'albumnToResult_translate');
+      }).catch(res => {})
     } else if (self.data.active == 2) {
       let picpromise = new Promise(function (resolve, reject) {
         wx.showLoading({
@@ -340,7 +360,7 @@ function promiseThen(promise, path, emitName) {
 }
 
 // 上传多张照片
-function mutlUploadFile(pictures, url, name, header) {
+function mutlUploadFile(pictures, url, name, header, openid) {
   let postpromise = new Promise(function (resolve, reject) {
     wx.showLoading({
       title: "正在处理..."
@@ -353,6 +373,9 @@ function mutlUploadFile(pictures, url, name, header) {
         filePath: element.images,
         name: name,
         header: header,
+        formData:{
+          'openid': openid
+        },
         success(res) {
           flag++;
           results.push({

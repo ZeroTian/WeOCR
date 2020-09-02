@@ -1,37 +1,35 @@
 <import src="/templates/header/header.wxml"/>
 
 <template is="second" data="{{content}}"/>
-<!--pages/User_Information/userInfo.wxml-->
-<!--pages/myinfo/myinfo.wxml-->
-<!-- <text>pages/myinfo/myinfo.wxml</text> -->
-<view class='content'>
 
-	<view class='nav'>
-		<view class='top'>
-			<open-data type="userAvatarUrl"></open-data>
-		</view>
+
+<form>
+	<view class="cu-form-group margin-top">
+		<view class="title">昵称</view>
+		<input placeholder="{{userInfo.nickName}}"></input>
 	</view>
-  <view class="line"></view>
-	<view class='nickname'>
-  <view title="item">昵称</view>
-		<open-data type="userNickName" class="right"></open-data>
-    
+	<view class="cu-form-group">
+		<view class="title">性别</view>
+		<switch class="switch-sex" checked></switch>
 	</view>
-<view class="line"></view>
-	<view class='item'>
-    <view class="title">性别</view>
-    <view class="detail2">
-      <text> {{sex}}</text>
-    </view>
-  </view>
-  <view class="line"></view>
-  <view class='item'>
-    <view class="title">地区</view>
-    <view class="detail2">
-      <text>{{place}}</text>
-    </view>
-  </view>
-  <view class="line"></view>
-  <view class="line"></view>
-  <view class="line"></view>
+	<view class="cu-form-group">
+		<view class="title">生日</view>
+		<picker mode="date" value="{{date}}" start="1999-09-01" end="2020-09-01" bindchange="dateChange">
+			<view class="picker">
+				{{date}}
+			</view>
+		</picker>
+	</view>
+	<view class="cu-form-group">
+		<view class="title">职业</view>
+		<input placeholder="保密"></input>
+	</view>
+	<view class="cu-form-group align-start">
+		<view class="title">座右铭</view>
+		<textarea maxlength="-1" disabled="{{modalName!=null}}" bindinput="textareaBInput" placeholder="编辑个性签名"></textarea>
+	</view>
+</form>
+
+<view style="position: absolute; bottom: 50rpx; width: 100%; display: flex; flex-direction: row; justify-content: center">
+  <button class="bg-olive" style="width: 90%">编辑资料</button>
 </view>

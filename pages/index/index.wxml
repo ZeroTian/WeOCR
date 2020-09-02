@@ -31,12 +31,6 @@
 				<text class="bg-grey" style="width 2rem;"></text>
 			</view>
 		</navigator>
-		<navigator url="/pages/chooseImg/chooseImg?active=-8" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
-			<view class="action sub-title">
-				<text class="text-xl text-bold" style="font-size: 30rpx">出生证明识别</text>
-				<text class="bg-grey" style="width 2rem;"></text>
-			</view>
-		</navigator>
 		<navigator url="/pages/chooseImg/chooseImg?active=-9" hover-class="hover" hover-start-time="{{0}}" class="cell cu-bar bg-white">
 			<view class="action sub-title">
 				<text class="text-xl text-bold" style="font-size: 30rpx">名片识别</text>

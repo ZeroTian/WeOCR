@@ -12,14 +12,14 @@
     scroll-x scroll-y scroll-with-animation 
     style="height: {{(windowH - ((100 + 90) * windowW / 750) - 1.3 * CustomBar)}}px">
     <image style="zoom:{{stv.scale}}; width: {{img_width}}px; height: {{img_height}}px" src="{{pictures[TabCur].images}}">
-        <view class="box {{item.boxChoosed ? 'boxChoosed' : ''}}" wx:for="{{pictures[TabCur].result.words_result}}" wx:key="*this" data-id="{{index}}" 
+        <view class="box {{item.boxChoosed ? 'boxChoosed' : ''}}" wx:for="{{pictures[TabCur].result.words_result}}" wx:key="index" data-id="{{index}}" 
             style="top: {{item.location.top / proportion}}px; left: {{item.location.left / proportion}}px; width: {{item.location.width / proportion}}px; height: {{item.location.height / proportion}}px;"
             bindtap="tapBox"/>
     </image>
 </scroll-view>
 
 
-<template wx:if="{{isTranslate}}" is="translate" data="{{bottomHeight, barHeight, windowH, windowW, CustomBar, translate}}"/>
+<template wx:if="{{isTranslate}}" is="translate" data="{{bottomHeight, barHeight, windowH, windowW, CustomBar, translate, translate_from, translate_to}}"/>
 
 
 <view class="cu-bar tabbar bg-white" style="width: {{windowW}}px; height: {{(100 *  windowW / 750) + CustomBar * 0.3}}px;">

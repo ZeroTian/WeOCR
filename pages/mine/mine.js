@@ -97,6 +97,7 @@ function authorization(self) {
               self.setData({
                 userInfo: res.userInfo,
               });
+              app.globalData.userInfo = res.userInfo
             }
           });
         }

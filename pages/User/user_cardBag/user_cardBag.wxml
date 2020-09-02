@@ -1,0 +1,351 @@
+<import src="/templates/header/header.wxml" />
+
+<template is="fifth" data="{{content}}" />
+
+<view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">
+
+    <view class="cu-item arrow">
+        <view class="content" bindtap="cardTypeTap" data-value="{{0}}">
+            <text class="text-grey">银行卡</text>
+        </view>
+    </view>
+    <view wx:if="{{tap == true && tapType == card_enName_map[0]}}" wx:for='{{cardInfo[card_enName_map[0]]}}' wx:key="index" class="padding flex text-center text-grey bg-white shadow-warp">
+        <view class="cu-list">
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">银行名称：{{item.BankName}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">银行卡号：{{item.CardNumber}}</text>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <view class="cu-item arrow">
+        <view class="content" bindtap="cardTypeTap" data-value="{{1}}">
+            <text class="text-grey">名片</text>
+        </view>
+    </view>
+    <view wx:if="{{tap == true && tapType == card_enName_map[1]}}" wx:for='{{cardInfo[card_enName_map[1]]}}' wx:key="index" wx:for-index='key'class="padding flex text-center text-grey bg-white shadow-warp">
+        <view class="cu-list">
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">银行名称：{{item.BankName}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">银行卡号：{{item.CardNumber}}</text>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <view class="cu-item arrow">
+        <view class="content" bindtap="cardTypeTap" data-value="{{2}}">
+            <text class="text-grey">户口本</text>
+        </view>
+    </view>
+    <view wx:if="{{tap == true && tapType == card_enName_map[2]}}" wx:for='{{cardInfo[card_enName_map[2]]}}' wx:key="index" wx:for-index='key'class="padding flex text-center text-grey bg-white shadow-warp">
+        <view class="cu-list">
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">地址：{{item.Address}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">生日：{{item.Bir}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">编号：{{item.CardNo}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">姓名：{{item.Name}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">民族：{{item.Nation}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">关系：{{item.RelationShip}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">性别：{{item.Sex}}</text>
+                </view>
+            </view>
+            <view class="cu-item" wx:if="{{cardInfo[card_enName_map[2]].length == 0}}">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">您当前的卡包为空</text>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <view class="cu-item arrow">
+        <view class="content" bindtap="cardTypeTap" data-value="{{3}}">
+            <text class="text-grey">身份证</text>
+        </view>
+    </view>
+    <view wx:if="{{tap == true && tapType == card_enName_map[3]}}" wx:for='{{cardInfo[card_enName_map[3]]}}' wx:key="index" wx:for-index='key'class="padding flex text-center text-grey bg-white shadow-warp">
+        <view class="cu-list">
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">地址：{{item.Address}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">生日：{{item.BirDate}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">身份证号：{{item.IdNumber}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">姓名：{{item.Name}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">民族：{{item.Nation}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">性别：{{item.Sex}}</text>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <view class="cu-item arrow">
+        <view class="content" bindtap="cardTypeTap" data-value="{{4}}">
+            <text class="text-grey">营业执照</text>
+        </view>
+    </view>
+    <view wx:if="{{tap == true && tapType == card_enName_map[4]}}" wx:for='{{cardInfo[card_enName_map[4]]}}' wx:key="index" wx:for-index='key'class="padding flex text-center text-grey bg-white shadow-warp">
+        <view class="cu-list">
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">地址：{{item.Address}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">经营范围：{{item.BusinessScope}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">证件编号：{{item.CertificateNumber}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">银行名称：{{item.Composition}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">组成形式：{{item.CreateDate}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">法人：{{item.LegalPerson}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">注册资本：{{item.RegisteredCapital}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">社会信用代码：{{item.SocialCreditCode}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">类型：{{item.Type}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">单位名称：{{item.UnitName}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">有效期{{item.Validity}}</text>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <view class="cu-item arrow">
+        <view class="content" bindtap="cardTypeTap" data-value="{{5}}">
+            <text class="text-grey">护照</text>
+        </view>
+    </view>
+    <view wx:if="{{tap == true && tapType == card_enName_map[5]}}" wx:for='{{cardInfo[card_enName_map[5]]}}' wx:key="index" wx:for-index='key'class="padding flex text-center text-grey bg-white shadow-warp">
+        <view class="cu-list">
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">生日：{{item.Bir}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">国家：{{item.CountryCode}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">姓名：{{item.Name}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">签发机关：{{item.Organization}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">护照号码：{{item.PassportNumber}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">姓名拼音：{{item.Pinyin}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">出生地：{{item.PlaceOfBirth}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">签发地点{{item.PlaceOfIssue}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">性别：{{item.Sex}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">签发日期：{{item.StartDate}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">有效期至：{{item.ValidUntil}}</text>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <view class="cu-item arrow">
+        <view class="content" bindtap="cardTypeTap" data-value="{{6}}">
+            <text class="text-grey">港澳通行证</text>
+        </view>
+    </view>
+    <view wx:if="{{tap == true && tapType == card_enName_map[6]}}" wx:for='{{cardInfo[card_enName_map[6]]}}' wx:key="index" wx:for-index='key'class="padding flex text-center text-grey bg-white shadow-warp">
+        <view class="cu-list">
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">地址：{{item.Address}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">生日：{{item.Bir}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">通行证号：{{item.CardNum}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">姓名：{{item.NameChn}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">英文名：{{item.NameEng}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">性别：{{item.Sex}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">有效期：{{item.ValidDate}}</text>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <view class="cu-item arrow">
+        <view class="content" bindtap="cardTypeTap" data-value="{{7}}">
+            <text class="text-grey">台湾通行证</text>
+        </view>
+    </view>
+    <view wx:if="{{tap == true && tapType == card_enName_map[7]}}" wx:for='{{cardInfo[card_enName_map[7]]}}' wx:key="index" wx:for-index='key'class="padding flex text-center text-grey bg-white shadow-warp">
+        <view class="cu-list">
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">地址：{{item.Address}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">生日：{{item.Bir}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">通行证号：{{item.CardNum}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">姓名：{{item.NameChn}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">性别：{{item.Sex}}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class="content flex solid-bottom justify-start" style="padding: 10rpx">
+                    <text class="text-grey">有效期：{{item.ValidDate}}</text>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

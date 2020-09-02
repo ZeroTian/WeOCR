@@ -35,7 +35,7 @@
         </view>
 
         <view class="cu-item arrow">
-            <navigator class="content" url="/pages/user/user_information/user_information" hover-class="none">
+            <navigator class="content" url="/pages/user/user_cardBag/user_cardBag" hover-class="none">
                 <text class="cuIcon-pay text-purple"></text>
                 <text class="text-grey">我的卡包</text>
             </navigator>
@@ -49,16 +49,16 @@
         </view>
 
         <view class="cu-item arrow">
-            <navigator class="content" url="/pages/user/user_download/User_download" hover-class="none">
-                <text class="cuIcon-down lg text-blue"></text>
-                <text class="text-grey">我的下载</text>
+            <navigator class="content" url="/pages/user/user_collection/user_collection" hover-class="none">
+                <text class="cuIcon-favorfill lg text-orange"></text>
+                <text class="text-grey">我的收藏</text>
             </navigator>
         </view>
 
         <view class="cu-item arrow">
-            <navigator class="content" url="/pages/user/user_dollection/User_dollection" hover-class="none">
-                <text class="cuIcon-favorfill lg text-orange"></text>
-                <text class="text-grey">我的收藏</text>
+            <navigator class="content" url="/pages/user/user_history/user_history" hover-class="none">
+                <text class="cuIcon-timefill lg text-blue"></text>
+                <text class="text-grey">我的历史</text>
             </navigator>
         </view>
 

@@ -14,50 +14,25 @@ App({
       })
     }
 
-    // 登录
     wx.login({
       success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId 待完善
+        if(res.code){
+          wx.request({
+            url: 'https://www.universitydog.cn/getKey',
+            method:'GET',
+            data:{
+              js_code:res.code,
+            },
+            success:function(res){
+              wx.setStorageSync('app_openid', res.data.openid);
+              wx.setStorageSync('sessionKey', res.data.session_key)
+            }
+          })
+        }else{
+          console.log("登陆失败");
+        }
       }
     })
-
-    // // 获取用户授权信息
-    // wx.getSetting({
-    //   success: res => {
-    //     // 查看是否授权
-    //     if (res.authSetting['scope.userInfo']) {
-    //       wx.getUserInfo({
-    //         success: res => {
-    //           console.log(res)
-
-    //           // 当获取用户信息后执行的函数
-    //           if (this.userInfoReadyCallback) {
-    //             this.userInfoReadyCallback(res)
-    //           }
-    //         }
-    //       })
-    //     } else {
-    //       wx.authorize({
-    //         scope: 'scope.userInfo',
-    //         success() {
-    //           wx.getUserInfo({
-    //             success: res => {
-    //               console.log(res)
-
-    //               // 当获取用户信息后执行的函数
-    //               if (this.userInfoReadyCallback) {
-    //                 this.userInfoReadyCallback(res)
-    //               }
-    //             }
-    //           })
-    //           return typeof cb == "function" && cb();
-    //         },
-    //       })
-
-    //     }
-
-    //   }
-    // })
 
     // 用来存储一些全局数据
     this.globalData = {

@@ -598,98 +598,36 @@ Page({
     }
     // 当功能为识别银行卡时
     else if (active == -7) {
-      // mark: 更新
-      let picpromise = new Promise(function (resolve, reject) {
-        wx.showLoading({
-          title: "正在处理..."
-        })
-
-        let flag = 0,
-          results = [];
-
-        self.data.pictures.forEach(element => {
-          wx.getFileSystemManager().readFile({
-            filePath: element.images,
-            encoding: 'base64',
-            success: res => {
-              wx.request({
-                url: 'https://www.universitydog.cn/cardBag/get?cardType=0',
-                method: 'GET',
-                data: { 
-                  "image": res.data,
-                },
-                success: res => {
-                  flag++;
-                  results.push({
-                    images: element.images,
-                    result: res.data,
-                  })
-                  if (flag == self.data.pictures.length) {
-                    resolve(results)
-                  }
-                },
-                fail: res => {
-                  flag++;
-                  if (flag == self.data.pictures.length) {
-                    reject(res)
-                  }
-                }
-              })
-            },
-            fail: res => {
-              reject(res)
-            }
-          })
-        });
-      }).then((result) => {
-        wx.hideLoading();
-        wx.navigateTo({
-          url: '../result/result_fav/result_fav',
-          success: res => {
-            res.eventChannel.emit('albumnToResult_fav', { pictures: result })
-          }
-        })
-      }).catch((res) => {
-        console.log(res);
-        wx.showToast({
-          title: "出现了一个错误\n请重试",
-          icon: "none"
-        })
-      })
-    }
-    // 当功能为识别出生证明时
-    else if (active == -8) {
-
+      utils.identify_card(this, 1)
     }
     // 当功能为识别名片时
     else if (active == -9) {
-
+      utils.identify_card(this, 3)
     }
     // 当功能为识别户口本时
     else if (active == -10) {
-
+      utils.identify_card(this, 7)
     }
     // 当功能为识别身份证时
     else if (active == -11) {
-
+      utils.identify_card(this, 0)
     }
     // 当功能为识别营业执照时
     else if (active == -12) {
-
+      utils.identify_card(this, 2)
     }
     // 当功能为识别护照时
     else if (active == -13) {
-
+      utils.identify_card(this, 4)
     }
     // 当功能为识别港澳通行证时
     else if (active == -14) {
-
+      utils.identify_card(this, 5)
     }
     // 当功能为识别台湾通行证时
     else if (active == -15) {
-
+      utils.identify_card(this, 6)
     }
-
   },
 
   choose: function (e) {

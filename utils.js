@@ -36,6 +36,7 @@ var animation = {
   }
 }
 
+
 // 选择相册图片或拍照图片
 function chooseImageFile(self, count, sourceType, path, emitname) {
   if (sourceType[0] == 'album' || sourceType[0] == 'camera') {
@@ -97,6 +98,7 @@ function chooseImageFile(self, count, sourceType, path, emitname) {
     });
   }
 }
+
 
 // 将字符串编码为MD5
 function md5(string) {
@@ -284,9 +286,71 @@ function md5(string) {
 }
 
 
+function identify_card(self, cardType){
+  let picpromise = new Promise(function (resolve, reject) {
+    wx.showLoading({
+      title: "正在处理..."
+    })
+  
+    let flag = 0,
+      results = [];
+  
+    self.data.pictures.forEach(element => {
+      wx.getFileSystemManager().readFile({
+        filePath: element.images,
+        encoding: 'base64',
+        success: res => {
+          wx.request({
+            url: 'https://www.universitydog.cn/cardBag/get?cardType=' + cardType,
+            method: 'POST',
+            data: { 
+              "image": res.data,
+            },
+            success: res => {
+              flag++;
+              results.push({
+                images: element.images,
+                result: res.data,
+              })
+              if (flag == self.data.pictures.length) {
+                resolve(results)
+              }
+            },
+            fail: res => {
+              flag++;
+              if (flag == self.data.pictures.length) {
+                reject(res)
+              }
+            }
+          })
+        },
+        fail: res => {
+          reject(res)
+        }
+      })
+    });
+  }).then((result) => {
+    wx.hideLoading();
+    wx.navigateTo({
+      url: '../result/result_cardInfo/result_cardInfo',
+      success: res => {
+        res.eventChannel.emit('albumnToResult_cardInfo', { pictures: result, cardType: cardType})
+      }
+    })
+  }).catch((res) => {
+    console.log(res);
+    wx.showToast({
+      title: "出现了一个错误\n请重试",
+      icon: "none",
+      duration: 2000
+    })
+  })
+}
+
 
 module.exports = {
   animation: animation,
   chooseImageFile: chooseImageFile,
   md5: md5,
+  identify_card: identify_card,
 }

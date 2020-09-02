@@ -5,19 +5,25 @@
 </template>
 
 <template name="second">
-	<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+	<cu-custom bgColor="bg-gradual-blue" isCustom="{{true}}">
 		<view slot="content">{{content}}</view>
 	</cu-custom>
 </template>
 
 <template name="third">
-	<cu-custom isBack="{{true}}">
+	<cu-custom isCustom="{{true}}">
 		<view slot="content" style="color: #ffffff;">{{content}}</view>
 	</cu-custom>
 </template>
 
 <template name="fourth">
-	<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+	<cu-custom bgColor="bg-gradual-blue" isCustom="{{true}}">
 		<view slot="content">识别结果</view>
+	</cu-custom>
+</template>
+
+<template name="fifth">
+	<cu-custom bgColor="bg-gradual-blue" isCustom="{{true}}">
+		<view slot="content">{{content}}</view>
 	</cu-custom>
 </template>
